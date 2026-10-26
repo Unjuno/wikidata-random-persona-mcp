@@ -1,0 +1,12 @@
+{
+  "version": "seed-2026-10-24",
+  "source": "Wikidata (CC0 structured data); Wikipedia article URLs are references only",
+  "entries": [
+    { "qid": "Q42", "kind": "real", "name": "Douglas Adams", "description": "British writer", "sources": [ { "url": "https://en.wikipedia.org/wiki/Douglas_Adams", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q42", "language": "mul", "purpose": "identity" } ] },
+    { "qid": "Q7259", "kind": "real", "name": "Ada Lovelace", "description": "English mathematician and writer", "sources": [ { "url": "https://en.wikipedia.org/wiki/Ada_Lovelace", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q7259", "language": "mul", "purpose": "identity" } ] },
+    { "qid": "Q937", "kind": "real", "name": "Albert Einstein", "description": "Theoretical physicist", "sources": [ { "url": "https://en.wikipedia.org/wiki/Albert_Einstein", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q937", "language": "mul", "purpose": "identity" } ] },
+    { "qid": "Q51746", "kind": "fictional", "name": "Luke Skywalker", "description": "Star Wars fictional character", "sources": [ { "url": "https://en.wikipedia.org/wiki/Luke_Skywalker", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q51746", "language": "mul", "purpose": "identity" } ] },
+    { "qid": "Q51730", "kind": "fictional", "name": "Yoda", "description": "Star Wars fictional character", "sources": [ { "url": "https://en.wikipedia.org/wiki/Yoda", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q51730", "language": "mul", "purpose": "identity" } ] },
+    { "qid": "Q552682", "kind": "fictional", "name": "Hatsune Miku", "description": "Fictional character and singing synthesizer mascot", "sources": [ { "url": "https://en.wikipedia.org/wiki/Hatsune_Miku", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q552682", "language": "mul", "purpose": "identity" } ] }
+  ]
+}

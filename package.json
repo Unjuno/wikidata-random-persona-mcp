@@ -1,0 +1,22 @@
+{
+  "name": "wikidata-random-persona-mcp",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Read-only MCP tool that draws random people and fictional characters from a curated Wikidata link catalog.",
+  "license": "MIT",
+  "engines": {"node": ">=22"},
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check src/core.mjs && node --check src/wikidata.mjs && node --check src/mcp.mjs && node --check src/server.mjs && node --check scripts/validate-catalog.mjs && node --check scripts/refresh-catalog.mjs && node --check scripts/promote-catalog.mjs",
+    "catalog:validate": "node scripts/validate-catalog.mjs",
+    "catalog:refresh": "node scripts/refresh-catalog.mjs",
+    "catalog:promote": "node scripts/promote-catalog.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "zod": "^4.0.0"
+  }
+}

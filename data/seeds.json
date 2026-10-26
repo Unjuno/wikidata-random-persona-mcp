@@ -1,0 +1,11 @@
+{
+  "comment": "Small manually selected QID input set, not a complete random sample of Wikidata.",
+  "entries": [
+    { "qid": "Q42", "kind": "real" },
+    { "qid": "Q7259", "kind": "real" },
+    { "qid": "Q937", "kind": "real" },
+    { "qid": "Q51746", "kind": "fictional" },
+    { "qid": "Q51730", "kind": "fictional" },
+    { "qid": "Q552682", "kind": "fictional" }
+  ]
+}
