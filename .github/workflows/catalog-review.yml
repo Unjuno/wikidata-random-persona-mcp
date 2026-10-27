@@ -1,0 +1,27 @@
+name: Stage catalog metadata for review
+on:
+  workflow_dispatch:
+  # Temporary bootstrap trigger; removed after the first verified staging run.
+  push:
+    branches: ['feat/protocol-and-catalog-hardening']
+    paths: ['src/catalog-update.mjs', 'scripts/refresh-catalog.mjs']
+permissions:
+  contents: read
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run catalog:refresh
+      - run: npm run catalog:validate -- data/catalog.pending.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-candidate-required
+          path: data/catalog.pending.json
+          retention-days: 7
+      # No contents:write, no committing, no deployment, no automatic promotion.

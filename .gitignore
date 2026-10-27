@@ -5,3 +5,7 @@ node_modules/
 .DS_Store
 coverage/
 *.log
+data/catalog.pending.json
+data/catalog.previous.json
+data/.catalog-update.lock
+data/*.tmp
