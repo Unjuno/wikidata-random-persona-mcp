@@ -1,43 +1,52 @@
-# Wikidataランダム人物MCP
+# Wikidata Random Persona MCP
 
-このリポジトリは、**実在人物と架空キャラクターのWikidata IDと参照URLを管理し、MCPツールからランダムに1件返す**ための実装です。
+[English](README.md) · [Sitesへの引き継ぎ](docs/SITES_HANDOFF.md) · [完成判定](docs/READINESS.md)
 
-## 設計上、やらないこと
+**人物を生成するMCPではなく、会話相手の参照先をランダムに渡すMCPです。**
 
-- MCP側で人格設定をLLM生成しない
-- Wikipediaの記事全文を保存・再配布しない
-- 取得した実在人物の架空の発言を実際の発言として表示しない
-- 利用側のAIにWeb閲覧能力があると決めつけない
-- GitHub公開だけでMCPが稼働すると思わない
+MCPは実在人物・架空キャラクターのQID、名前、分類、Wikipedia/WikidataのURLと共通手順を返します。記事を読む・人物像を解釈する・ユーザーと仮想対話するのは利用側のChatGPTです。サーバーにはLLM呼び出し、記事本文保存、任意URL取得、会話履歴保存を追加しません。
 
-## 責任分担
+## 実装範囲
 
-| 担当 | 責任 |
+| 項目 | 内容 |
 |---|---|
-| カタログ更新処理 | Wikidataからラベル・分類・sitelinkを取得、検査して承認候補を作る |
-| MCP (`random_persona`) | 承認済みカタログから選択、名前・QID・参照URL・共通の利用手順を返す |
-| 利用側ChatGPT/Codex | URLの記事を取得し、事実と推測を区別して人物像を解釈し、仮想会話を行う |
+| random_persona | 登録済みの有効な人物から1人を抽選 |
+| get_persona | 登録済みQIDの参照先を取得 |
+| 抽選 | 人物単位の均等抽選。実在・架空の混合集合であり、種類ごとの50％固定ではない |
+| 言語 | 日本語優先、英語へ代替。記事の優先順であり人物の除外条件ではない |
+| 配信停止 | blocked-qids.jsonを両ツールに適用。カタログ単独の巻き戻しでも保持 |
+| 更新 | メタデータ照合→候補保存→差分レビュー→ハッシュ付き承認→版の置換 |
+| テスト | 単体検証と公式SDKクライアントによる実HTTP接続。実際のChatGPT会話は別の受け入れ試験 |
 
-## 動作環境と確認
+同梱は実在3件・架空3件の小さなサンプルです。日本語・英語計12記事の人物ID対応を実APIで確認し、確認日時を記録しました。確認は記事の同一性・到達先の検査であって、記事の正確性、人格の再現性、全用途の権利許諾を保証しません。検証記録は [CATALOG_REVIEW.md](docs/CATALOG_REVIEW.md) にあります。
 
-- Node.js 22以上、ESM、MCP SDK v2（`@modelcontextprotocol/server`）
-- 外部依存なしのドメイン単体テスト: `npm test`
-- SDKを含むMCP接続検証: `npm install`実行後、ChatGPT Sitesの実際のホスト環境で実施する
-- 生成済みカタログは初期サンプル6件。大量データの取り込み・網羅性は未完成
+## 作業環境で実行
 
-## リポジトリを作成したら
+Node.js 22以上。CIは22/24で実行します。ローカルPCは必須ではなく、Work/Codexの対応作業環境でも同じコマンドを使います。
 
-1. GitHubで `Unjuno/wikidata-random-persona-mcp` を公開・空リポジトリとして作成する
-2. 本プロジェクトのファイルをリポジトリへ登録する（ChatGPTのGitHub連携でファイルの書き込みが可能）
-3. `npm run check`、`npm test`、`npm run catalog:validate` をGitHub Actionsで確認する
-4. ChatGPT Work/Codexに [`docs/SITES_HANDOFF.md`](docs/SITES_HANDOFF.md) を渡し、SitesへMCPツールを追加・動作確認する
-5. 一般公開についてはSitesプラグインの共有制限と公開申請条件を別途判定する
+```sh
+npm ci --ignore-scripts
+npm run check
+npm run catalog:validate
+npm test
+npm run test:protocol
+npm start
+```
 
-## 将来の拡張
+Nodeの動作確認先は `http://127.0.0.1:3000/mcp` です。Sitesの接続先ではありません。実装済みのHost/Origin検査と128 KiBの実バイト上限に加えて、本番基盤でアクセス権・レート制限・同時実行数・タイムアウトを確認します。
 
-- 承認済みQIDカタログの段階的拡充
-- 日本語Wikipedia記事を優先する収集・再検査
-- フィクション分類の下位クラス判定、一覧記事の除外
-- 最終利用側での資料取得成功率・会話開始率の検証
+## カタログ更新
 
-開発者・運用者向け設計は [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)、具体的なSites引き継ぎは [`docs/SITES_HANDOFF.md`](docs/SITES_HANDOFF.md) を参照してください。
+`npm run catalog:refresh` は候補だけを保存します。差分と拒否された項目を確認した後、出力された64桁のSHA-256を使って次のように承認します。ハッシュの単位はなく、型は64文字の16進文字列です。
+
+```sh
+npm run catalog:promote -- --reviewed --expected-sha256 REVIEWED_SHA256
+```
+
+`REVIEWED_SHA256`はレビューした候補の値へ置換します。バックアップはcatalog.previous.json。配信停止リストは上書きしません。GitHub Actionsの手動ワークフローも候補を作るだけで、自動承認・自動公開はしません。
+
+## 次の作業
+
+[docs/SITES_HANDOFF.md](docs/SITES_HANDOFF.md) の日本語指示をWork/Codexに渡し、Sitesの実ランタイムへ移植します。利用側の共通手順は [CLIENT_WORKFLOW.md](docs/CLIENT_WORKFLOW.md)。ユーザーが長い人格プロンプトを書く設計にはしません。
+
+**GitHubの公開、MCP実装のテスト合格、Sitesへのデプロイ、第三者による利用成功は、それぞれ別の到達点です。** 現在の未検証項目を [READINESS.md](docs/READINESS.md) で確認してください。

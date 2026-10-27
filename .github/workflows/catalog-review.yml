@@ -1,10 +1,6 @@
 name: Stage catalog metadata for review
 on:
   workflow_dispatch:
-  # Temporary bootstrap trigger; removed after the first verified staging run.
-  push:
-    branches: ['feat/protocol-and-catalog-hardening']
-    paths: ['src/catalog-update.mjs', 'scripts/refresh-catalog.mjs']
 permissions:
   contents: read
 jobs:

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import sample from '../data/catalog.json' with {type:'json'};
+import sample from './fixtures/catalog.json' with {type:'json'};
 import {isAllowedSourceUrl, validateCatalog, getPersona} from '../src/core.mjs';
 for (const path of ['Special:Random','Category:People','Help:Contents','%E7%89%B9%E5%88%A5:Random','%ZZ','%0aFoo']) {
   test(`URL rejects non-article or malformed title ${path}`, () => {

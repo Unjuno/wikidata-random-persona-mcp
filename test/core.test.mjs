@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { validateCatalog, randomPersona, getPersona, isQid, isAllowedSourceUrl, secureRandomIndex, GUIDANCE } from '../src/core.mjs';
 import { normalizeEntity } from '../src/wikidata.mjs';
-const sample = JSON.parse(readFileSync(new URL('../data/catalog.json', import.meta.url), 'utf8'));
+const sample = JSON.parse(readFileSync(new URL('./fixtures/catalog.json', import.meta.url), 'utf8'));
 const cloned = () => structuredClone(sample);
 
 test('catalog: supplied seed data is internally well formed', () => assert.equal(validateCatalog(sample), sample));

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import sample from '../data/catalog.json' with {type:'json'};
+import sample from './fixtures/catalog.json' with {type:'json'};
 import {createCatalogStore} from '../src/catalog-store.mjs';
 test('blocked identities cannot be retrieved or randomly selected',()=>{
  const s=createCatalogStore(sample,['Q42']);assert.equal(s.get({qid:'Q42'}).status,'not_found');

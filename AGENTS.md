@@ -5,9 +5,9 @@ The MCP is a **random URL catalog selector**, not a persona generator. Never add
 
 ## Repo architecture
 - `src/core.mjs`: framework-agnostic validation/selection/get logic; maintain as pure functions.
-- `src/mcp.mjs`: MCP SDK v2 server factory with two read-only tools and `handler.fetch`.
+- `src/mcp.mjs`: MCP SDK v2 factory; mount `src/app.mjs` for the guarded Fetch entry, not the raw handler.
 - `src/server.mjs`: optional Node adapter, NOT assumed as the ChatGPT Sites runtime.
-- `src/wikidata.mjs` and scripts: manual staging and catalog review; never auto-promote.
+- `src/wikidata.mjs`, `src/catalog-update.mjs`, `src/catalog-files.mjs` and scripts: metadata-only staging and digest-bound review; never auto-promote.
 - `data/catalog.json`: approved finite catalog of Wikidata QIDs + Wikipedia reference URLs.
 - `docs/SITES_HANDOFF.md`: mandatory deployment and test gates.
 
@@ -18,7 +18,10 @@ The MCP is a **random URL catalog selector**, not a persona generator. Never add
 4. Support both real and fictional kinds; optional Japanese/English article links and fallback.
 5. Keep handler stateless. Persist catalog through Sites-supported storage or bundled reviewed data. Do not rely on an in-process mutable cache surviving publishes.
 6. Secure Origin/Host at the deployment boundary. No public admin mutation tools.
-7. CI must run `npm run check`, `npm run catalog:validate`, and `npm test`; add MCP protocol smoke tests once dependencies are available.
+7. CI must run `npm run check`, `npm run catalog:validate`, and `npm test`; real HTTP protocol tests run with the official client. Use npm ci and the committed lockfile.
 8. Verify any changed SDK methods against current [MCP v2 docs](https://ts.sdk.modelcontextprotocol.io/v2/serving/http.html); avoid legacy v1 APIs.
 9. Before claiming public release, demonstrate a third-party account can install/connect, given ChatGPT Sites plugin-sharing restrictions.
 10. Do not commit API tokens or private contact information.
+
+## Handoff
+Read docs/CLIENT_WORKFLOW.md and docs/READINESS.md. Preserve the independent blocked-qids list across catalog-only rollbacks; changes require a new runtime snapshot and Site republishing. Unit fixtures live in test/fixtures; do not weaken checks to accommodate live metadata changes. Source timestamps certify metadata checks, not article truth or persona fidelity.

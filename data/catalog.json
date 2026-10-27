@@ -1,12 +1,30 @@
 {
-  "version": "seed-2026-10-24",
-  "source": "Wikidata (CC0 structured data); Wikipedia article URLs are references only",
-  "entries": [
-    { "qid": "Q42", "kind": "real", "name": "Douglas Adams", "description": "British writer", "sources": [ { "url": "https://en.wikipedia.org/wiki/Douglas_Adams", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q42", "language": "mul", "purpose": "identity" } ] },
-    { "qid": "Q7259", "kind": "real", "name": "Ada Lovelace", "description": "English mathematician and writer", "sources": [ { "url": "https://en.wikipedia.org/wiki/Ada_Lovelace", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q7259", "language": "mul", "purpose": "identity" } ] },
-    { "qid": "Q937", "kind": "real", "name": "Albert Einstein", "description": "Theoretical physicist", "sources": [ { "url": "https://en.wikipedia.org/wiki/Albert_Einstein", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q937", "language": "mul", "purpose": "identity" } ] },
-    { "qid": "Q51746", "kind": "fictional", "name": "Luke Skywalker", "description": "Star Wars fictional character", "sources": [ { "url": "https://en.wikipedia.org/wiki/Luke_Skywalker", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q51746", "language": "mul", "purpose": "identity" } ] },
-    { "qid": "Q51730", "kind": "fictional", "name": "Yoda", "description": "Star Wars fictional character", "sources": [ { "url": "https://en.wikipedia.org/wiki/Yoda", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q51730", "language": "mul", "purpose": "identity" } ] },
-    { "qid": "Q552682", "kind": "fictional", "name": "Hatsune Miku", "description": "Fictional character and singing synthesizer mascot", "sources": [ { "url": "https://en.wikipedia.org/wiki/Hatsune_Miku", "language": "en", "purpose": "article" }, { "url": "https://www.wikidata.org/wiki/Q552682", "language": "mul", "purpose": "identity" } ] }
+  "version":"published-2026-10-27T21-24-05-526Z",
+  "source":"Wikidata structured metadata; no article bodies",
+  "entries":[
+    {"qid":"Q42","kind":"real","name":"ダグラス・アダムズ","description":"イングランドの作家","sources":[
+      {"url":"https://ja.wikipedia.org/wiki/%E3%83%80%E3%82%B0%E3%83%A9%E3%82%B9%E3%83%BB%E3%82%A2%E3%83%80%E3%83%A0%E3%82%BA","language":"ja","purpose":"article","checked_at":"2026-10-27T21:23:53.384Z"},
+      {"url":"https://en.wikipedia.org/wiki/Douglas_Adams","language":"en","purpose":"article","checked_at":"2026-10-27T21:23:54.662Z"},
+      {"url":"https://www.wikidata.org/wiki/Q42","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:23:54.662Z"}]},
+    {"qid":"Q7259","kind":"real","name":"エイダ・ラブレス","description":"イギリスの数学者","sources":[
+      {"url":"https://ja.wikipedia.org/wiki/%E3%82%A8%E3%82%A4%E3%83%80%E3%83%BB%E3%83%A9%E3%83%96%E3%83%AC%E3%82%B9","language":"ja","purpose":"article","checked_at":"2026-10-27T21:23:55.731Z"},
+      {"url":"https://en.wikipedia.org/wiki/Ada_Lovelace","language":"en","purpose":"article","checked_at":"2026-10-27T21:23:56.810Z"},
+      {"url":"https://www.wikidata.org/wiki/Q7259","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:23:56.810Z"}]},
+    {"qid":"Q937","kind":"real","name":"アルベルト・アインシュタイン","description":"ドイツ出身の理論物理学者 (1879–1955)","sources":[
+      {"url":"https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AB%E3%83%99%E3%83%AB%E3%83%88%E3%83%BB%E3%82%A2%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%A5%E3%82%BF%E3%82%A4%E3%83%B3","language":"ja","purpose":"article","checked_at":"2026-10-27T21:23:57.908Z"},
+      {"url":"https://en.wikipedia.org/wiki/Albert_Einstein","language":"en","purpose":"article","checked_at":"2026-10-27T21:23:58.986Z"},
+      {"url":"https://www.wikidata.org/wiki/Q937","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:23:58.986Z"}]},
+    {"qid":"Q51746","kind":"fictional","name":"ルーク・スカイウォーカー","description":"スター・ウォーズシリーズの登場キャラクター","sources":[
+      {"url":"https://ja.wikipedia.org/wiki/%E3%83%AB%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B9%E3%82%AB%E3%82%A4%E3%82%A6%E3%82%A9%E3%83%BC%E3%82%AB%E3%83%BC","language":"ja","purpose":"article","checked_at":"2026-10-27T21:24:00.069Z"},
+      {"url":"https://en.wikipedia.org/wiki/Luke_Skywalker","language":"en","purpose":"article","checked_at":"2026-10-27T21:24:01.153Z"},
+      {"url":"https://www.wikidata.org/wiki/Q51746","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:24:01.153Z"}]},
+    {"qid":"Q51730","kind":"fictional","name":"ヨーダ","description":"スター・ウォーズシリーズの登場キャラクター","sources":[
+      {"url":"https://ja.wikipedia.org/wiki/%E3%83%A8%E3%83%BC%E3%83%80","language":"ja","purpose":"article","checked_at":"2026-10-27T21:24:02.220Z"},
+      {"url":"https://en.wikipedia.org/wiki/Yoda","language":"en","purpose":"article","checked_at":"2026-10-27T21:24:03.370Z"},
+      {"url":"https://www.wikidata.org/wiki/Q51730","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:24:03.370Z"}]},
+    {"qid":"Q552682","kind":"fictional","name":"初音ミク","description":"日本の歌声合成ソフトウェアおよびパッケージキャラクター","sources":[
+      {"url":"https://ja.wikipedia.org/wiki/%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF","language":"ja","purpose":"article","checked_at":"2026-10-27T21:24:04.457Z"},
+      {"url":"https://en.wikipedia.org/wiki/Hatsune_Miku","language":"en","purpose":"article","checked_at":"2026-10-27T21:24:05.526Z"},
+      {"url":"https://www.wikidata.org/wiki/Q552682","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:24:05.526Z"}]}
   ]
 }

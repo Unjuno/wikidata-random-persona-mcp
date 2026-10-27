@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdtempSync,readFileSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
-import sample from '../data/catalog.json' with {type:'json'};
+import sample from './fixtures/catalog.json' with {type:'json'};
 import {requestMetadata, verifyArticle, refreshCatalog} from '../src/catalog-update.mjs';
 import {promoteCatalog, sha256, withCatalogLock} from '../src/catalog-files.mjs';
 const source=sample.entries[0].sources[0];
