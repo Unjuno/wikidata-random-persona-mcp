@@ -4,6 +4,9 @@ import assert from 'node:assert/strict';
 import {once} from 'node:events';
 import {Client, StreamableHTTPClientTransport} from '@modelcontextprotocol/client';
 import {createNodeApp} from '../src/server.mjs';
+import catalog from '../data/catalog.json' with {type:'json'};
+const knownQid=catalog.entries[0].qid;
+const realQid=catalog.entries.find(e=>e.kind==='real').qid;
 async function setup(t){
  const {server,close}=createNodeApp();server.listen(0,'127.0.0.1');await once(server,'listening');
  const url=new URL(`http://127.0.0.1:${server.address().port}/mcp`);t.after(close);return {url,server};
@@ -17,16 +20,16 @@ test('MCP: official client discovers tools and calls both over HTTP',async t=>{
   for(const kind of ['real','fictional']){
    const r=await client.callTool({name:'random_persona',arguments:{kind,language:'ja'}});assert.ok(!r.isError);assert.equal(r.structuredContent.persona.kind,kind);assert.ok(r.structuredContent.persona.sources.length>=2);assert.deepEqual(JSON.parse(r.content[0].text),r.structuredContent);
   }
-  const known=await client.callTool({name:'get_persona',arguments:{qid:'Q42'}});assert.equal(known.structuredContent.persona.qid,'Q42');
+  const known=await client.callTool({name:'get_persona',arguments:{qid:knownQid}});assert.equal(known.structuredContent.persona.qid,knownQid);
   const notFound=await client.callTool({name:'get_persona',arguments:{qid:'Q999999999'}});assert.equal(notFound.structuredContent.status,'not_found');
-  const empty=await client.callTool({name:'random_persona',arguments:{kind:'real',exclude_qids:['Q42','Q7259','Q937']}});assert.equal(empty.structuredContent.status,'no_match');
+  const exclusion=await client.callTool({name:'random_persona',arguments:{kind:'real',exclude_qids:[realQid]}});assert.notEqual(exclusion.structuredContent.persona.qid,realQid);
   const concurrent=await Promise.all(Array.from({length:10},()=>client.callTool({name:'random_persona',arguments:{}})));assert.equal(concurrent.length,10);
  }finally{await client.close();}
 });
 test('MCP: invalid arguments fail instead of becoming arbitrary fetches',async t=>{
  const {url}=await setup(t);const client=new Client({name:'bad-input-test',version:'1'});
  try{await client.connect(new StreamableHTTPClientTransport(url));
-  for(const args of [{qid:'https://evil.example'},{qid:'Q42',url:'https://evil.example'}]){let rejected=false;try{const r=await client.callTool({name:'get_persona',arguments:args});rejected=r.isError===true;}catch{rejected=true;}assert.equal(rejected,true);}
+  for(const args of [{qid:'https://evil.example'},{qid:knownQid,url:'https://evil.example'}]){let rejected=false;try{const r=await client.callTool({name:'get_persona',arguments:args});rejected=r.isError===true;}catch{rejected=true;}assert.equal(rejected,true);}
  }finally{await client.close();}
 });
 test('MCP: legacy initialize and tools/list remain compatible',async t=>{

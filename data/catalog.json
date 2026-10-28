@@ -1,30 +1,6251 @@
 {
-  "version":"published-2026-10-27T21-24-05-526Z",
-  "source":"Wikidata structured metadata; no article bodies",
-  "entries":[
-    {"qid":"Q42","kind":"real","name":"ダグラス・アダムズ","description":"イングランドの作家","sources":[
-      {"url":"https://ja.wikipedia.org/wiki/%E3%83%80%E3%82%B0%E3%83%A9%E3%82%B9%E3%83%BB%E3%82%A2%E3%83%80%E3%83%A0%E3%82%BA","language":"ja","purpose":"article","checked_at":"2026-10-27T21:23:53.384Z"},
-      {"url":"https://en.wikipedia.org/wiki/Douglas_Adams","language":"en","purpose":"article","checked_at":"2026-10-27T21:23:54.662Z"},
-      {"url":"https://www.wikidata.org/wiki/Q42","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:23:54.662Z"}]},
-    {"qid":"Q7259","kind":"real","name":"エイダ・ラブレス","description":"イギリスの数学者","sources":[
-      {"url":"https://ja.wikipedia.org/wiki/%E3%82%A8%E3%82%A4%E3%83%80%E3%83%BB%E3%83%A9%E3%83%96%E3%83%AC%E3%82%B9","language":"ja","purpose":"article","checked_at":"2026-10-27T21:23:55.731Z"},
-      {"url":"https://en.wikipedia.org/wiki/Ada_Lovelace","language":"en","purpose":"article","checked_at":"2026-10-27T21:23:56.810Z"},
-      {"url":"https://www.wikidata.org/wiki/Q7259","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:23:56.810Z"}]},
-    {"qid":"Q937","kind":"real","name":"アルベルト・アインシュタイン","description":"ドイツ出身の理論物理学者 (1879–1955)","sources":[
-      {"url":"https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AB%E3%83%99%E3%83%AB%E3%83%88%E3%83%BB%E3%82%A2%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%A5%E3%82%BF%E3%82%A4%E3%83%B3","language":"ja","purpose":"article","checked_at":"2026-10-27T21:23:57.908Z"},
-      {"url":"https://en.wikipedia.org/wiki/Albert_Einstein","language":"en","purpose":"article","checked_at":"2026-10-27T21:23:58.986Z"},
-      {"url":"https://www.wikidata.org/wiki/Q937","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:23:58.986Z"}]},
-    {"qid":"Q51746","kind":"fictional","name":"ルーク・スカイウォーカー","description":"スター・ウォーズシリーズの登場キャラクター","sources":[
-      {"url":"https://ja.wikipedia.org/wiki/%E3%83%AB%E3%83%BC%E3%82%AF%E3%83%BB%E3%82%B9%E3%82%AB%E3%82%A4%E3%82%A6%E3%82%A9%E3%83%BC%E3%82%AB%E3%83%BC","language":"ja","purpose":"article","checked_at":"2026-10-27T21:24:00.069Z"},
-      {"url":"https://en.wikipedia.org/wiki/Luke_Skywalker","language":"en","purpose":"article","checked_at":"2026-10-27T21:24:01.153Z"},
-      {"url":"https://www.wikidata.org/wiki/Q51746","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:24:01.153Z"}]},
-    {"qid":"Q51730","kind":"fictional","name":"ヨーダ","description":"スター・ウォーズシリーズの登場キャラクター","sources":[
-      {"url":"https://ja.wikipedia.org/wiki/%E3%83%A8%E3%83%BC%E3%83%80","language":"ja","purpose":"article","checked_at":"2026-10-27T21:24:02.220Z"},
-      {"url":"https://en.wikipedia.org/wiki/Yoda","language":"en","purpose":"article","checked_at":"2026-10-27T21:24:03.370Z"},
-      {"url":"https://www.wikidata.org/wiki/Q51730","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:24:03.370Z"}]},
-    {"qid":"Q552682","kind":"fictional","name":"初音ミク","description":"日本の歌声合成ソフトウェアおよびパッケージキャラクター","sources":[
-      {"url":"https://ja.wikipedia.org/wiki/%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF","language":"ja","purpose":"article","checked_at":"2026-10-27T21:24:04.457Z"},
-      {"url":"https://en.wikipedia.org/wiki/Hatsune_Miku","language":"en","purpose":"article","checked_at":"2026-10-27T21:24:05.526Z"},
-      {"url":"https://www.wikidata.org/wiki/Q552682","language":"mul","purpose":"identity","checked_at":"2026-10-27T21:24:05.526Z"}]}
+  "version": "published-bootstrap-2026-10-28T07:59:22.623Z",
+  "source": "Wikidata direct P31 category query; bounded bootstrap, not uniform across all Wikidata; sitelinks not live verified",
+  "entries": [
+    {
+      "qid": "Q2998",
+      "kind": "real",
+      "name": "エミー・ジョンソン",
+      "description": "イギリスの女流飛行士",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%9F%E3%83%BC%E3%83%BB%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Amy_Johnson",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2998",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4153",
+      "kind": "real",
+      "name": "ジョージ・ブルヌティアン",
+      "description": "Iranian-American professor and historian (1943–2021)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/George_Bournoutian",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4153",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q207",
+      "kind": "real",
+      "name": "ジョージ・W・ブッシュ",
+      "description": "アメリカ合衆国の第43代大統領",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A7%E3%83%BC%E3%82%B8%E3%83%BBW%E3%83%BB%E3%83%96%E3%83%83%E3%82%B7%E3%83%A5",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/George_W._Bush",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q207",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1923",
+      "kind": "real",
+      "name": "ジェレミー・メネス",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%82%A7%E3%83%AC%E3%83%9F%E3%83%BC%E3%83%BB%E3%83%A1%E3%83%8D%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/J%C3%A9r%C3%A9my_M%C3%A9nez",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1923",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3990",
+      "kind": "real",
+      "name": "ジェフリー・ガルシア",
+      "description": "American actor and comedian (1975–2025)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Jeff_Garcia_(comedian)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3990",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q302",
+      "kind": "real",
+      "name": "イエス・キリスト",
+      "description": "キリスト教の中心人物であり神の子",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A4%E3%82%A8%E3%82%B9%E3%83%BB%E3%82%AD%E3%83%AA%E3%82%B9%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jesus",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q302",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1276",
+      "kind": "real",
+      "name": "レナード・コーエン",
+      "description": "カナダのシンガーソングライター・詩人",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AC%E3%83%8A%E3%83%BC%E3%83%89%E3%83%BB%E3%82%B3%E3%83%BC%E3%82%A8%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Leonard_Cohen",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1276",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4732",
+      "kind": "real",
+      "name": "ヤシン・ベンジア",
+      "description": "アルジェリアのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%A4%E3%82%B7%E3%83%B3%E3%83%BB%E3%83%99%E3%83%B3%E3%82%B8%E3%82%A2",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Yassine_Benzia",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4732",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1802",
+      "kind": "real",
+      "name": "ダニエル・バラヴォワーヌ",
+      "description": "フランスの歌手、ソングライター",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Daniel_Balavoine",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1802",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1399",
+      "kind": "real",
+      "name": "ニッコロ・マキャヴェッリ",
+      "description": "フィレンツェ共和国の政治家、政治思想家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%8B%E3%83%83%E3%82%B3%E3%83%AD%E3%83%BB%E3%83%9E%E3%82%AD%E3%83%A3%E3%83%B4%E3%82%A7%E3%83%83%E3%83%AA",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Niccol%C3%B2_Machiavelli",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1399",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2492",
+      "kind": "real",
+      "name": "コンラート・アデナウアー",
+      "description": "ドイツの政治家、ドイツ連邦首相",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%B3%E3%83%A9%E3%83%BC%E3%83%88%E3%83%BB%E3%82%A2%E3%83%87%E3%83%8A%E3%82%A6%E3%82%A2%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Konrad_Adenauer",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2492",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4039",
+      "kind": "real",
+      "name": "アート・ガーファンクル",
+      "description": "アメリカ合衆国のシンガーソングライター・俳優",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%BC%E3%83%88%E3%83%BB%E3%82%AC%E3%83%BC%E3%83%95%E3%82%A1%E3%83%B3%E3%82%AF%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Art_Garfunkel",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4039",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q853",
+      "kind": "real",
+      "name": "アンドレイ・タルコフスキー",
+      "description": "ソ連の映画監督 (1932–1986)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%B3%E3%83%89%E3%83%AC%E3%82%A4%E3%83%BB%E3%82%BF%E3%83%AB%E3%82%B3%E3%83%95%E3%82%B9%E3%82%AD%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Andrei_Tarkovsky",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q853",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2972",
+      "kind": "real",
+      "name": "ジョン・バロー (初代准男爵)",
+      "description": "英国の政治家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A7%E3%83%B3%E3%83%BB%E3%83%90%E3%83%AD%E3%83%BC_(%E5%88%9D%E4%BB%A3%E5%87%86%E7%94%B7%E7%88%B5)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Sir_John_Barrow%2C_1st_Baronet",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2972",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4652",
+      "kind": "real",
+      "name": "メアリー・ステュワート (アラン伯爵夫人)",
+      "description": "Scottish princess",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Mary_Stewart%2C_Countess_of_Arran",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4652",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q633",
+      "kind": "real",
+      "name": "ニール・ヤング",
+      "description": "カナダのシンガーソングライター (1945-)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%8B%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%A4%E3%83%B3%E3%82%B0",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Neil_Young",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q633",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4997",
+      "kind": "real",
+      "name": "景宗",
+      "description": "5th emperor of Liao Dynasty (r. 969－982)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E6%99%AF%E5%AE%97_(%E9%81%BC)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Emperor_Jingzong_of_Liao",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4997",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4448",
+      "kind": "real",
+      "name": "ベネディクトゥス15世",
+      "description": "ローマ教皇",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%99%E3%83%8D%E3%83%87%E3%82%A3%E3%82%AF%E3%83%88%E3%82%A5%E3%82%B915%E4%B8%96_(%E3%83%AD%E3%83%BC%E3%83%9E%E6%95%99%E7%9A%87)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Pope_Benedict_XV",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4448",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1934",
+      "kind": "real",
+      "name": "シドニー・ゴブ",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%89%E3%83%8B%E3%83%BC%E3%83%BB%E3%82%B4%E3%83%96",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Sidney_Govou",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1934",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4590",
+      "kind": "real",
+      "name": "ユリウス・ブリンク",
+      "description": "German beach volleyball player (b.1982)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Julius_Brink",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4590",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2104",
+      "kind": "real",
+      "name": "マイク・ホーソーン",
+      "description": "イギリスのレーシングドライバー (1929-1959)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%A4%E3%82%AF%E3%83%BB%E3%83%9B%E3%83%BC%E3%82%BD%E3%83%BC%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Mike_Hawthorn",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2104",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2570",
+      "kind": "real",
+      "name": "ジョン・ロミータ・Jr",
+      "description": "アメリカ合衆国のコミックのアーティスト",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A7%E3%83%B3%E3%83%BB%E3%83%AD%E3%83%9F%E3%83%BC%E3%82%BF%E3%83%BBJr",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/John_Romita_Jr.",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2570",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2542",
+      "kind": "real",
+      "name": "ホルスト・ケーラー",
+      "description": "ドイツの政治家、官僚 (1943-2025)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9B%E3%83%AB%E3%82%B9%E3%83%88%E3%83%BB%E3%82%B1%E3%83%BC%E3%83%A9%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Horst_K%C3%B6hler",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2542",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4462",
+      "kind": "real",
+      "name": "ヨアヒム・レーヴ",
+      "description": "ドイツのサッカー選手、指導者",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%A8%E3%82%A2%E3%83%92%E3%83%A0%E3%83%BB%E3%83%AC%E3%83%BC%E3%83%B4",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Joachim_L%C3%B6w",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4462",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1915",
+      "kind": "real",
+      "name": "ローラン・コシールニー",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%E3%83%A9%E3%83%B3%E3%83%BB%E3%82%B3%E3%82%B7%E3%83%BC%E3%83%AB%E3%83%8B%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Laurent_Koscielny",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1915",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1446",
+      "kind": "real",
+      "name": "カラカラ",
+      "description": "ローマ皇帝",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%A9%E3%82%AB%E3%83%A9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Caracalla",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1446",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4783",
+      "kind": "real",
+      "name": "Ella Gjømle",
+      "description": "cross country skier from Stathelle, Bamble, Norway",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Ella_Gj%C3%B8mle_Berg",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4783",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1868",
+      "kind": "real",
+      "name": "ポール・オトレ",
+      "description": "ベルギーの著作家、法律家、書誌学者 (1868-1944)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%BC%E3%83%AB%E3%83%BB%E3%82%AA%E3%83%88%E3%83%AC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Paul_Otlet",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1868",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3205",
+      "kind": "real",
+      "name": "ウィリアム・テリー",
+      "description": "American politician, lawyer, teacher, and soldier (1824-1888)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/William_Terry_(Virginia_politician)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3205",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1839",
+      "kind": "real",
+      "name": "ローラン・ブラン",
+      "description": "フランスのサッカー選手・監督",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%E3%83%A9%E3%83%B3%E3%83%BB%E3%83%96%E3%83%A9%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Laurent_Blanc",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1839",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2767",
+      "kind": "real",
+      "name": "ダニエル・モーガン",
+      "description": "アメリカの開拓者、軍人",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%80%E3%83%8B%E3%82%A8%E3%83%AB%E3%83%BB%E3%83%A2%E3%83%BC%E3%82%AC%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Daniel_Morgan",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2767",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q498",
+      "kind": "real",
+      "name": "ウルリク・フレデリック・ウォルデマール (ロワンダル伯爵)",
+      "description": "German-born French soldier and statesmen (1700-1755)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Ulrich_Friedrich_Woldemar_von_L%C3%B6wendal",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q498",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q502",
+      "kind": "real",
+      "name": "スタンダール",
+      "description": "フランスの小説家 (1783-1842)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%80%E3%83%BC%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Stendhal",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q502",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2737",
+      "kind": "real",
+      "name": "ルイ・ド・フュネス",
+      "description": "フランスの喜劇俳優",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AB%E3%82%A4%E3%83%BB%E3%83%89%E3%83%BB%E3%83%95%E3%83%A5%E3%83%8D%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Louis_de_Fun%C3%A8s",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2737",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1316",
+      "kind": "real",
+      "name": "サッダーム・フセイン",
+      "description": "イラク大統領",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B5%E3%83%83%E3%83%80%E3%83%BC%E3%83%A0%E3%83%BB%E3%83%95%E3%82%BB%E3%82%A4%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Saddam_Hussein",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1316",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1470",
+      "kind": "real",
+      "name": "マウリッツ・エッシャー",
+      "description": "オランダの版画家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%A6%E3%83%AA%E3%83%83%E3%83%84%E3%83%BB%E3%82%A8%E3%83%83%E3%82%B7%E3%83%A3%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/M._C._Escher",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1470",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1804",
+      "kind": "real",
+      "name": "バルバラ",
+      "description": "フランスのシャンソン歌手、作詞家、作曲家 (1930–1997)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%90%E3%83%AB%E3%83%90%E3%83%A9_(%E6%AD%8C%E6%89%8B)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Barbara_(singer)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1804",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1450",
+      "kind": "real",
+      "name": "ブルーノ・マーズ",
+      "description": "アメリカのシンガーソングライター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%96%E3%83%AB%E3%83%BC%E3%83%8E%E3%83%BB%E3%83%9E%E3%83%BC%E3%82%BA",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Bruno_Mars",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1450",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q76",
+      "kind": "real",
+      "name": "バラク・オバマ",
+      "description": "アメリカ合衆国の第44代大統領 (1961–)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%90%E3%83%A9%E3%82%AF%E3%83%BB%E3%82%AA%E3%83%90%E3%83%9E",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Barack_Obama",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q76",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4934",
+      "kind": "real",
+      "name": "ラリー・ペイジ",
+      "description": "アメリカ合衆国の計算機科学者、インターネット起業家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%A9%E3%83%AA%E3%83%BC%E3%83%BB%E3%83%9A%E3%82%A4%E3%82%B8",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Larry_Page",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4934",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1922",
+      "kind": "real",
+      "name": "アントニー・レヴェイエール",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%B3%E3%83%88%E3%83%8B%E3%83%BC%E3%83%BB%E3%83%AC%E3%83%B4%E3%82%A7%E3%82%A4%E3%82%A8%E3%83%BC%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Anthony_R%C3%A9veill%C3%A8re",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1922",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2732",
+      "kind": "real",
+      "name": "ノーマ・スティッツ",
+      "description": "アメリカ合衆国のアダルトモデル・女優",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%8E%E3%83%BC%E3%83%9E%E3%83%BB%E3%82%B9%E3%83%86%E3%82%A3%E3%83%83%E3%83%84",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Norma_Stitz",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2732",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1778",
+      "kind": "real",
+      "name": "クリスティアン・パルシュ",
+      "description": "ハンガリーの陸上競技選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AA%E3%82%B9%E3%83%86%E3%82%A3%E3%82%A2%E3%83%B3%E3%83%BB%E3%83%91%E3%83%AB%E3%82%B7%E3%83%A5",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Kriszti%C3%A1n_Pars",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1778",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2069",
+      "kind": "real",
+      "name": "ファン・マヌエル・ファンジオ",
+      "description": "アルゼンチンのレーシングカー・ドライバー (1911–1995)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A1%E3%83%B3%E3%83%BB%E3%83%9E%E3%83%8C%E3%82%A8%E3%83%AB%E3%83%BB%E3%83%95%E3%82%A1%E3%83%B3%E3%82%B8%E3%82%AA",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Juan_Manuel_Fangio",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2069",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1056",
+      "kind": "real",
+      "name": "イータロ・バルボ",
+      "description": "イタリアの空軍大臣、空軍参謀総長",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A4%E3%82%BF%E3%83%AD%E3%83%BB%E3%83%90%E3%83%AB%E3%83%9C",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Italo_Balbo",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1056",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1908",
+      "kind": "real",
+      "name": "マテュー・ドゥビュシー",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%86%E3%83%A5%E3%83%BC%E3%83%BB%E3%83%89%E3%82%A5%E3%83%93%E3%83%A5%E3%82%B7%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Mathieu_Debuchy",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1908",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q346",
+      "kind": "real",
+      "name": "ルイ9世",
+      "description": "フランスカペー朝の9代目の王",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AB%E3%82%A49%E4%B8%96_(%E3%83%95%E3%83%A9%E3%83%B3%E3%82%B9%E7%8E%8B)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Louis_IX_of_France",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q346",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4738",
+      "kind": "real",
+      "name": "コーリー・ディロン",
+      "description": "American football player (born 1974)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Corey_Dillon",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4738",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1294",
+      "kind": "real",
+      "name": "ラモン・バロス・ルコ",
+      "description": "Chilean politician and President (1835–1919)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Ram%C3%B3n_Barros_Luco",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1294",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q517",
+      "kind": "real",
+      "name": "ナポレオン・ボナパルト",
+      "description": "フランスの軍人、革命家、第一帝政期のフランス皇帝",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%8A%E3%83%9D%E3%83%AC%E3%82%AA%E3%83%B3%E3%83%BB%E3%83%9C%E3%83%8A%E3%83%91%E3%83%AB%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Napoleon",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q517",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3291",
+      "kind": "real",
+      "name": "Leonid Razvozzhayev",
+      "description": "Russian politician's aide",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Leonid_Razvozzhayev",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3291",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1938",
+      "kind": "real",
+      "name": "バカリ・サニャ",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%90%E3%82%AB%E3%83%AA%E3%83%BB%E3%82%B5%E3%83%8B%E3%83%A3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Bacary_Sagna",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1938",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5346",
+      "kind": "real",
+      "name": "Matija Gogala",
+      "description": "Slovene zoologist",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Matija_Gogala",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5346",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2514",
+      "kind": "real",
+      "name": "ヴィリー・ブラント",
+      "description": "西ドイツの首相",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%B4%E3%82%A3%E3%83%AA%E3%83%BC%E3%83%BB%E3%83%96%E3%83%A9%E3%83%B3%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Willy_Brandt",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2514",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q815",
+      "kind": "real",
+      "name": "ガブリエル・ゴンサレス・ビデラ",
+      "description": "チリの大統領 (1898-1980)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AC%E3%83%96%E3%83%AA%E3%82%A8%E3%83%AB%E3%83%BB%E3%82%B4%E3%83%B3%E3%82%B5%E3%83%AC%E3%82%B9%E3%83%BB%E3%83%93%E3%83%87%E3%83%A9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Gabriel_Gonz%C3%A1lez_Videla",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q815",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2038",
+      "kind": "real",
+      "name": "フランソワ・ミッテラン",
+      "description": "フランスの政治家。第21代フランス大統領",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%95%E3%83%A9%E3%83%B3%E3%82%BD%E3%83%AF%E3%83%BB%E3%83%9F%E3%83%83%E3%83%86%E3%83%A9%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Fran%C3%A7ois_Mitterrand",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2038",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4991",
+      "kind": "real",
+      "name": "耶律堯骨",
+      "description": "emperor of the Liao dynasty of China from 927 to 947",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E8%80%B6%E5%BE%8B%E5%A0%AF%E9%AA%A8",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Emperor_Taizong_of_Liao",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4991",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1242",
+      "kind": "real",
+      "name": "ルイージ・エイナウディ",
+      "description": "イタリアの第2代大統領",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AB%E3%82%A4%E3%83%BC%E3%82%B8%E3%83%BB%E3%82%A8%E3%82%A4%E3%83%8A%E3%82%A6%E3%83%87%E3%82%A3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Luigi_Einaudi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1242",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2582",
+      "kind": "real",
+      "name": "ハインリヒ・リュプケ",
+      "description": "ドイツの政治家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%8F%E3%82%A4%E3%83%B3%E3%83%AA%E3%83%92%E3%83%BB%E3%83%AA%E3%83%A5%E3%83%97%E3%82%B1",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Heinrich_L%C3%BCbke",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2582",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4137",
+      "kind": "real",
+      "name": "エルザ・トリオレ",
+      "description": "Russian-French writer (1896–1970)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%AB%E3%82%B6%E3%83%BB%E3%83%88%E3%83%AA%E3%82%AA%E3%83%AC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Elsa_Triolet",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4137",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3773",
+      "kind": "real",
+      "name": "ガリナ・ジビナ",
+      "description": "ソビエト連邦の陸上競技選手 (1931–2024)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AC%E3%83%AA%E3%83%8A%E3%83%BB%E3%82%B8%E3%83%93%E3%83%8A",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Galina_Zybina",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3773",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q512",
+      "kind": "real",
+      "name": "ヴラジーミル・ヴィソツキー",
+      "description": "ソ連の詩人、俳優、シンガーソングライター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%B4%E3%83%A9%E3%82%B8%E3%83%BC%E3%83%9F%E3%83%AB%E3%83%BB%E3%83%B4%E3%82%A3%E3%82%BD%E3%83%84%E3%82%AD%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Vladimir_Vysotsky",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q512",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1677",
+      "kind": "real",
+      "name": "エゼキエル・ケンボイ",
+      "description": "ケニアの陸上競技選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%82%BC%E3%82%AD%E3%82%A8%E3%83%AB%E3%83%BB%E3%82%B1%E3%83%B3%E3%83%9C%E3%82%A4",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Ezekiel_Kemboi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1677",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q762",
+      "kind": "real",
+      "name": "レオナルド・ダ・ヴィンチ",
+      "description": "イタリアのルネサンス期の博学者 (1452-1519)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AC%E3%82%AA%E3%83%8A%E3%83%AB%E3%83%89%E3%83%BB%E3%83%80%E3%83%BB%E3%83%B4%E3%82%A3%E3%83%B3%E3%83%81",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Leonardo_da_Vinci",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q762",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2655",
+      "kind": "real",
+      "name": "ジョン・フランクリン",
+      "description": "イギリスの探検家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A7%E3%83%B3%E3%83%BB%E3%83%95%E3%83%A9%E3%83%B3%E3%82%AF%E3%83%AA%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/John_Franklin",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2655",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4518",
+      "kind": "real",
+      "name": "アリソン・ローマン",
+      "description": "American actress",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AA%E3%82%BD%E3%83%B3%E3%83%BB%E3%83%AD%E3%83%BC%E3%83%9E%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Alison_Lohman",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4518",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1331",
+      "kind": "real",
+      "name": "マヌエル・ブランコ・エスカラーダ",
+      "description": "外交官, アルゼンチン",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Manuel_Blanco_Encalada",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1331",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2496",
+      "kind": "real",
+      "name": "ルートヴィヒ・エアハルト",
+      "description": "西ドイツの政治家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AB%E3%83%BC%E3%83%88%E3%83%B4%E3%82%A3%E3%83%92%E3%83%BB%E3%82%A8%E3%82%A2%E3%83%8F%E3%83%AB%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Ludwig_Erhard",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2496",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5348",
+      "kind": "real",
+      "name": "ヨヴァン・ハッジ",
+      "description": "Slovene zoologist of Serbian descent (1884–1972)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%A8%E3%83%B4%E3%82%A1%E3%83%B3%E3%83%BB%E3%83%8F%E3%83%83%E3%82%B8",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jovan_Had%C5%BEi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5348",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5264",
+      "kind": "real",
+      "name": "ヒポクラテス",
+      "description": "Ancient Greek physician (c. 460 – c. 370 BCE)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%92%E3%83%9D%E3%82%AF%E3%83%A9%E3%83%86%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Hippocrates",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5264",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1245",
+      "kind": "real",
+      "name": "エンリコ・デ・ニコラ",
+      "description": "イタリアの初代大統領",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%B3%E3%83%AA%E3%82%B3%E3%83%BB%E3%83%87%E3%83%BB%E3%83%8B%E3%82%B3%E3%83%A9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Enrico_De_Nicola",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1245",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3924",
+      "kind": "real",
+      "name": "ケヴィン・ルドルフ",
+      "description": "American singer, songwriter, and record producer (born 1983)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B1%E3%83%B4%E3%82%A3%E3%83%B3%E3%83%BB%E3%83%AB%E3%83%89%E3%83%AB%E3%83%95",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Kevin_Rudolf",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3924",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1916",
+      "kind": "real",
+      "name": "パトリス・エヴラ",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%91%E3%83%88%E3%83%AA%E3%82%B9%E3%83%BB%E3%82%A8%E3%83%B4%E3%83%A9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Patrice_Evra",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1916",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2327",
+      "kind": "real",
+      "name": "Emil Sayfutdinov",
+      "description": "Russian speedway rider of Tatar origin, also holding Polish citizenship",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Emil_Sayfutdinov",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2327",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5073",
+      "kind": "real",
+      "name": "金世宗",
+      "description": "emperor of the Jin Dynasty (1123–1189)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E4%B8%96%E5%AE%97_(%E9%87%91)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Emperor_Shizong_of_Jin",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5073",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q504",
+      "kind": "real",
+      "name": "エミール・ゾラ",
+      "description": "1840-1902, フランスの自然主義文小説家。",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%9F%E3%83%BC%E3%83%AB%E3%83%BB%E3%82%BE%E3%83%A9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/%C3%89mile_Zola",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q504",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5336",
+      "kind": "real",
+      "name": "Guntis Valneris",
+      "description": "Latvian draughts player (born 1967)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Guntis_Valneris",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5336",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5344",
+      "kind": "real",
+      "name": "Roman Jerala",
+      "description": "研究者",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Roman_Jerala",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5344",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q303",
+      "kind": "real",
+      "name": "エルヴィス・プレスリー",
+      "description": "アメリカの歌手・俳優 (1935-1977)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%AB%E3%83%B4%E3%82%A3%E3%82%B9%E3%83%BB%E3%83%97%E3%83%AC%E3%82%B9%E3%83%AA%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Elvis_Presley",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q303",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1944",
+      "kind": "real",
+      "name": "ジェレミー・トゥララン",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%82%A7%E3%83%AC%E3%83%9F%E3%83%BC%E3%83%BB%E3%83%88%E3%82%A5%E3%83%A9%E3%83%A9%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/J%C3%A9r%C3%A9my_Toulalan",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1944",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1668",
+      "kind": "real",
+      "name": "リオネル・マンザーノ",
+      "description": "Mexican-American middle-distance track and field athlete",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Leonel_Manzano",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1668",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4142",
+      "kind": "real",
+      "name": "T-killah",
+      "description": "Russian singer and rapper",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/T-killah",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4142",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1048",
+      "kind": "real",
+      "name": "ガイウス・ユリウス・カエサル",
+      "description": "共和政ローマの政治家、軍人、文筆家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AC%E3%82%A4%E3%82%A6%E3%82%B9%E3%83%BB%E3%83%A6%E3%83%AA%E3%82%A6%E3%82%B9%E3%83%BB%E3%82%AB%E3%82%A8%E3%82%B5%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Julius_Caesar",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1048",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1264",
+      "kind": "real",
+      "name": "ウ・タント",
+      "description": "ビルマの外交官、教育者、第3代国際連合事務総長",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A6%E3%83%BB%E3%82%BF%E3%83%B3%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/U_Thant",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1264",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1920",
+      "kind": "real",
+      "name": "サミル・ナスリ",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B5%E3%83%9F%E3%83%AB%E3%83%BB%E3%83%8A%E3%82%B9%E3%83%AA",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Samir_Nasri",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1920",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q680",
+      "kind": "real",
+      "name": "アレッサンドロ・ボルタ",
+      "description": "イタリアの自然哲学者、ボルタ電池の発明者 (1745 - 1827)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AC%E3%83%83%E3%82%B5%E3%83%B3%E3%83%89%E3%83%AD%E3%83%BB%E3%83%9C%E3%83%AB%E3%82%BF",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Alessandro_Volta",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q680",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3008",
+      "kind": "real",
+      "name": "マイク・オールドフィールド",
+      "description": "イギリスのミュージシャン",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%A4%E3%82%AF%E3%83%BB%E3%82%AA%E3%83%BC%E3%83%AB%E3%83%89%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Mike_Oldfield",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3008",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1666",
+      "kind": "real",
+      "name": "ジャック・ブレル",
+      "description": "ベルギーで生まれフランスで成功したシャンソン歌手、作詞作曲家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A3%E3%83%83%E3%82%AF%E3%83%BB%E3%83%96%E3%83%AC%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jacques_Brel",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1666",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q272",
+      "kind": "real",
+      "name": "ポール・モラン",
+      "description": "フランスの作家、外交官 (1888-1976)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%A2%E3%83%A9%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Paul_Morand",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q272",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4832",
+      "kind": "real",
+      "name": "Jana Šenková",
+      "description": "Czech volleyball player",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Jana_%C5%A0enkov%C3%A1",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4832",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2001",
+      "kind": "real",
+      "name": "スタンリー・キューブリック",
+      "description": "アメリカ合衆国の映画監督、脚本家、映画プロデューサー (1928–1999)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B9%E3%82%BF%E3%83%B3%E3%83%AA%E3%83%BC%E3%83%BB%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%96%E3%83%AA%E3%83%83%E3%82%AF",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Stanley_Kubrick",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2001",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4240",
+      "kind": "real",
+      "name": "Serge Chiesa",
+      "description": "French footballer (born 1950)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Serge_Chiesa",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4240",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2791",
+      "kind": "real",
+      "name": "ジェロニモ",
+      "description": "アパッチ族のシャーマン、戦士",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%82%A7%E3%83%AD%E3%83%8B%E3%83%A2",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Geronimo",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2791",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4671",
+      "kind": "real",
+      "name": "マシュー・ニール",
+      "description": "British writer",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Matthew_Kneale",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4671",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1463",
+      "kind": "real",
+      "name": "フェルディナンド・マルコス",
+      "description": "フィリピンの政治家、第10代フィリピン共和国大統領",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A7%E3%83%AB%E3%83%87%E3%82%A3%E3%83%8A%E3%83%B3%E3%83%89%E3%83%BB%E3%83%9E%E3%83%AB%E3%82%B3%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Ferdinand_Marcos",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1463",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2097",
+      "kind": "real",
+      "name": "チェーティル・アンドレ・オーモット",
+      "description": "ノルウェーのアルペンスキー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%81%E3%82%A7%E3%83%BC%E3%83%86%E3%82%A3%E3%83%AB%E3%83%BB%E3%82%A2%E3%83%B3%E3%83%89%E3%83%AC%E3%83%BB%E3%82%AA%E3%83%BC%E3%83%A2%E3%83%83%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Kjetil_Andr%C3%A9_Aamodt",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2097",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1001",
+      "kind": "real",
+      "name": "マハトマ・ガンディー",
+      "description": "インドの政治指導者 (1869-1948)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%8F%E3%83%88%E3%83%9E%E3%83%BB%E3%82%AC%E3%83%B3%E3%83%87%E3%82%A3%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Mahatma_Gandhi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1001",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4237",
+      "kind": "real",
+      "name": "Fleury Di Nallo",
+      "description": "French former association football player",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Fleury_Di_Nallo",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4237",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4285",
+      "kind": "real",
+      "name": "ビザンチオスのテオパネス",
+      "description": "Byzantine historian",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Theophanes_of_Byzantium",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4285",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5271",
+      "kind": "real",
+      "name": "Hugh Primas",
+      "description": "Latin lyric poet",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Hugh_Primas",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5271",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4505",
+      "kind": "real",
+      "name": "Bram Moszkowicz",
+      "description": "Dutch lawyer",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Bram_Moszkowicz",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4505",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1879",
+      "kind": "real",
+      "name": "コランタン・マルティンス",
+      "description": "ポルトガルのサッカー選手、指導者",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B3%E3%83%A9%E3%83%B3%E3%82%BF%E3%83%B3%E3%83%BB%E3%83%9E%E3%83%AB%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Corentin_Martins",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1879",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1910",
+      "kind": "real",
+      "name": "ヨアン・キャバイェ",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%A8%E3%82%A2%E3%83%B3%E3%83%BB%E3%82%AD%E3%83%A3%E3%83%90%E3%82%A4%E3%82%A7",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Yohan_Cabaye",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1910",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4271",
+      "kind": "real",
+      "name": "マーク・ホッパス",
+      "description": "American musician and record producer",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%BC%E3%82%AF%E3%83%BB%E3%83%9B%E3%83%83%E3%83%91%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Mark_Hoppus",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4271",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1192",
+      "kind": "real",
+      "name": "ジャン＝バティスト・リュリ",
+      "description": "イタリア出身でフランスの作曲家 (1632 - 1687)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A3%E3%83%B3%EF%BC%9D%E3%83%90%E3%83%86%E3%82%A3%E3%82%B9%E3%83%88%E3%83%BB%E3%83%AA%E3%83%A5%E3%83%AA",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jean-Baptiste_Lully",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1192",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q42",
+      "kind": "real",
+      "name": "ダグラス・アダムズ",
+      "description": "イングランドの作家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%80%E3%82%B0%E3%83%A9%E3%82%B9%E3%83%BB%E3%82%A2%E3%83%80%E3%83%A0%E3%82%BA",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Douglas_Adams",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q42",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3319",
+      "kind": "real",
+      "name": "小林夕岐子",
+      "description": "日本の元女優",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E5%B0%8F%E6%9E%97%E5%A4%95%E5%B2%90%E5%AD%90",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Yukiko_Kobayashi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3319",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2252",
+      "kind": "real",
+      "name": "エドウィン・オルドリン",
+      "description": "アメリカ合衆国の宇宙飛行士",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%90%E3%82%BA%E3%83%BB%E3%82%AA%E3%83%AB%E3%83%89%E3%83%AA%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Buzz_Aldrin",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2252",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q849",
+      "kind": "real",
+      "name": "フランソワ・ヴィヨン",
+      "description": "15世紀フランスの詩人",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%95%E3%83%A9%E3%83%B3%E3%82%BD%E3%83%AF%E3%83%BB%E3%83%B4%E3%82%A3%E3%83%A8%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Fran%C3%A7ois_Villon",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q849",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q306",
+      "kind": "real",
+      "name": "セバスティアン・ピニェラ",
+      "description": "チリの大統領 (1949-2024)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%BB%E3%83%90%E3%82%B9%E3%83%86%E3%82%A3%E3%82%A2%E3%83%B3%E3%83%BB%E3%83%94%E3%83%8B%E3%82%A7%E3%83%A9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Sebasti%C3%A1n_Pi%C3%B1era",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q306",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q206",
+      "kind": "real",
+      "name": "スティーヴン・ハーパー",
+      "description": "カナダの第28代首相",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%86%E3%82%A3%E3%83%BC%E3%83%B4%E3%83%B3%E3%83%BB%E3%83%8F%E3%83%BC%E3%83%91%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Stephen_Harper",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q206",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2291",
+      "kind": "real",
+      "name": "トト (俳優)",
+      "description": "ウィキメディアのカテゴリ",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%88%E3%83%88_(%E4%BF%B3%E5%84%AA)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Tot%C3%B2",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2291",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2646",
+      "kind": "real",
+      "name": "フリードリヒ・エーベルト",
+      "description": "ドイツの政治家、ドイツ国初代大統領",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%95%E3%83%AA%E3%83%BC%E3%83%89%E3%83%AA%E3%83%92%E3%83%BB%E3%82%A8%E3%83%BC%E3%83%99%E3%83%AB%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Friedrich_Ebert",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2646",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1789",
+      "kind": "real",
+      "name": "アシュトン・イートン",
+      "description": "アメリカの陸上競技選手 (1988-)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%B7%E3%83%A5%E3%83%88%E3%83%B3%E3%83%BB%E3%82%A4%E3%83%BC%E3%83%88%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Ashton_Eaton",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1789",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3345",
+      "kind": "real",
+      "name": "プトレマイオス10世",
+      "description": "King of Egypt",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%97%E3%83%88%E3%83%AC%E3%83%9E%E3%82%A4%E3%82%AA%E3%82%B910%E4%B8%96",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Ptolemy_X_Alexander_I",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3345",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1409",
+      "kind": "real",
+      "name": "カリグラ",
+      "description": "ローマ帝国皇帝",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AA%E3%82%B0%E3%83%A9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Caligula",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1409",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2567",
+      "kind": "real",
+      "name": "リヒャルト・フォン・ヴァイツゼッカー",
+      "description": "ドイツの政治家、弁護士、貴族",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%92%E3%83%A3%E3%83%AB%E3%83%88%E3%83%BB%E3%83%95%E3%82%A9%E3%83%B3%E3%83%BB%E3%83%B4%E3%82%A1%E3%82%A4%E3%83%84%E3%82%BC%E3%83%83%E3%82%AB%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Richard_von_Weizs%C3%A4cker",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2567",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2330",
+      "kind": "real",
+      "name": "Nicki Pedersen",
+      "description": "Danish motorcycle speedway rider",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Nicki_Pedersen",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2330",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4605",
+      "kind": "real",
+      "name": "サラ・ベルナール",
+      "description": "フランスの舞台女優",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B5%E3%83%A9%E3%83%BB%E3%83%99%E3%83%AB%E3%83%8A%E3%83%BC%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Sarah_Bernhardt",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4605",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4725",
+      "kind": "real",
+      "name": "エリザベス・ハミルトン (1753-1797)",
+      "description": "English peeress (1753-1797)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Elizabeth_Smith-Stanley%2C_Countess_of_Derby",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4725",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1776",
+      "kind": "real",
+      "name": "ゲルド・カンテル",
+      "description": "エストニアの陸上競技選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B2%E3%83%AB%E3%83%89%E3%83%BB%E3%82%AB%E3%83%B3%E3%83%86%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Gerd_Kanter",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1776",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1411",
+      "kind": "real",
+      "name": "クラウディウス",
+      "description": "ローマ帝国の第4代皇帝",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%87%E3%82%A3%E3%82%A6%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Claudius",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1411",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4452",
+      "kind": "real",
+      "name": "Thomas of Metsoph",
+      "description": "Armenian cleric and chronicler",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Thomas_of_Metsoph",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4452",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3300",
+      "kind": "real",
+      "name": "エルンスト・ティブルツィ",
+      "description": "German Volkssturm-Bataillonsführer (1911-2004)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Ernst_Tiburzy",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3300",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2680",
+      "kind": "real",
+      "name": "ブルース・ウィリス",
+      "description": "アメリカ合衆国の俳優、プロデューサー、ミュージシャン (1955-)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%96%E3%83%AB%E3%83%BC%E3%82%B9%E3%83%BB%E3%82%A6%E3%82%A3%E3%83%AA%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Bruce_Willis",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2680",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q448",
+      "kind": "real",
+      "name": "ドゥニ・ディドロ",
+      "description": "フランスの哲学者 (1713年 - 1784年)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%89%E3%82%A5%E3%83%8B%E3%83%BB%E3%83%87%E3%82%A3%E3%83%89%E3%83%AD",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Denis_Diderot",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q448",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1928",
+      "kind": "real",
+      "name": "ハテム・ベン・アルファ",
+      "description": "フランスのサッカー選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%8F%E3%83%86%E3%83%A0%E3%83%BB%E3%83%99%E3%83%B3%E3%83%BB%E3%82%A2%E3%83%AB%E3%83%95%E3%82%A1",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Hatem_Ben_Arfa",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1928",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1416",
+      "kind": "real",
+      "name": "オト",
+      "description": "ローマ帝国皇帝（四皇帝の年の第2番目の皇帝）",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Otho",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1416",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1503",
+      "kind": "real",
+      "name": "マニュエル・ケソン",
+      "description": "フィリピン大統領",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A8%E3%83%AB%E3%83%BB%E3%82%B1%E3%82%BD%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Manuel_L._Quezon",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1503",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2677",
+      "kind": "real",
+      "name": "ヴィルヘルム2世",
+      "description": "第9代プロイセン王国国王・第3代ドイツ帝国皇帝",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%B4%E3%82%A3%E3%83%AB%E3%83%98%E3%83%AB%E3%83%A02%E4%B8%96_(%E3%83%89%E3%82%A4%E3%83%84%E7%9A%87%E5%B8%9D)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Wilhelm_II",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2677",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2566",
+      "kind": "real",
+      "name": "アイザック・ブロック",
+      "description": "イギリス陸軍少将（1769 - 1812 ）",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%A4%E3%82%B6%E3%83%83%E3%82%AF%E3%83%BB%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Isaac_Brock",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2566",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3622",
+      "kind": "real",
+      "name": "Benoît Potier",
+      "description": "French businessman",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Beno%C3%AEt_Potier",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3622",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1656",
+      "kind": "real",
+      "name": "ルグエリン・サントス",
+      "description": "ドミニカ共和国の陸上競技選手",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AB%E3%82%B0%E3%82%A8%E3%83%AA%E3%83%B3%E3%83%BB%E3%82%B5%E3%83%B3%E3%83%88%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Luguel%C3%ADn_Santos",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1656",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q254",
+      "kind": "real",
+      "name": "ヴォルフガング・アマデウス・モーツァルト",
+      "description": "オーストリアの作曲家 (1756-1791)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%B4%E3%82%A9%E3%83%AB%E3%83%95%E3%82%AC%E3%83%B3%E3%82%B0%E3%83%BB%E3%82%A2%E3%83%9E%E3%83%87%E3%82%A6%E3%82%B9%E3%83%BB%E3%83%A2%E3%83%BC%E3%83%84%E3%82%A1%E3%83%AB%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q254",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4506",
+      "kind": "real",
+      "name": "ベルール",
+      "description": "Norman poet",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%99%E3%83%AB%E3%83%BC%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/B%C3%A9roul",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4506",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4235",
+      "kind": "real",
+      "name": "マイリー・サイラス",
+      "description": "アメリカのシンガーソングライター (1992-)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%A4%E3%83%AA%E3%83%BC%E3%83%BB%E3%82%B5%E3%82%A4%E3%83%A9%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Miley_Cyrus",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4235",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1812",
+      "kind": "real",
+      "name": "ゴルディアヌス3世",
+      "description": "ローマ皇帝 (225-244)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B4%E3%83%AB%E3%83%87%E3%82%A3%E3%82%A2%E3%83%8C%E3%82%B93%E4%B8%96",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Gordian_III",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1812",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2010",
+      "kind": "real",
+      "name": "尾田栄一郎",
+      "description": "日本の漫画家",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E5%B0%BE%E7%94%B0%E6%A0%84%E4%B8%80%E9%83%8E",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Eiichiro_Oda",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2010",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1950",
+      "kind": "real",
+      "name": "アルベルト・トンバ",
+      "description": "イタリアのアルペンスキーヤー",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AB%E3%83%99%E3%83%AB%E3%83%88%E3%83%BB%E3%83%88%E3%83%B3%E3%83%90",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Alberto_Tomba",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1950",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4488",
+      "kind": "real",
+      "name": "クランシー・ブラウン",
+      "description": "アメリカの俳優 (1959-)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%A9%E3%83%B3%E3%82%B7%E3%83%BC%E3%83%BB%E3%83%96%E3%83%A9%E3%82%A6%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Clancy_Brown",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4488",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4395",
+      "kind": "real",
+      "name": "Florencia de Saracho",
+      "description": "Mexican actress",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Florencia_del_Saracho",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4395",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1423",
+      "kind": "real",
+      "name": "ドミティアヌス",
+      "description": "ローマ帝国の第11代皇帝",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%89%E3%83%9F%E3%83%86%E3%82%A3%E3%82%A2%E3%83%8C%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Domitian",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1423",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1878",
+      "kind": "real",
+      "name": "Michael Schmidt-Salomon",
+      "description": "German author, philosopher, and public relations manager",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Michael_Schmidt-Salomon",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1878",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3197",
+      "kind": "real",
+      "name": "Friedrich Wilhelm Grund",
+      "description": "German composer, conductor and teacher (1791–1874)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Friedrich_Wilhelm_Grund",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3197",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q835",
+      "kind": "real",
+      "name": "ミハイル・ブルガーコフ",
+      "description": "ロシアの劇作家、小説家 (1891–1940)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9F%E3%83%8F%E3%82%A4%E3%83%AB%E3%83%BB%E3%83%96%E3%83%AB%E3%82%AC%E3%83%BC%E3%82%B3%E3%83%95",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Mikhail_Bulgakov",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q835",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4891",
+      "kind": "real",
+      "name": "Uilke Vuurman",
+      "description": "Dutch sport shooter (1872–1955)",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Uilke_Vuurman",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4891",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2263",
+      "kind": "real",
+      "name": "トム・ハンクス",
+      "description": "アメリカの俳優、映画監督、映画・テレビプロデューサー",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%88%E3%83%A0%E3%83%BB%E3%83%8F%E3%83%B3%E3%82%AF%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Tom_Hanks",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2263",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3603",
+      "kind": "real",
+      "name": "ジャック・エンジェル",
+      "description": "American voice actor (1930–2021)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A3%E3%83%83%E3%82%AF%E3%83%BB%E3%82%A8%E3%83%B3%E3%82%B8%E3%82%A7%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jack_Angel",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3603",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1744",
+      "kind": "real",
+      "name": "マドンナ",
+      "description": "アメリカ合衆国の音楽家・女優",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%89%E3%83%B3%E3%83%8A_(%E6%AD%8C%E6%89%8B)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Madonna",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1744",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2831",
+      "kind": "real",
+      "name": "マイケル・ジャクソン",
+      "description": "アメリカ合衆国の歌手・ソングライター (1958-2009)",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%A4%E3%82%B1%E3%83%AB%E3%83%BB%E3%82%B8%E3%83%A3%E3%82%AF%E3%82%BD%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Michael_Jackson",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2831",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q521494",
+      "kind": "fictional",
+      "name": "Voodoo",
+      "description": "comic superhero",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Voodoo_(Wildstorm)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q521494",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3503968",
+      "kind": "fictional",
+      "name": "サンセット・ベイン",
+      "description": "fictional comic book character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Sunset_Bain",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3503968",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q935364",
+      "kind": "fictional",
+      "name": "四乃森蒼紫",
+      "description": "日本の漫画『るろうに剣心』に登場する架空の人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E5%9B%9B%E4%B9%83%E6%A3%AE%E8%92%BC%E7%B4%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Shinomori_Aoshi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q935364",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q281174",
+      "kind": "fictional",
+      "name": "ドミナス",
+      "description": "fictional character in Marvel Comics",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Dominus_(Marvel_Comics)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q281174",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1324170",
+      "kind": "fictional",
+      "name": "トリッシュ",
+      "description": "『デビルメイクライシリーズ』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Trish_(Devil_May_Cry)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1324170",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3110625",
+      "kind": "fictional",
+      "name": "ジョー・ヒガシ",
+      "description": "『餓狼伝説』シリーズ及び『ザ・キング・オブ・ファイターズ』シリーズの登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A7%E3%83%BC%E3%83%BB%E3%83%92%E3%82%AC%E3%82%B7",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Joe_Higashi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3110625",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q211414",
+      "kind": "fictional",
+      "name": "ミス・マネーペニー",
+      "description": "fictional character in James Bond novels and films",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9F%E3%82%B9%E3%83%BB%E3%83%9E%E3%83%8D%E3%83%BC%E3%83%9A%E3%83%8B%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Miss_Moneypenny",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q211414",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q653960",
+      "kind": "fictional",
+      "name": "Wildfire",
+      "description": "fictional superheroine in the DC Comics universe",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Wildfire_(Carol_Vance_Martin)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q653960",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1982474",
+      "kind": "fictional",
+      "name": "アレクサンダー・ルーサー・Jr",
+      "description": "DC Comics fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Alexander_Luthor_Jr.",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1982474",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q608897",
+      "kind": "fictional",
+      "name": "JC・デントン",
+      "description": "fictional character from Deus Ex",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/JC_Denton",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q608897",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q51692",
+      "kind": "fictional",
+      "name": "イーサン・ロム",
+      "description": "character from the American TV show Lost",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Ethan_Rom",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q51692",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q300331",
+      "kind": "fictional",
+      "name": "Biff Brewster",
+      "description": "character created by Andy Adams",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Biff_Brewster",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q300331",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1050827",
+      "kind": "fictional",
+      "name": "ワルイージ",
+      "description": "マリオシリーズに登場するキャラクター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AF%E3%83%AB%E3%82%A4%E3%83%BC%E3%82%B8",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Waluigi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1050827",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q51778",
+      "kind": "fictional",
+      "name": "ピエット提督",
+      "description": "Star Wars character",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%94%E3%82%A8%E3%83%83%E3%83%88%E6%8F%90%E7%9D%A3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Admiral_Piett",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q51778",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q691782",
+      "kind": "fictional",
+      "name": "Kung Lao",
+      "description": "Mortal Kombat character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Kung_Lao",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q691782",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5378913",
+      "kind": "fictional",
+      "name": "Enigma",
+      "description": "superheroine in the Marvel Universe",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Enigma_(Marvel_Comics)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5378913",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q665772",
+      "kind": "fictional",
+      "name": "John Marston",
+      "description": "fictional character from Red Dead Redemption",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/John_Marston",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q665772",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q626756",
+      "kind": "fictional",
+      "name": "エベネーザ・スクルージ",
+      "description": "fictional character in A Christmas Carol by Charles Dickens",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Ebenezer_Scrooge",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q626756",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1050850",
+      "kind": "fictional",
+      "name": "ピーター・ペトレリ",
+      "description": "fictional character on the NBC science fiction drama series Heroes",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Peter_Petrelli",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1050850",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q17298",
+      "kind": "fictional",
+      "name": "アルレッキーノ",
+      "description": "コメディア・デラルテ中のキャラクターの一つで、トリックスター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AB%E3%83%AC%E3%83%83%E3%82%AD%E3%83%BC%E3%83%8E",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Harlequin",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q17298",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1112248",
+      "kind": "fictional",
+      "name": "スカーフェイス",
+      "description": "『キン肉マンII世』の登場キャラクター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B9%E3%82%AB%E3%83%BC%E3%83%95%E3%82%A7%E3%82%A4%E3%82%B9_(%E3%82%AD%E3%83%B3%E8%82%89%E3%83%9E%E3%83%B3II%E4%B8%96)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1112248",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2728119",
+      "kind": "fictional",
+      "name": "シャカ",
+      "description": "『聖闘士星矢』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Virgo_Shaka",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2728119",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q386588",
+      "kind": "fictional",
+      "name": "カレン・マクラスキー",
+      "description": "fictional character on Desperate Housewives",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%BB%E3%83%9E%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%AD%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Karen_McCluskey",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q386588",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q305387",
+      "kind": "fictional",
+      "name": "キャスリン・ジェインウェイ",
+      "description": "fictional character from Star Trek: Voyager",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AD%E3%83%A3%E3%82%B9%E3%83%AA%E3%83%B3%E3%83%BB%E3%82%B8%E3%82%A7%E3%82%A4%E3%83%B3%E3%82%A6%E3%82%A7%E3%82%A4",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Kathryn_Janeway",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q305387",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1133815",
+      "kind": "fictional",
+      "name": "ラオウ",
+      "description": "漫画『北斗の拳』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%AA%E3%82%A6",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Raoh",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1133815",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q266800",
+      "kind": "fictional",
+      "name": "Will Vandom",
+      "description": "W.I.T.C.H character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Will_Vandom",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q266800",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1393840",
+      "kind": "fictional",
+      "name": "バーニー・バートン",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Barney_Barton",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1393840",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2008721",
+      "kind": "fictional",
+      "name": "Iroh",
+      "description": "character in Avatar: The Last Airbender",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Iroh",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2008721",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q908097",
+      "kind": "fictional",
+      "name": "日向冬樹",
+      "description": "『ケロロ軍曹』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E6%97%A5%E5%90%91%E5%86%AC%E6%A8%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q908097",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q51721",
+      "kind": "fictional",
+      "name": "Bastila Shan",
+      "description": "fictional character from Star Wars: Knights of the Old Republic",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Bastila_Shan",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q51721",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q610890",
+      "kind": "fictional",
+      "name": "John Casey",
+      "description": "fictional character from the TV series Chuck",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/John_Casey_(Chuck)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q610890",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3100887",
+      "kind": "fictional",
+      "name": "シン・アスカ",
+      "description": "ガンダムシリーズの登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%B3%E3%83%BB%E3%82%A2%E3%82%B9%E3%82%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Shinn_Asuka",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3100887",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q376682",
+      "kind": "fictional",
+      "name": "カール・ジョンソン",
+      "description": "ゲーム『グランド・セフト・オート・サンアンドレアス』の主人公",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%AB%E3%83%BB%E3%82%B8%E3%83%A7%E3%83%B3%E3%82%BD%E3%83%B3_(%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%BB%E3%82%BB%E3%83%95%E3%83%88%E3%83%BB%E3%82%AA%E3%83%BC%E3%83%88)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Carl_Johnson_(Grand_Theft_Auto)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q376682",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1131389",
+      "kind": "fictional",
+      "name": "フランケンシュタインの怪物",
+      "description": "fictional character in Marvel Comics",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Frankenstein's_Monster_(Marvel_Comics)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1131389",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q729150",
+      "kind": "fictional",
+      "name": "パニッシャー",
+      "description": "fictional character in Marvel Comics",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%91%E3%83%8B%E3%83%83%E3%82%B7%E3%83%A3%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Punisher",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q729150",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q17307",
+      "kind": "fictional",
+      "name": "パンタローネ",
+      "description": "コメディア・デラルテ中のキャラクター",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Pantalone",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q17307",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q969746",
+      "kind": "fictional",
+      "name": "バック・ロジャーズ",
+      "description": "science fiction hero",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Buck_Rogers",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q969746",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1143054",
+      "kind": "fictional",
+      "name": "マクシミリアン・ジーナス",
+      "description": "マクロスシリーズの登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%AF%E3%82%B7%E3%83%9F%E3%83%AA%E3%82%A2%E3%83%B3%E3%83%BB%E3%82%B8%E3%83%BC%E3%83%8A%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Maximilian_Jenius",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1143054",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q383717",
+      "kind": "fictional",
+      "name": "アフラースィヤーブ",
+      "description": "mythical character in Shahnameh",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%95%E3%83%A9%E3%83%BC%E3%82%B9%E3%82%A3%E3%83%A4%E3%83%BC%E3%83%96",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Afrasiab",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q383717",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q616658",
+      "kind": "fictional",
+      "name": "Mr. インクレディブル",
+      "description": "fictional superhero and main protagonist of The Incredibles",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Mr._Incredible",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q616658",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q137311",
+      "kind": "fictional",
+      "name": "Captain Miki",
+      "description": "Italian comic book",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Captain_Miki",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q137311",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q690895",
+      "kind": "fictional",
+      "name": "グラニー・グッドネス",
+      "description": "漫画のキャラクターでDCユニバースで暮らす（DC、アメリカ）",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Granny_Goodness",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q690895",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q49283",
+      "kind": "fictional",
+      "name": "ビッグ・ゲイ・アル",
+      "description": "fictional character from South Park",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Big_Gay_Al",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q49283",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q587725",
+      "kind": "fictional",
+      "name": "サラ・ジェーン・スミス",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Sarah_Jane_Smith",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q587725",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1061818",
+      "kind": "fictional",
+      "name": "Inque",
+      "description": "character in Batman Beyond",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Inque_(DC_Comics)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1061818",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q7289249",
+      "kind": "fictional",
+      "name": "Rambling Syd Rumpo",
+      "description": "Fictional radio character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Rambling_Syd_Rumpo",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q7289249",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5083735",
+      "kind": "fictional",
+      "name": "Charles Wycliffe",
+      "description": "fictional detective created by W. J. Burley, on whose books the television series is based",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Charles_Wycliffe",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5083735",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3313159",
+      "kind": "fictional",
+      "name": "魅上照",
+      "description": "『DEATH NOTE』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E9%AD%85%E4%B8%8A%E7%85%A7",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Teru_Mikami",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3313159",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2298337",
+      "kind": "fictional",
+      "name": "壱原侑子",
+      "description": "『XXXHOLiC』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Yuko_Ichihara",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2298337",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q867810",
+      "kind": "fictional",
+      "name": "クラーク・ケント",
+      "description": "fictional character and secret identity of Superman",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Clark_Kent",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q867810",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2727057",
+      "kind": "fictional",
+      "name": "スモーカー",
+      "description": "『ONE PIECE』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%A2%E3%83%BC%E3%82%AB%E3%83%BC_(ONE_PIECE)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Smoker_(One_Piece)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2727057",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5254424",
+      "kind": "fictional",
+      "name": "Delphine Courtney",
+      "description": "",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Delphine_Courtney",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5254424",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2517225",
+      "kind": "fictional",
+      "name": "射手座のアイオロス",
+      "description": "『聖闘士星矢』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Sagittarius_Aiolos",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2517225",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q384853",
+      "kind": "fictional",
+      "name": "Gary Windass",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Gary_Windass",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q384853",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q944573",
+      "kind": "fictional",
+      "name": "ロビー・ロバートソン",
+      "description": "fictional character in Marvel Comics",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%93%E3%83%BC%E3%83%BB%E3%83%AD%E3%83%90%E3%83%BC%E3%83%88%E3%82%BD%E3%83%B3_(%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Robbie_Robertson_(character)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q944573",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q836789",
+      "kind": "fictional",
+      "name": "リドラー",
+      "description": "fictional character, a comic book supervillain who appears in comic books published by DC Comics",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%89%E3%83%A9%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Riddler",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q836789",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q430178",
+      "kind": "fictional",
+      "name": "ドクター・ドゥーム",
+      "description": "マーベルコミックの架空のキャラクター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%89%E3%82%AF%E3%82%BF%E3%83%BC%E3%83%BB%E3%83%89%E3%82%A5%E3%83%BC%E3%83%A0",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Doctor_Doom",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q430178",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1618103",
+      "kind": "fictional",
+      "name": "マッド・シンカー",
+      "description": "supervillain in Marvel Comics",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Mad_Thinker",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1618103",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q163183",
+      "kind": "fictional",
+      "name": "カイホスロー (シャー・ナーメ)",
+      "description": "Legendary king of Iran and a character in Iranian/Persian epic",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Kay_Khosrow",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q163183",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3193356",
+      "kind": "fictional",
+      "name": "カール・ハインツ・シュナイダー",
+      "description": "キャプテン翼の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%8F%E3%82%A4%E3%83%B3%E3%83%84%E3%83%BB%E3%82%B7%E3%83%A5%E3%83%8A%E3%82%A4%E3%83%80%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3193356",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q321663",
+      "kind": "fictional",
+      "name": "アーチー・バンカー",
+      "description": "fictional character: husband of Edith Bunker, father of Gloria Stivic",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Archie_Bunker",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q321663",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q6177174",
+      "kind": "fictional",
+      "name": "ジマイマ・ショア",
+      "description": "fictional character created by Antonia Fraser",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Jemima_Shore",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q6177174",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q634968",
+      "kind": "fictional",
+      "name": "アクセル・フォーリー",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Axel_Foley",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q634968",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q51335",
+      "kind": "fictional",
+      "name": "シャーロット・ルイス",
+      "description": "LOSTに登場する架空の人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Charlotte_Lewis_(Lost)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q51335",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3092989",
+      "kind": "fictional",
+      "name": "天上院吹雪",
+      "description": "アニメ『遊☆戯☆王デュエルモンスターズGX』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E5%A4%A9%E4%B8%8A%E9%99%A2%E5%90%B9%E9%9B%AA",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3092989",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1973032",
+      "kind": "fictional",
+      "name": "Hustler Duck",
+      "description": "Disney comics character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Hustler_Duck",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1973032",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q51740",
+      "kind": "fictional",
+      "name": "オビ＝ワン・ケノービ",
+      "description": "映画『スター・ウォーズ』シリーズに登場する架空の人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%93%EF%BC%9D%E3%83%AF%E3%83%B3%E3%83%BB%E3%82%B1%E3%83%8E%E3%83%BC%E3%83%93",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Obi-Wan_Kenobi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q51740",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q6788633",
+      "kind": "fictional",
+      "name": "Matt Fielding",
+      "description": "soap opera character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Matt_Fielding",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q6788633",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q784100",
+      "kind": "fictional",
+      "name": "ウォーロード",
+      "description": "sword and sorcery character appearing in American comic books published by DC Comics",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Warlord_(DC_Comics)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q784100",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q388796",
+      "kind": "fictional",
+      "name": "サブ・ゼロ",
+      "description": "Mortal Kombat character",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B5%E3%83%96%E3%83%BB%E3%82%BC%E3%83%AD_(%E3%83%A2%E3%83%BC%E3%82%BF%E3%83%AB%E3%82%B3%E3%83%B3%E3%83%90%E3%83%83%E3%83%88)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Sub-Zero_(Mortal_Kombat)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q388796",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5968806",
+      "kind": "fictional",
+      "name": "レディ・アン",
+      "description": "ガンダムシリーズの登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AC%E3%83%87%E3%82%A3%E3%83%BB%E3%82%A2%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5968806",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2518195",
+      "kind": "fictional",
+      "name": "蠍座のミロ",
+      "description": "『聖闘士星矢』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Scorpio_Milo",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2518195",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q610337",
+      "kind": "fictional",
+      "name": "ローズ・ウィルソン",
+      "description": "DC Comics supervillain",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Rose_Wilson",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q610337",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q979825",
+      "kind": "fictional",
+      "name": "Jeremiah Arkham",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Jeremiah_Arkham",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q979825",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1084831",
+      "kind": "fictional",
+      "name": "トム・マニング",
+      "description": "fictional character from Hellboy",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Tom_Manning_(character)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1084831",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q613901",
+      "kind": "fictional",
+      "name": "アーサー・デント",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Arthur_Dent",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q613901",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q536140",
+      "kind": "fictional",
+      "name": "リネット・スカーボ",
+      "description": "fictional character on Desperate Housewives",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88%E3%83%BB%E3%82%B9%E3%82%AB%E3%83%BC%E3%83%9C",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Lynette_Scavo",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q536140",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q581353",
+      "kind": "fictional",
+      "name": "レイチェル・グリーン",
+      "description": "fictional character from American TV Sitcom Friends",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Rachel_Green",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q581353",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2337920",
+      "kind": "fictional",
+      "name": "リン・シャオユウ",
+      "description": "character in Tekken",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Ling_Xiaoyu",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2337920",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2754813",
+      "kind": "fictional",
+      "name": "岬太郎",
+      "description": "キャプテン翼の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E5%B2%AC%E5%A4%AA%E9%83%8E",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2754813",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q967180",
+      "kind": "fictional",
+      "name": "ファイヤー",
+      "description": "superheroine in the DC Comics universe",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Fire_(character)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q967180",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2307354",
+      "kind": "fictional",
+      "name": "エドワード・ウォン・ハウ・ペペル・チブルスキー4世",
+      "description": "『カウボーイビバップ』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Ed_(Cowboy_Bebop)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2307354",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q194135",
+      "kind": "fictional",
+      "name": "マイルス \"テイルス\" パウアー",
+      "description": "ソニックシリーズのキャラクター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%A4%E3%83%AB%E3%82%B9_%22%E3%83%86%E3%82%A4%E3%83%AB%E3%82%B9%22_%E3%83%91%E3%82%A6%E3%82%A2%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Tails_(Sonic_the_Hedgehog)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q194135",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1041054",
+      "kind": "fictional",
+      "name": "宮城リョータ",
+      "description": "SLAM DUNKの登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E5%AE%AE%E5%9F%8E%E3%83%AA%E3%83%A7%E3%83%BC%E3%82%BF",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1041054",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q682396",
+      "kind": "fictional",
+      "name": "フィービー・ブッフェ",
+      "description": "fictional character from Friends",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Phoebe_Buffay",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q682396",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q920489",
+      "kind": "fictional",
+      "name": "Dickie Duck",
+      "description": "Disney Duck character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Dickie_Duck",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q920489",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q59529",
+      "kind": "fictional",
+      "name": "キャサリン・ヒラード",
+      "description": "fictional human",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Kat_Hillard",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q59529",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2569985",
+      "kind": "fictional",
+      "name": "ヨハン・アンデルセン",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%A8%E3%83%8F%E3%83%B3%E3%83%BB%E3%82%A2%E3%83%B3%E3%83%87%E3%83%AB%E3%82%BB%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2569985",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q599124",
+      "kind": "fictional",
+      "name": "ブラックキャナリー",
+      "description": "name of Multiple DC Comics Superheroes",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%E3%82%AD%E3%83%A3%E3%83%8A%E3%83%AA%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Black_Canary",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q599124",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q771626",
+      "kind": "fictional",
+      "name": "カリバック",
+      "description": "fictional character in DC Comics",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Kalibak",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q771626",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q945142",
+      "kind": "fictional",
+      "name": "Reaper",
+      "description": "supervillain",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Reaper_(Marvel_Comics)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q945142",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3547225",
+      "kind": "fictional",
+      "name": "シャシャ・ザトゥルナ",
+      "description": "comics character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Zsazsa_Zaturnnah",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3547225",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2633001",
+      "kind": "fictional",
+      "name": "リドリー",
+      "description": "『メトロイド』シリーズに登場するキャラクター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%89%E3%83%AA%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Ridley_(Metroid)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2633001",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q7051862",
+      "kind": "fictional",
+      "name": "normalman",
+      "description": "comics character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Normalman",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q7051862",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q187349",
+      "kind": "fictional",
+      "name": "ジョン・H・ワトスン",
+      "description": "シャーロック・ホームズシリーズの登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B8%E3%83%A7%E3%83%B3%E3%83%BBH%E3%83%BB%E3%83%AF%E3%83%88%E3%82%B9%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Dr._Watson",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q187349",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3241602",
+      "kind": "fictional",
+      "name": "アスラン・ザラ",
+      "description": "『機動戦士ガンダムSEED』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%B9%E3%83%A9%E3%83%B3%E3%83%BB%E3%82%B6%E3%83%A9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Athrun_Zala",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3241602",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q6155068",
+      "kind": "fictional",
+      "name": "Jann of the Jungle",
+      "description": "",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Jann_of_the_Jungle",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q6155068",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2886514",
+      "kind": "fictional",
+      "name": "瀬川おんぷ",
+      "description": "アニメ『おジャ魔女どれみ』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E7%80%AC%E5%B7%9D%E3%81%8A%E3%82%93%E3%81%B7",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Onpu_Segawa",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2886514",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q427987",
+      "kind": "fictional",
+      "name": "スターファイヤー",
+      "description": "fictional character in DC Comics",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%95%E3%82%A1%E3%82%A4%E3%83%A4%E3%83%BC_(DC%E3%82%B3%E3%83%9F%E3%83%83%E3%82%AF%E3%82%B9)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Starfire_(Teen_Titans)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q427987",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q735812",
+      "kind": "fictional",
+      "name": "円谷光彦",
+      "description": "『名探偵コナン』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E5%86%86%E8%B0%B7%E5%85%89%E5%BD%A6",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q735812",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q429403",
+      "kind": "fictional",
+      "name": "水野亜美",
+      "description": "美少女戦士セーラームーンの登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E6%B0%B4%E9%87%8E%E4%BA%9C%E7%BE%8E",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Sailor_Mercury",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q429403",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5295223",
+      "kind": "fictional",
+      "name": "Donald Trefusis",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Donald_Trefusis",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5295223",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q59826",
+      "kind": "fictional",
+      "name": "スパイダーマン (マイルズ・モラレス)",
+      "description": "fictional character in Marvel Comics",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%A4%E3%83%AB%E3%82%BA%E3%83%BB%E3%83%A2%E3%83%A9%E3%83%AC%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Miles_Morales",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q59826",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2247787",
+      "kind": "fictional",
+      "name": "ディアッカ・エルスマン",
+      "description": "『機動戦士ガンダムSEED』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%87%E3%82%A3%E3%82%A2%E3%83%83%E3%82%AB%E3%83%BB%E3%82%A8%E3%83%AB%E3%82%B9%E3%83%9E%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2247787",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3272545",
+      "kind": "fictional",
+      "name": "飛影",
+      "description": "幽☆遊☆白書の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E9%A3%9B%E5%BD%B1_(%E5%B9%BD%E2%98%86%E9%81%8A%E2%98%86%E7%99%BD%E6%9B%B8)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Hiei_(YuYu_Hakusho)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3272545",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1122114",
+      "kind": "fictional",
+      "name": "蔵馬",
+      "description": "幽☆遊☆白書の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E8%94%B5%E9%A6%AC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Kurama_(YuYu_Hakusho)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1122114",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1939314",
+      "kind": "fictional",
+      "name": "近眼のマグー",
+      "description": "fictional cartoon character",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E8%BF%91%E7%9C%BC%E3%81%AE%E3%83%9E%E3%82%B0%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Mr._Magoo",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1939314",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2277618",
+      "kind": "fictional",
+      "name": "ロイ・フォッカー",
+      "description": "マクロスシリーズの登場キャラクター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AD%E3%82%A4%E3%83%BB%E3%83%95%E3%82%A9%E3%83%83%E3%82%AB%E3%83%BC",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Roy_Focker",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2277618",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q945204",
+      "kind": "fictional",
+      "name": "Kite Man",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Kite_Man",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q945204",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q610519",
+      "kind": "fictional",
+      "name": "Matt Santos",
+      "description": "character in The West Wing",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Matt_Santos",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q610519",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q338430",
+      "kind": "fictional",
+      "name": "ワンダーウーマン",
+      "description": "アメリカのメディアミックス作品、およびその主人公たる架空のヒーロー",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AF%E3%83%B3%E3%83%80%E3%83%BC%E3%82%A6%E3%83%BC%E3%83%9E%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Wonder_Woman",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q338430",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2739030",
+      "kind": "fictional",
+      "name": "イーヴン・ピール",
+      "description": "character in Star Wars",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%A4%E3%83%BC%E3%83%B4%E3%83%B3%E3%83%BB%E3%83%94%E3%83%BC%E3%83%AB",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Even_Piell",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2739030",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1192947",
+      "kind": "fictional",
+      "name": "ケロロ",
+      "description": "日本の漫画作品『ケロロ軍曹』に登場する架空のキャラクター",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%B1%E3%83%AD%E3%83%AD",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1192947",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q122634",
+      "kind": "fictional",
+      "name": "ロビン・フッド",
+      "description": "中世イングランドの伝説上の人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%93%E3%83%B3%E3%83%BB%E3%83%95%E3%83%83%E3%83%89",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Robin_Hood",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q122634",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2517221",
+      "kind": "fictional",
+      "name": "牡羊座のムウ",
+      "description": "『聖闘士星矢』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Aries_Mu",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2517221",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q190529",
+      "kind": "fictional",
+      "name": "ニコラ・ブルバキ",
+      "description": "架空の数学者",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%8B%E3%82%B3%E3%83%A9%E3%83%BB%E3%83%96%E3%83%AB%E3%83%90%E3%82%AD",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Nicolas_Bourbaki",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q190529",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4910761",
+      "kind": "fictional",
+      "name": "Bill Savage",
+      "description": "fictional character in the British comic anthology 2000 AD",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Bill_Savage",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4910761",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1287363",
+      "kind": "fictional",
+      "name": "ハルカ",
+      "description": "アニメ『ポケットモンスター アドバンスジェネレーション』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%8F%E3%83%AB%E3%82%AB_(%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%9D%E3%82%B1%E3%83%83%E3%83%88%E3%83%A2%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%BC)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/May_(Pok%C3%A9mon)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1287363",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q142305",
+      "kind": "fictional",
+      "name": "マザー・グース",
+      "description": "イギリスで何世代にもわたって口承で受け継がれてきた童謡・わらべ歌・数え歌・なぞなぞ歌・短い詩の総称",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B6%E3%83%BC%E3%83%BB%E3%82%B0%E3%83%BC%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Mother_Goose",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q142305",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q281901",
+      "kind": "fictional",
+      "name": "タリア・アル・グール",
+      "description": "fictional villain in Batman comics series",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Talia_al_Ghul",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q281901",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q221196",
+      "kind": "fictional",
+      "name": "我愛羅",
+      "description": "『NARUTO -ナルト-』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E6%88%91%E6%84%9B%E7%BE%85",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Gaara",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q221196",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q819449",
+      "kind": "fictional",
+      "name": "ガローナ",
+      "description": "character in Warcraft",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Garona",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q819449",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3360766",
+      "kind": "fictional",
+      "name": "パラディン",
+      "description": "Marvel comic character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Paladin_(comics)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3360766",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3421381",
+      "kind": "fictional",
+      "name": "レーザーフィスト",
+      "description": "marvel Comics fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Razor_Fist",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3421381",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q635781",
+      "kind": "fictional",
+      "name": "ブラスター",
+      "description": "fictional character in Marvel Comics",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Blastaar",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q635781",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q568587",
+      "kind": "fictional",
+      "name": "Viking",
+      "description": "son of Vífil and Eimyrja in Þorsteins saga Víkingssonar",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Viking_(Norse_mythology)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q568587",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2882316",
+      "kind": "fictional",
+      "name": "トレーズ・クシュリナーダ",
+      "description": "ガンダムシリーズの登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%88%E3%83%AC%E3%83%BC%E3%82%BA%E3%83%BB%E3%82%AF%E3%82%B7%E3%83%A5%E3%83%AA%E3%83%8A%E3%83%BC%E3%83%80",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Treize_Khushrenada",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2882316",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2089970",
+      "kind": "fictional",
+      "name": "ソラ",
+      "description": "『キングダム ハーツ シリーズ』の主人公",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%82%BD%E3%83%A9_(%E3%82%AD%E3%83%B3%E3%82%B0%E3%83%80%E3%83%A0_%E3%83%8F%E3%83%BC%E3%83%84)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Sora_(Kingdom_Hearts)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2089970",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q496852",
+      "kind": "fictional",
+      "name": "Thirteen",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Thirteen_(House)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q496852",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1614785",
+      "kind": "fictional",
+      "name": "ブルマ",
+      "description": "漫画『ドラゴンボール』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%96%E3%83%AB%E3%83%9E_(%E3%83%89%E3%83%A9%E3%82%B4%E3%83%B3%E3%83%9C%E3%83%BC%E3%83%AB)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Bulma",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1614785",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q48303",
+      "kind": "fictional",
+      "name": "トゥイーク・トゥイーク",
+      "description": "South Park character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Tweek_Tweak",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q48303",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1056735",
+      "kind": "fictional",
+      "name": "トム・ストロング",
+      "description": "fictional character",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Tom_Strong",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1056735",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q4859531",
+      "kind": "fictional",
+      "name": "Barbe de Verrue",
+      "description": "",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Barbe_de_Verrue",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q4859531",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q382921",
+      "kind": "fictional",
+      "name": "Bonnie Bennett",
+      "description": "fictional character in The Vampire Diaries television series",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Bonnie_Bennett",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q382921",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q261222",
+      "kind": "fictional",
+      "name": "リンカーン・バローズ",
+      "description": "fictional human and television character by Dominic Purcell",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Lincoln_Burrows",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q261222",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1767",
+      "kind": "fictional",
+      "name": "はたけカカシ",
+      "description": "漫画『NARUTO -ナルト-』の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%81%AF%E3%81%9F%E3%81%91%E3%82%AB%E3%82%AB%E3%82%B7",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Kakashi_Hatake",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1767",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q1038163",
+      "kind": "fictional",
+      "name": "成歩堂龍一",
+      "description": "逆転裁判の登場人物",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E6%88%90%E6%AD%A9%E5%A0%82%E9%BE%8D%E4%B8%80",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Phoenix_Wright",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q1038163",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q656143",
+      "kind": "fictional",
+      "name": "アリソン・テイラー",
+      "description": "character from the television series 24",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Allison_Taylor",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q656143",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q287297",
+      "kind": "fictional",
+      "name": "Q",
+      "description": "fictional character from James Bond",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/Q_(%E3%82%B8%E3%82%A7%E3%83%BC%E3%83%A0%E3%82%BA%E3%83%BB%E3%83%9C%E3%83%B3%E3%83%89)",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Q_(James_Bond)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q287297",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q702770",
+      "kind": "fictional",
+      "name": "李雲",
+      "description": "Water Margin character",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E6%9D%8E%E9%9B%B2",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Li_Yun_(Water_Margin)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q702770",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q7828",
+      "kind": "fictional",
+      "name": "マージ・シンプソン",
+      "description": "fictional character from The Simpsons franchise",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%BC%E3%82%B8%E3%83%BB%E3%82%B7%E3%83%B3%E3%83%97%E3%82%BD%E3%83%B3",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Marge_Simpson",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q7828",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q692603",
+      "kind": "fictional",
+      "name": "フィリックス・ザ・キャット",
+      "description": "fictional cat from cartoons",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A3%E3%83%AA%E3%83%83%E3%82%AF%E3%82%B9%E3%83%BB%E3%82%B6%E3%83%BB%E3%82%AD%E3%83%A3%E3%83%83%E3%83%88",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Felix_the_Cat",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q692603",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2280812",
+      "kind": "fictional",
+      "name": "ヒソカ＝モロウ",
+      "description": "『HUNTER×HUNTER』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Hisoka",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2280812",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q5255337",
+      "kind": "fictional",
+      "name": "デミ・ザ・デーモネス",
+      "description": "comics character",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E3%83%87%E3%83%9F%E3%83%BB%E3%82%B6%E3%83%BB%E3%83%87%E3%83%BC%E3%83%A2%E3%83%8D%E3%82%B9",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Demi_the_Demoness",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q5255337",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q2839214",
+      "kind": "fictional",
+      "name": "アローン",
+      "description": "『聖闘士星矢 冥王神話』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Alone_(Saint_Seiya)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q2839214",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q7095480",
+      "kind": "fictional",
+      "name": "Oozlefinch",
+      "description": "unofficial mascot of various US army units",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Oozlefinch",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q7095480",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q209092",
+      "kind": "fictional",
+      "name": "V (漫画)",
+      "description": "title character and the protagonist of the comic book series V for Vendetta",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/V_(character)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q209092",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q148378",
+      "kind": "fictional",
+      "name": "座頭市",
+      "description": "子母澤寛による原作を翻案とする映画､テレビシリーズ群､及びその主人公",
+      "sources": [
+        {
+          "url": "https://ja.wikipedia.org/wiki/%E5%BA%A7%E9%A0%AD%E5%B8%82",
+          "language": "ja",
+          "purpose": "article"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Zatoichi",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q148378",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q507241",
+      "kind": "fictional",
+      "name": "Riot",
+      "description": "fictional character in Marvel Comics",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Riot_(comics)",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q507241",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    },
+    {
+      "qid": "Q3429084",
+      "kind": "fictional",
+      "name": "天猛星ワイバーンのラダマンティス",
+      "description": "『聖闘士星矢』の登場人物",
+      "sources": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Wyvern_Rhadamanthys",
+          "language": "en",
+          "purpose": "article"
+        },
+        {
+          "url": "https://www.wikidata.org/wiki/Q3429084",
+          "language": "mul",
+          "purpose": "identity"
+        }
+      ]
+    }
   ]
 }

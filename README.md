@@ -18,7 +18,7 @@ A **URL-first, read-only MCP** that selects a real person or fictional character
 | exclude_qids | recent identities to skip | none | QID string array, at most 20; default empty |
 | qid | stable Wikidata identity for get_persona | none | required string matching Q plus positive digits |
 
-`both` draws uniformly from the combined eligible catalog, **not** a forced 50/50 split and not all of Wikipedia. The bundled catalog has six demonstration identities, each with live-verified Japanese/English references and check timestamps; it is not representative or comprehensive. See [catalog review evidence](docs/CATALOG_REVIEW.md).
+`both` draws uniformly from the combined eligible catalog, **not** a forced 50/50 split and not all of Wikipedia. The original six-entry demonstration catalog did not meet the intended Wikidata discovery scope. There are now two **operator-side** ingestion paths: [full-dump stratified reservoir sampling](docs/WIKIDATA_SAMPLING.md) and a small bounded Wikidata API bootstrap. Selection is random only within the approved and deployed catalog, not uniformly across all Wikidata. The actual entry count is available from the Site's `/healthz` endpoint; see [catalog review evidence](docs/CATALOG_REVIEW.md).
 
 ## Develop and test
 
