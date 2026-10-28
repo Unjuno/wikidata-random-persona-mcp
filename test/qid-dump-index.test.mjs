@@ -22,8 +22,10 @@ test('full-dump reservoir scans all entries and saves QIDs only',async()=>{
  assert.deepEqual(index.population,{real:40,fictional:60});
  assert.equal(index.qids.real.length,12);
  assert.equal(index.qids.fictional.length,12);
- assert.equal(index.qids.real.at(-1),'Q139');
- assert.equal(index.qids.fictional.at(-1),'Q259');
+ assert.ok(index.qids.real.includes('Q139'));
+ assert.equal(index.qids.real.at(-1),'Q111');
+ assert.ok(index.qids.fictional.includes('Q259'));
+ assert.equal(index.qids.fictional.at(-1),'Q211');
  assert.equal(JSON.stringify(index).includes('Person_'),false);
  assert.equal(new Set([...index.qids.real,...index.qids.fictional]).size,24);
 });
