@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {validatePersonaIndex,chooseIndexedQid} from '../src/persona-index.mjs';
+import {validatePersonaIndex,chooseIndexedQid,createIndexSelector} from '../src/persona-index.mjs';
 
 const index={
  version:'dump-2026-10-28',
@@ -47,4 +47,15 @@ test('rejects invalid random selectors without assuming all QIDs are cached',()=
  assert.throws(()=>chooseIndexedQid(index,{kind:'all'},()=>0),/kind/i);
  assert.throws(()=>chooseIndexedQid(index,{kind:'real',exclude_qids:['Q0']},()=>0),/QID/i);
  assert.throws(()=>chooseIndexedQid(index,{kind:'real'},()=>3),/random/i);
+});
+
+test('prepared selector uses a stable prevalidated snapshot without rescanning on every draw',()=>{
+ const mutable=structuredClone(index);
+ const selector=createIndexSelector(mutable);
+ mutable.qids.real[0]='Q999999';
+ mutable.population.real=9999;
+ assert.equal(selector.index.qids.real[0],'Q101');
+ assert.equal(selector.index.population.real,50);
+ assert.equal(selector.choose({kind:'real'},size=>0).qid,'Q101');
+ assert.equal(selector.choose({kind:'fictional'},size=>1).qid,'Q202');
 });
