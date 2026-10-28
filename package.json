@@ -1,21 +1,30 @@
 {
-  "name":"wikidata-random-persona-mcp",
-  "version":"0.2.0",
-  "private":false,
-  "type":"module",
-  "description":"Read-only MCP tool that draws people and fictional characters from a reviewed Wikidata URL catalog.",
-  "license":"MIT",
-  "engines":{"node":">=22"},
-  "scripts":{
-    "start":"node src/server.mjs",
-    "test":"node scripts/build-sites-worker.mjs && node --test test/*.test.mjs",
-    "build:sites":"node scripts/build-sites-worker.mjs",
-    "test:protocol":"node --test test/protocol.test.mjs",
-    "check":"node scripts/check.mjs",
-    "catalog:validate":"node scripts/validate-catalog.mjs",
-    "catalog:refresh":"node scripts/refresh-catalog.mjs",
-    "catalog:promote":"node scripts/promote-catalog.mjs"
+  "name": "wikidata-random-persona-mcp",
+  "version": "0.2.0",
+  "private": false,
+  "type": "module",
+  "description": "Read-only MCP tool that draws people and fictional characters from a reviewed Wikidata URL catalog.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
   },
-  "dependencies":{"@modelcontextprotocol/node":"2.1.2","@modelcontextprotocol/server":"2.4.0","zod":"^4.0.0"},
-  "devDependencies":{"@modelcontextprotocol/client":"2.4.0"}
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node scripts/build-sites-worker.mjs && node --test test/*.test.mjs",
+    "build:sites": "node scripts/build-sites-worker.mjs",
+    "test:protocol": "node --test test/protocol.test.mjs",
+    "check": "node scripts/check.mjs",
+    "catalog:validate": "node scripts/validate-catalog.mjs",
+    "catalog:refresh": "node scripts/refresh-catalog.mjs",
+    "catalog:promote": "node scripts/promote-catalog.mjs",
+    "catalog:sample-dump": "node scripts/sample-wikidata-dump.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "2.1.2",
+    "@modelcontextprotocol/server": "2.4.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.4.0"
+  }
 }

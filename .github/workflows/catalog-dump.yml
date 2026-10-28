@@ -1,0 +1,41 @@
+name: Sample Wikidata dump for review
+on:
+  workflow_dispatch:
+    inputs:
+      per_kind:
+        description: 'Maximum selected real people and fictional characters per category (full dump download required)'
+        type: choice
+        required: true
+        default: '1000'
+        options:
+          - '500'
+          - '1000'
+          - '2000'
+          - '3000'
+permissions:
+  contents: read
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Stream full official Wikidata dump into an unreviewed sample
+        env:
+          PER_KIND: ${{ inputs.per_kind }}
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 2 --connect-timeout 30 \
+            --user-agent 'RandomPersonaMCP/0.3 (+https://github.com/Unjuno/wikidata-random-persona-mcp)' \
+            'https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz' \
+            | node scripts/sample-wikidata-dump.mjs --gzip --per-kind "$PER_KIND" --out data/catalog.pending.json
+          npm run catalog:validate -- data/catalog.pending.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unreviewed-wikidata-dump-sample
+          path: data/catalog.pending.json
+          retention-days: 7
+      # Read-only staging; review, digest approval, and Sites republish are separate.
