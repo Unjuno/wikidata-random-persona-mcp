@@ -29,3 +29,8 @@ Read docs/CLIENT_WORKFLOW.md and docs/READINESS.md. Preserve the independent blo
 ## Wikidata-live Sites requirement
 
 The Sites Worker must fetch only Wikidata structured metadata from `query.wikidata.org/sparql` and `www.wikidata.org/w/api.php`. It must not browse article text or persist chats. Both tools must preserve response provenance (`source_mode`, `fetched_at` or `fallback_reason`). An upstream outage for an uncataloged QID is `upstream_unavailable`, not `not_found`. The Node adapter remains an optional catalog-only test utility; the Sites worker has the live implementation. Follow docs/LIVE_WIKIDATA.md and verify Site egress permissions before declaring completion.
+
+
+## Do not confuse fallback count with Wikidata scope
+
+The 300 entries in `data/catalog.json` are the outage fallback only. Never market them as the total universe. `data/persona-index.json` is optional and may be installed only after a **complete** real Wikidata JSON dump scan, validated population counts, reviewed exact SHA-256 and explicit commit. Do not create synthetic QIDs for production and do not trigger an enormous full dump automatically. Sites reports `fallback_catalog.entries` separately from `sampling_method`; selected index QIDs must always be refreshed via live Wikidata API. Keep the existing Site and MCP routes intact.

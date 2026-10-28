@@ -26,3 +26,8 @@ Site version 4 was published successfully on 2026-10-28. The owner-connected Cha
 The initial deployment exposed a genuine Sites adapter defect: `fetch` with redirect=error is unsupported by Cloudflare Workers. It was corrected to manual redirects with explicit non-2xx rejection and regression coverage. A later oversized entity response exercised real catalog_fallback and prompted a smaller four-entity batch.
 
 Published assets (all 18 files under /assets/) were fetched and byte-compared with local source, including the mobile hero and all five category images. Public browser demo draw/redraw, prompt-copy feedback and FAQ expansion passed. Public desktop and mobile-width preview screenshots are in `qa/`; mobile is not a physical-device claim. The static build rejects missing or empty assets. MCP calls without authentication returned 401; the Site remains public without exposing an unauthenticated MCP proxy.
+
+
+## Corrected 300 count
+
+The FAQ explicitly says 300 is only the outage fallback. An updated deployment's `/healthz` separates `fallback_catalog.entries` from `sampling_method` and has no unqualified `entries` field. The QID-only full-dump reservoir pathway must not be advertised as deployed until a real complete index has been reviewed, installed, and the Site republished.

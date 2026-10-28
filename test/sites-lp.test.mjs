@@ -22,6 +22,7 @@ test('LP has Japanese copy, accessible controls, SEO and no missing references',
   if(path.endsWith('.webp')){assert.equal(new TextDecoder().decode(bytes.slice(0,4)),'RIFF');assert.equal(new TextDecoder().decode(bytes.slice(8,12)),'WEBP');}
  }
  assert.match(html,/創作した5人/);assert.match(html,/一様抽選ではありません/);
+ assert.match(html,/300件は.*上限ではありません/);
 });
 test('static caching, HEAD, routing and security remain separate from JSON-RPC',async()=>{
  const a=await get('/assets/site.css');
@@ -30,6 +31,10 @@ test('static caching, HEAD, routing and security remain separate from JSON-RPC',
  assert.equal((await get('/assets/absent.webp')).status,404);
  assert.equal((await get('/',{method:'POST'})).status,405);
  assert.equal((await get('/mcp')).status,405);
- assert.equal((await (await get('/healthz')).json()).mode,'wikidata_live_with_catalog_fallback');
+ const status=(await (await get('/healthz')).json());
+ assert.equal(status.mode,'wikidata_live_with_catalog_fallback');
+ assert.equal(status.entries,undefined,'unqualified entries is misleading');
+ assert.equal(status.fallback_catalog.entries,300);
+ assert.equal(status.sampling_method,'bounded_wdqs_offset');
  assert.equal((await get('/assets/site.css',{headers:{origin:'https://evil.example'}})).status,403);
 });

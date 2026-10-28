@@ -66,3 +66,10 @@ Sites版は `query.wikidata.org` の分類別クエリと `www.wikidata.org` の
 ## 公開LP
 
 `public/` に日本語LPとオリジナル生成画像を配置しています。`npm run build:sites` が全アセットをWorkerに埋め込み、Sitesだけで配信します。`/` はLP、`/mcp` は認証されたMCP接続、`/healthz` は稼働確認です。画像制作・サイズは [ART_DIRECTION.md](docs/ART_DIRECTION.md)、QAと配布制限は [LP_RELEASE.md](docs/LP_RELEASE.md) を参照してください。ページの5人の創作デモは、Wikidata本番抽選とは別です。
+
+
+## 300件は上限ではありません
+
+**300件はWikidata接続障害時の代替用カタログ件数で、通常の抽選対象数ではありません。** 現在のサイトはWikidataの分類別検索を行いますが、検索範囲に偏りがあります。この偏りを軽減するため、Wikidataの公式全件JSONダンプから対応する実在人物・架空キャラクターのQIDのみを一様なリザーバ抽出で取り出し、人物カテゴリーの母集団件数に応じて抽選する経路を追加しました。抽選されたQIDの人物情報は最新のWikidata APIで取得します。
+
+ただし、**実際のダンプ全件走査と索引承認は未完了です**。本番に索引がない間は従来の限定範囲のライブ検索を使用します。サイト再公開後の `/healthz` は `fallback_catalog.entries` と `sampling_method` を分けて返します。詳細は [DUMP_INDEX_OPERATIONS.md](docs/DUMP_INDEX_OPERATIONS.md) を参照してください。

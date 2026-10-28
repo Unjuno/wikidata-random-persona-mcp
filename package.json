@@ -19,7 +19,9 @@
     "catalog:promote": "node scripts/promote-catalog.mjs",
     "catalog:sample-dump": "node scripts/sample-wikidata-dump.mjs",
     "catalog:bootstrap": "node scripts/bootstrap-wikidata.mjs --per-kind 150",
-    "dev": "node scripts/preview-lp.mjs"
+    "dev": "node scripts/preview-lp.mjs",
+    "catalog:index-build": "node scripts/sample-wikidata-index.mjs",
+    "catalog:index-promote": "node scripts/promote-persona-index.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/node": "2.1.2",

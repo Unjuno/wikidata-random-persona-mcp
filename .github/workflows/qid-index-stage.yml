@@ -1,0 +1,39 @@
+name: Stage full Wikidata QID index (manual enormous dump scan)
+on:
+  workflow_dispatch:
+    inputs:
+      per_kind:
+        description: 'Maximum QIDs per real/fictional category; downloads a very large full dump'
+        type: choice
+        required: true
+        default: '50000'
+        options:
+          - '10000'
+          - '50000'
+          - '100000'
+permissions:
+  contents: read
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Stream complete official dump without auto-publishing
+        env:
+          PER_KIND: ${{ inputs.per_kind }}
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 2 --connect-timeout 30 \
+            --user-agent 'RandomPersonaMCP/0.5 (+https://github.com/Unjuno/wikidata-random-persona-mcp)' \
+            'https://dumps.wikimedia.org/wikidatawiki/entities/latest-all.json.gz' \
+            | node scripts/sample-wikidata-index.mjs --gzip --per-kind "$PER_KIND" --out data/persona-index.pending.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: unreviewed-full-dump-qid-index
+          path: data/persona-index.pending.json
+          retention-days: 7
+      # No scheduled downloads, write permission, promotion, merge or Site deployment.

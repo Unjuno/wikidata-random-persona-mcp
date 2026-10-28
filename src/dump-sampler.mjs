@@ -79,3 +79,40 @@ export async function sampleDump(input,{perKind=3000,randomInt=secureRandomInt,v
  const catalog={version,source:'Wikidata JSON dump; sampled; P31 types and Wikipedia sitelinks only; NOT live article verified',entries:[...chosen.real,...chosen.fictional]};
  return {catalog,counts};
 }
+
+
+/** Build a compact QID-only index; a complete dump scan is REQUIRED.
+ * The same eligibility criteria as the full-row reservoir are applied.
+ * Population counts are used to weight real/fictional draws correctly.
+ */
+export async function sampleDumpQidIndex(input,{perKind=50000,randomInt=secureRandomInt,version='dump-'+new Date().toISOString()}={}){
+ if(!Number.isSafeInteger(perKind)||perKind<1||perKind>250000)throw new RangeError('perKind must be 1..250000');
+ const qids={real:[],fictional:[]};
+ const counts={seen:0,real:0,fictional:0};
+ let started=false,ended=false;
+ const lines=createInterface({input,crlfDelay:Infinity});
+ for await(const raw of lines){
+  const line=raw.trim();
+  if(!line)continue;
+  if(!started){if(line!=='[')throw Error('Wikidata dump must start with array bracket');started=true;continue;}
+  if(line===']'){ended=true;continue;}
+  if(ended)throw Error('Trailing records after dump closing bracket');
+  if(line.length>8*1024*1024)throw Error('Wikidata dump line too large');
+  const entity=parseDumpRecord(line);
+  counts.seen++;
+  const entry=eligibleDumpEntity(entity);
+  if(!entry)continue;
+  const pool=qids[entry.kind],count=++counts[entry.kind];
+  if(pool.length<perKind)pool.push(entry.qid);
+  else{
+   const j=randomInt(count);
+   if(!Number.isSafeInteger(j)||j<0||j>=count)throw Error('Invalid random sample index');
+   if(j<perKind)pool[j]=entry.qid;
+  }
+ }
+ if(!started||!ended)throw Error('Wikidata JSON dump requires a terminating bracket');
+ if(!qids.real.length||!qids.fictional.length)throw Error('Both real and fictional subjects are required');
+ const index={version,source:'Wikidata JSON dump',complete_scan:true,
+  population:{real:counts.real,fictional:counts.fictional},qids};
+ return {index,counts};
+}

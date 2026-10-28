@@ -40,3 +40,10 @@ A no-such-entity API error with the exact requested QID is `not_found`. Missing/
 The built Worker is tested with official MCP Client 2.4 in both legacy initialize and modern auto-discovery modes. Modern results carry `resultType: complete`; legacy initialize negotiates supported 2025/2024 revisions. Batch requests are rejected and notifications never execute tool calls.
 
 The four-entity batch avoids unnecessarily downloading claims for twelve subjects: a live production trial exceeded the 2 MiB cap and correctly fell back. Large individual entities can still fall back. Redirects use `manual` and every non-2xx status is rejected; Cloudflare Workers do not support the Node/browser `error` redirect mode.
+
+
+## Full-dump QID reservoir mode (optional, not yet deployed)
+
+300 entries is the size of the approved **outage fallback**, not the draw ceiling. The Sites Worker now supports a QID-only, complete-Wikidata-dump reservoir (up to 250,000 QIDs per eligible kind). With a reviewed index installed, `both` draws kinds in proportion to eligible population counts from the complete scan, chooses a QID uniformly within its reservoir and refreshes that QID from live Wikidata. This does not cover every transitive fictional subclass, and a fixed finite reservoir is not the entire Wikidata corpus.
+
+**This change does not ship a completed dump or an approved index.** Without one, Sites keeps bounded WDQS queries and still is not limited to 300. The new `/healthz.sampling_method` reports the actual method; `/healthz.fallback_catalog.entries` is the backup count. A full-dump scan, review, explicit GitHub commit and existing Site republish are separate release gates. See [index operations](DUMP_INDEX_OPERATIONS.md).

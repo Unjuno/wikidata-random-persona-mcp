@@ -2,6 +2,7 @@ import {cp, mkdir, readFile, readdir, rm, writeFile} from 'node:fs/promises';
 import {resolve, extname} from 'node:path';
 import {createHash} from 'node:crypto';
 import {validateCatalog} from '../src/core.mjs';
+import {validatePersonaIndex} from '../src/persona-index.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const out = resolve(root, 'dist');
@@ -18,6 +19,17 @@ await cp(resolve(root, 'src/core.mjs'), resolve(server, 'core.mjs'));
 await cp(resolve(root, 'src/catalog-store.mjs'), resolve(server, 'catalog-store.mjs'));
 await cp(resolve(root, 'src/wikidata.mjs'), resolve(server, 'wikidata.mjs'));
 await cp(resolve(root, 'src/live-wikidata.mjs'), resolve(server, 'live-wikidata.mjs'));
+await cp(resolve(root, 'src/persona-index.mjs'), resolve(server, 'persona-index.mjs'));
+let reviewedIndex=null;
+try{
+ const bytes=await readFile(resolve(root,'data/persona-index.json'));
+ if(bytes.length>12*1024*1024)throw Error('Full-dump QID index exceeds Sites bundle limit');
+ reviewedIndex=validatePersonaIndex(JSON.parse(bytes.toString('utf8')));
+}catch(error){
+ if(error.code!=='ENOENT')throw error;
+}
+await writeFile(resolve(server,'persona-index-data.mjs'),'export default '+JSON.stringify(reviewedIndex)+';\n');
+console.log(reviewedIndex?'Using complete Wikidata dump index: '+reviewedIndex.version:'No approved full-dump index; retaining live Wikidata bounded lookup');
 await writeFile(resolve(server, 'catalog.mjs'), `export default ${JSON.stringify(catalog)};\n`);
 await writeFile(resolve(server, 'blocked-qids.mjs'), `export default ${JSON.stringify(blocked)};\n`);
 await cp(resolve(root, '.openai/hosting.json'), resolve(out, '.openai/hosting.json'));
@@ -47,8 +59,9 @@ console.log('Embedded '+Object.keys(assets).length+' LP assets.');
 
 // A reproducible fingerprint ties deployed runtime/assets to the GitHub source.
 const fingerprint=createHash('sha256');
-for(const name of ['sites/worker/index.js','sites/worker/web.mjs','src/core.mjs','src/catalog-store.mjs','src/wikidata.mjs','src/live-wikidata.mjs','data/catalog.json','data/blocked-qids.json','scripts/build-sites-worker.mjs','.openai/hosting.json','package-lock.json']){
+for(const name of ['sites/worker/index.js','sites/worker/web.mjs','src/core.mjs','src/catalog-store.mjs','src/wikidata.mjs','src/live-wikidata.mjs','src/persona-index.mjs','data/catalog.json','data/blocked-qids.json','scripts/build-sites-worker.mjs','.openai/hosting.json','package-lock.json']){
  fingerprint.update(name+'\0');fingerprint.update(await readFile(resolve(root,name)));
 }
+fingerprint.update('persona-index-data\0');fingerprint.update(JSON.stringify(reviewedIndex));
 for(const name of Object.keys(assets).sort()){fingerprint.update(name+'\0');fingerprint.update(assets[name].data);}
 await writeFile(resolve(server,'build-info.mjs'),'export default '+JSON.stringify({fingerprint:fingerprint.digest('hex')})+';\n');
