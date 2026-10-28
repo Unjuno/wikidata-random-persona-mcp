@@ -30,7 +30,7 @@ test('Sites MCP rejects malformed arguments and reports missing IDs', async () =
   const invalid = await (await post(rpc('tools/call', {name:'get_persona',arguments:{qid:knownQid,url:'https://evil.example'}}))).json();
   assert.equal(invalid.result.isError, true);
   const absent = await (await post(rpc('tools/call', {name:'get_persona',arguments:{qid:'Q999999999'}}))).json();
-  assert.equal(absent.result.structuredContent.status, 'not_found');
+  assert.equal(absent.result.structuredContent.status, 'upstream_unavailable'); // Can't establish nonexistence while Wikidata is offline.
 });
 test('Sites edge guards host, origin, methods, content, and streamed body size', async () => {
   let response = await worker.fetch(new Request(url,{method:'POST',headers:{host:'evil.example','content-type':'application/json'},body:'{}'}));
