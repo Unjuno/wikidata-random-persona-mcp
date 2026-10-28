@@ -17,7 +17,8 @@
     "catalog:validate": "node scripts/validate-catalog.mjs",
     "catalog:refresh": "node scripts/refresh-catalog.mjs",
     "catalog:promote": "node scripts/promote-catalog.mjs",
-    "catalog:sample-dump": "node scripts/sample-wikidata-dump.mjs"
+    "catalog:sample-dump": "node scripts/sample-wikidata-dump.mjs",
+    "catalog:bootstrap": "node scripts/bootstrap-wikidata.mjs --per-kind 150"
   },
   "dependencies": {
     "@modelcontextprotocol/node": "2.1.2",

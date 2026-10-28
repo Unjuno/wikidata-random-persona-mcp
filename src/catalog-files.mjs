@@ -18,7 +18,7 @@ export function promoteCatalog({dir='data',reviewed=false,expectedSha256,allowDu
  const bytes=readFileSync(join(dir,'catalog.pending.json'));
  if(!/^[a-f0-9]{64}$/.test(expectedSha256??'')||sha256(bytes)!==expectedSha256)throw Error('Reviewed candidate digest mismatch');
  const candidate=JSON.parse(bytes);validateCatalog(candidate);
- if(allowDumpSitelinks && !/^Wikidata JSON dump; sampled/.test(candidate.source??''))throw Error('Invalid Wikidata dump provenance');
+ if(allowDumpSitelinks && !/^Wikidata (?:JSON dump; sampled|direct P31 category query;)/.test(candidate.source??''))throw Error('Invalid Wikidata dump provenance');
  for(const row of candidate.entries)for(const s of row.sources)if(!s.checked_at&&!allowDumpSitelinks)throw Error('Metadata checked_at required before promotion');
  if(!candidate.entries.some(x=>x.kind==='real')||!candidate.entries.some(x=>x.kind==='fictional'))throw Error('Both categories required');
  const previous=readFileSync(join(dir,'catalog.json'));validateCatalog(JSON.parse(previous));
