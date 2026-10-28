@@ -1,7 +1,7 @@
 /** Live Wikidata lookup for the Sites runtime. No article bodies or persistent state. */
 import {isQid, secureRandomIndex, randomPersona, getPersona} from './core.mjs';
 import {normalizeEntity} from './wikidata.mjs';
-import {validatePersonaIndex,chooseIndexedQid} from './persona-index.mjs';
+import {createIndexSelector} from './persona-index.mjs';
 
 const USER_AGENT='RandomPersonaMCP/0.4 (+https://github.com/Unjuno/wikidata-random-persona-mcp)';
 const MAX_JSON_BYTES=2*1024*1024;
@@ -80,7 +80,8 @@ async function boundedJson(response){
 export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...args),randomIndex=secureRandomIndex,now=stamp,timeoutMs=10000,maxRequestsPerMinute=60,maxConcurrent=4,index=null}={}) {
  if(typeof fetchImpl!=='function'||typeof randomIndex!=='function'||typeof now!=='function')throw Error('Invalid Wikidata client configuration');
  if(!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>30000||!Number.isInteger(maxRequestsPerMinute)||maxRequestsPerMinute<1||!Number.isInteger(maxConcurrent)||maxConcurrent<1)throw Error('Invalid Wikidata request limits');
- const fullIndex=index===null?null:validatePersonaIndex(index);
+ const indexedSelector=index===null?null:createIndexSelector(index);
+ const fullIndex=indexedSelector?.index??null;
  // Defensive, isolate-local budgets; platform-wide quotas belong at the Sites boundary.
  let windowStart=0,requests=0,inFlight=0,cooldownUntil=0;
  async function readJson(url){
@@ -156,7 +157,7 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
   if(fullIndex){
    const attempted=new Set(blocked);
    for(let attempt=0;attempt<3;attempt++){
-    const candidate=chooseIndexedQid(fullIndex,{kind,exclude_qids},randomIndex,attempted);
+    const candidate=indexedSelector.choose({kind,exclude_qids},randomIndex,attempted);
     if(!candidate)break;
     // Re-read the chosen QID from Wikidata, never trust stale dump metadata for dialogue.
     const current=await get({qid:candidate.qid,language},{blockedQids:[...blocked]});
