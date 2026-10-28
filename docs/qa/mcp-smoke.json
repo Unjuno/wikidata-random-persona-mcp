@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-28",
+  "site_version": 4,
+  "environment": "owner-connected ChatGPT MCP tools in this task conversation",
+  "cases": [
+    {
+      "case": "liveGetSuccess",
+      "status": "ok",
+      "persona": {
+        "qid": "Q7259",
+        "name": "エイダ・ラブレス",
+        "kind": "real",
+        "description": "イギリスの数学者",
+        "sources": [
+          {
+            "url": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%82%A4%E3%83%80%E3%83%BB%E3%83%A9%E3%83%96%E3%83%AC%E3%82%B9",
+            "language": "ja",
+            "purpose": "article"
+          },
+          {
+            "url": "https://en.wikipedia.org/wiki/Ada_Lovelace",
+            "language": "en",
+            "purpose": "article"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q7259",
+            "language": "mul",
+            "purpose": "identity"
+          }
+        ]
+      },
+      "catalog_version": "wikidata-live",
+      "source_mode": "wikidata_live",
+      "fetched_at": "2026-10-28T10:05:42.300Z",
+      "selection_scope": "Wikidata direct P31 categories with bounded OFFSET; not uniform across all Wikidata items"
+    },
+    {
+      "case": "liveMcp0",
+      "status": "ok",
+      "persona": {
+        "qid": "Q33749",
+        "name": "Ivan Alev",
+        "kind": "real",
+        "description": "Bulgarian doctor",
+        "sources": [
+          {
+            "url": "https://en.wikipedia.org/wiki/Ivan_Alev",
+            "language": "en",
+            "purpose": "article"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q33749",
+            "language": "mul",
+            "purpose": "identity"
+          }
+        ]
+      },
+      "catalog_version": "wikidata-live",
+      "source_mode": "wikidata_live",
+      "fetched_at": "2026-10-28T10:06:14.111Z",
+      "selection_scope": "Wikidata direct P31 categories with bounded OFFSET; not uniform across all Wikidata items"
+    },
+    {
+      "case": "liveMcp1",
+      "status": "ok",
+      "persona": {
+        "qid": "Q918010",
+        "name": "Tyushtya",
+        "kind": "fictional",
+        "description": "fictional human",
+        "sources": [
+          {
+            "url": "https://en.wikipedia.org/wiki/Tyushtya",
+            "language": "en",
+            "purpose": "article"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q918010",
+            "language": "mul",
+            "purpose": "identity"
+          }
+        ]
+      },
+      "catalog_version": "wikidata-live",
+      "source_mode": "wikidata_live",
+      "fetched_at": "2026-10-28T10:06:04.234Z",
+      "selection_scope": "Wikidata direct P31 categories with bounded OFFSET; not uniform across all Wikidata items"
+    },
+    {
+      "case": "liveMcp2",
+      "status": "not_found",
+      "qid": "Q999999999999",
+      "catalog_version": "wikidata-live",
+      "source_mode": "wikidata_live"
+    },
+    {
+      "case": "redrawTest",
+      "status": "ok",
+      "persona": {
+        "qid": "Q303",
+        "name": "エルヴィス・プレスリー",
+        "kind": "real",
+        "description": "アメリカの歌手・俳優 (1935-1977)",
+        "sources": [
+          {
+            "url": "https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%AB%E3%83%B4%E3%82%A3%E3%82%B9%E3%83%BB%E3%83%97%E3%83%AC%E3%82%B9%E3%83%AA%E3%83%BC",
+            "language": "ja",
+            "purpose": "article"
+          },
+          {
+            "url": "https://en.wikipedia.org/wiki/Elvis_Presley",
+            "language": "en",
+            "purpose": "article"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q303",
+            "language": "mul",
+            "purpose": "identity"
+          }
+        ]
+      },
+      "catalog_version": "published-bootstrap-2026-10-28T07:59:22.623Z",
+      "source_mode": "catalog_fallback",
+      "fallback_reason": "wikidata_unavailable"
+    },
+    {
+      "case": "invalidTest",
+      "error": "qid must be a valid Wikidata identifier",
+      "error_code": "INVALID_ARGUMENT"
+    },
+    {
+      "case": "nonpersonTest",
+      "status": "not_found",
+      "qid": "Q1",
+      "catalog_version": "wikidata-live",
+      "source_mode": "wikidata_live"
+    }
+  ]
+}

@@ -153,14 +153,14 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
   const classInfo=desired==='real'?{qid:HUMAN_CLASS,offsetMax:10000}:
    FICTIONAL_CLASSES[chooseBounded(randomIndex,FICTIONAL_CLASSES.length)];
   const offset=chooseBounded(randomIndex,classInfo.offsetMax+1);
-  const q='SELECT ?item WHERE { ?item wdt:P31 wd:'+classInfo.qid+' . } LIMIT 12 OFFSET '+offset;
+  const q='SELECT ?item WHERE { ?item wdt:P31 wd:'+classInfo.qid+' . } LIMIT 4 OFFSET '+offset;
   const search=new URL('https://query.wikidata.org/sparql');
   search.search=new URLSearchParams({query:q,format:'json'});
   const results=await readJson(search);
   const bindings=results?.results?.bindings;
   if(!Array.isArray(bindings))throw Error('Invalid Wikidata query results');
   const excluded=new Set([...exclude_qids,...blocked]);
-  const ids=[...new Set(bindings.map(r=>r?.item?.value?.match(/^https?:\/\/www\.wikidata\.org\/entity\/(Q[1-9][0-9]{0,11})$/)?.[1]).filter(x=>x&&!excluded.has(x)))].slice(0,12);
+  const ids=[...new Set(bindings.map(r=>r?.item?.value?.match(/^https?:\/\/www\.wikidata\.org\/entity\/(Q[1-9][0-9]{0,11})$/)?.[1]).filter(x=>x&&!excluded.has(x)))].slice(0,4);
   if(!ids.length)return responseFor({status:'no_match',catalog_version:'wikidata-live',reason:'No eligible live candidates'},now);
   const entities=await fetchEntities(ids);
   const entries=[];

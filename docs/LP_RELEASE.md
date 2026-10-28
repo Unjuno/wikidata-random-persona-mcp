@@ -18,3 +18,11 @@ The LP is publicly viewable. Sites authenticates MCP callers and checks Site acc
 Public Site visibility is separate from plugin distribution. The plugin created by Sites belongs to the owner; no second account is available in this work session. An unrestricted public plugin install URL is deliberately absent from the LP. Global/distributed traffic quotas and physical mobile device testing are not claimed.
 
 Final publication, owner ChatGPT tool calls, article reading, and live endpoint fingerprint comparison must be recorded after deployment. A passing local or CI test alone is not a completed deployment.
+
+## Observed publication and end-to-end results
+
+Site version 4 was published successfully on 2026-10-28. The owner-connected ChatGPT plugin executed both tools; live real Q33749, fictional Q918010 and uncataloged Q7259 were returned. Wikipedia article content was retrieved by ChatGPT and two clearly labeled simulation openings were produced. Missing/invalid/non-person QIDs and exclusion redraw were checked. See `READINESS.md` and `qa/mcp-smoke.json` for scoped evidence.
+
+The initial deployment exposed a genuine Sites adapter defect: `fetch` with redirect=error is unsupported by Cloudflare Workers. It was corrected to manual redirects with explicit non-2xx rejection and regression coverage. A later oversized entity response exercised real catalog_fallback and prompted a smaller four-entity batch.
+
+Published assets (all 18 files under /assets/) were fetched and byte-compared with local source, including the mobile hero and all five category images. Public browser demo draw/redraw, prompt-copy feedback and FAQ expansion passed. Public desktop and mobile-width preview screenshots are in `qa/`; mobile is not a physical-device claim. The static build rejects missing or empty assets. MCP calls without authentication returned 401; the Site remains public without exposing an unauthenticated MCP proxy.

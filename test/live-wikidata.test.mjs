@@ -124,3 +124,10 @@ test('Worker-compatible manual redirect policy rejects redirects without followi
  }});
  await assert.rejects(()=>s.get({qid:'Q42'}),/HTTP 302/);assert.equal(count,1);
 });
+test('oversized candidate lists cannot amplify the entity metadata batch',async()=>{
+ const entities=Object.fromEntries(Array.from({length:12},(_,i)=>['Q'+(90001000+i),record('Q'+(90001000+i),'Q5')]));
+ const f=fake(entities),s=createLiveWikidata({fetchImpl:f.fetchImpl,randomIndex:()=>0});
+ await s.random({kind:'real'});
+ assert.match(f.calls[0].url.searchParams.get('query'),/LIMIT 4 OFFSET/);
+ assert.equal(f.calls[1].url.searchParams.get('ids').split('|').length,4);
+});

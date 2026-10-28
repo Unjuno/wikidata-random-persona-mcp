@@ -1,41 +1,41 @@
 # Readiness and remaining gates
 
-## Implemented
+Updated 2026-10-28. This is a deployed LP and working owner-connected live MCP; unrestricted third-party plugin distribution is not verified, so full public-product completion is not claimed.
 
-- URL-first offline selection and QID lookup; strict input schemas and real/fictional/language/exclusion behavior.
-- Independent suspensions, immutable snapshots and copied source objects.
-- Guarded Fetch entry for runtime adaptation, measured 128 KiB body limit, exact Host/Origin allowlists, JSON-only POST, no-store responses.
-- Official SDK integration tests over actual TCP, including legacy initialize, both tools, concurrency and invalid input.
-- Metadata-only staging, identity/page validation, bounded retries, respectful maxlag/Retry-After handling.
-- Digest-bound reviewed promotion, backup, atomic replacement and local writer lock. No auto-promote or auto-deploy.
-- Locked dependency graph with npm ci; Node 22/24 CI.
-- Source of the original six-item demo is live-reviewed. A larger, directly sourced Wikidata candidate is staged separately; **no deployment claim until Sites is explicitly republished**.
-- Client workflow, source-insufficiency recovery and Sites handoff documented.
+## Implemented and checked
 
-## Evidence
+- Existing Site only: https://random-persona-mcp.unjuno.chatgpt.site, with `/mcp` and `/healthz` preserved.
+- Japanese discovery LP, eight original generated illustrations, separate mobile hero, responsive WebP assets, accessible card demo, FAQ, source/rights disclosures. Local demo figures are explicitly original fiction, separate from Wikidata draws.
+- Sites Worker requests live Wikidata P31 search and entity metadata; any eligible QID can be retrieved, including Q7259 outside the 300-entry fallback. No server LLM, article-body store, conversation store or arbitrary URL fetch.
+- Exact Host/Origin checks; Sites MCP authentication; 128 KiB / 5-second request-body limit; 2 MiB / 10-second upstream limit; manual non-following redirects compatible with Cloudflare Workers. Per-isolate 120 MCP requests/minute, 60 upstream requests/minute and four concurrent upstream operations. These are not distributed global quotas.
+- Only random_persona and get_persona; official SDK Client 2.4 verifies legacy initialize and modern discovery over real local HTTP. JSON-RPC batches are rejected, notifications never execute tools. Modern result envelopes include resultType and list cache metadata.
+- The latest local suite has 116 unit, asset, security and official-client tests. CI runs syntax, catalog validation and tests on Node 22/24. Verify the latest commit's Actions result; historical green runs do not certify later code.
 
-- Runtime hardening and real protocol tests: https://github.com/Unjuno/wikidata-random-persona-mcp/actions/runs/40585254053 — 51 tests, both Node 22 and 24 jobs succeeded. Node 22 log reports 22.23.4, server/client 2.4.0, node adapter 2.1.2, Zod 4.6.7.
-- Catalog lifecycle and locked dependencies: https://github.com/Unjuno/wikidata-random-persona-mcp/actions/runs/40586422062 — CI succeeded for commit 43fa3fcd4855fda9ebcc8160e84d2abb87a52a99.
-- Actual metadata staging: https://github.com/Unjuno/wikidata-random-persona-mcp/actions/runs/40586422207 — succeeded; exact reviewed candidate digest recorded separately.
-- Run the current branch's CI after any source/data change; earlier green runs do not prove later revisions. Local container tests use Node 22.16.0 for pure/unit tests only; SDK dependencies were verified in Actions because the local container has no external network.
-- Sites Worker acceptance on 2026-10-28: 77 automated tests pass locally, including discovery, exactly two tools, real/fictional draws, QID lookup, invalid inputs, missing IDs, hostile Host/Origin and streamed 128 KiB limit. The published Site reports `has_mcp: true`; its public page and `/healthz` were opened successfully. Live MCP `tools/call` from ChatGPT was not verified.
+## Production evidence
 
-## Remaining gates / not claimed
+On Site version 4, owner-connected ChatGPT calls returned:
 
-| Gate | Status |
+| Test | Observed result |
 |---|---|
-| Sites runtime adapter and public endpoint | Published at https://random-persona-mcp.unjuno.chatgpt.site; MCP endpoint is https://random-persona-mcp.unjuno.chatgpt.site/mcp. Sites reports `has_mcp: true`. A live MCP call through ChatGPT remains unverified. |
-| Edge controls | Exact Host/Origin validation and 128 KiB body cap are deployed. Sites applies visitor authentication/access checks before MCP dispatch. No account-level rate/concurrency quota was available to confirm through the Sites controls. |
-| ChatGPT browsing and dialogue | Worker/SDK tests do not prove the same ChatGPT chat can browse and interpret the returned article. The browser session used for this task was signed out; run CLIENT_WORKFLOW acceptance trials in the owner's signed-in ChatGPT. |
-| Third-party access and general distribution | Site audience is public. A second account has not installed or called the Site plugin; plugin sharing remains separate from Site visibility. |
-| Broad catalog coverage | The six-identity demo was inadequate. A bounded Wikidata API bootstrap and a separate streaming full-dump sampler are implemented, but neither is a complete fictional subclass closure or globally uniform sample of Wikidata. |
+| random_persona, real | Q33749, Ivan Alev, wikidata_live, 2026-10-28T10:06:14.111Z |
+| random_persona, fictional | Q918010, Tyushtya, wikidata_live, 2026-10-28T10:06:04.234Z |
+| get_persona outside fallback | Q7259, Ada Lovelace, wikidata_live, 2026-10-28T10:05:42.300Z |
+| Missing QID | Q999999999999 -> not_found, wikidata_live |
+| Non-person | Q1 -> not_found, wikidata_live |
+| Invalid input | Q0 -> isError, invalid argument |
+| Redraw with both recent QIDs excluded | Q303, distinct from both; catalog_fallback because the upstream entity response exceeded the size cap |
 
-No CPU/latency benchmark or psychological fidelity measurement is claimed. SDK JSON-response-mode warnings about dropping intermediate notifications are expected for these single-result tools; no progress notifications are used. Current Actions v4 may emit a runner Node-version deprecation warning; that is separate from the explicitly selected Node 22/24 application tests.
+The live response-size event motivated reducing the metadata batch from 12 to 4 identities. Regression coverage proves that even oversized search results cannot increase the four-entity batch. The safety cap remains enforced.
 
-## Completion rule
+The same ChatGPT conversation retrieved the returned English Ivan Alev and Tyushtya articles and Japanese Ada Lovelace article. It then began separate disclosed simulation test openings for the real/fictional random subjects, clearly separating article facts/legend from newly written dialogue. Tyushtya's translation/citation notices were acknowledged. This is actual tool-and-browsing evidence in this task conversation, not a new-chat trigger test or the full 30×5 acceptance campaign.
 
-Repository implementation passes when the final commit's syntax, catalog and unit/protocol CI pass. Product release passes only after the actual Sites endpoint, end-to-end ChatGPT dialogue, access controls and intended third-party distribution are all checked. A documented gate is not a passed gate.
+Unauthenticated POST /mcp returned 401; hostile Origin returned 403. Sites reports has_mcp=true. Published HTML and all 18 assets returned 200, and asset bytes matched the repository. The public health fingerprint matched the source build. Source trees in GitHub and Sites are compared before saving each release.
 
-## Live Wikidata deployment readiness
+## Still not verified
 
-The Sites source can read Wikidata at request time. Synthetic integration tests and a separate real-Wikidata smoke test must pass. No claim of Site deployment is valid until `/healthz.mode` and `random_persona.source_mode=wikidata_live` have both been verified against the published Site. The 300-record catalog remains only an outage fallback in Sites live mode. The optional Node adapter remains catalog-only.
+- A second account installing and calling the private Site-generated plugin. Public Site visibility is separate from plugin distribution; no unrestricted public install link is advertised.
+- Physical iOS/Android devices. Desktop browser and 390px iframe viewport were checked; the latter is a responsive browser simulation, not a phone hardware test.
+- Independent fresh-chat natural-language trigger selection, long multi-turn persona retention, every article-browsing failure mode, and the full CLIENT_WORKFLOW acceptance campaign.
+- Platform-wide rate/concurrency quotas and sustained traffic/latency benchmarks. Per-isolate limits are intentionally described precisely.
+
+Wikidata classification/coverage is bounded and not globally uniform. Upstream failures can produce explicit catalog_fallback; successful tests do not imply every subsequent draw is live. The fallback catalog has 150 real and 150 fictional identities. The optional Node adapter remains catalog-only.

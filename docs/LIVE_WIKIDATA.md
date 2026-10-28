@@ -4,7 +4,7 @@
 The original MCP selected from six, then 300 preapproved QIDs; this was a finite catalog, not live Wikidata discovery. The ChatGPT Sites worker now uses Wikimedia metadata APIs **at request time**. Its response reports the source used.
 
 ## Two read-only MCP tools
-- `random_persona`: a single bounded Wikidata Query Service class-scoped search for up to 12 QIDs with a randomized offset, followed by one `wbgetentities` metadata read to choose an eligible item.
+- `random_persona`: a single bounded Wikidata Query Service class-scoped search for up to 4 QIDs with a randomized offset, followed by one `wbgetentities` metadata read to choose an eligible item.
 - `get_persona`: an Action API `wbgetentities` lookup for any valid Wikidata QID (not limited to the 300 fallback records), requiring a recognized direct P31 classification and ja/en Wikipedia article link.
 - Only `https://query.wikidata.org/sparql` and `https://www.wikidata.org/w/api.php` may be accessed by the Sites worker. It never fetches or stores Wikipedia article text.
 - Wikimedia User-Agent, bounded requests/responses, read timeouts, strict QID checks, and explicit handling of 429 responses are part of this mode.
@@ -33,8 +33,10 @@ Official references: https://www.wikidata.org/wiki/Wikidata:Data_access and http
 
 ## Limits in the LP release
 
-Each draw makes at most two upstream GET requests (12 candidate IDs, then one entity batch). The query selects direct-class identities; ja/en sitelinks are verified in the entity response, so no expensive article join is required. Each request and response body share a 10-second deadline and a 2 MiB response limit. No automatic retry loop runs. HTTP 429/503 Retry-After (including HTTP dates) and maxlag put that isolate into a cooldown. At most 60 upstream requests/minute and 4 simultaneous upstream operations are allowed per Worker isolate. `/mcp` additionally permits at most 120 requests/minute per isolate and 128 KiB per body. These volatile safety budgets are not distributed account-level quotas and reset when Sites starts a new isolate.
+Each draw makes at most two upstream GET requests (4 candidate IDs, then one entity batch). The query selects direct-class identities; ja/en sitelinks are verified in the entity response, so no expensive article join is required. Each request and response body share a 10-second deadline and a 2 MiB response limit. No automatic retry loop runs. HTTP 429/503 Retry-After (including HTTP dates) and maxlag put that isolate into a cooldown. At most 60 upstream requests/minute and 4 simultaneous upstream operations are allowed per Worker isolate. `/mcp` additionally permits at most 120 requests/minute per isolate and 128 KiB per body with a 5-second body-read deadline. These volatile safety budgets are not distributed account-level quotas and reset when Sites starts a new isolate.
 
 A no-such-entity API error with the exact requested QID is `not_found`. Missing/mismatched response maps are upstream errors. Contradictory human/fictional, deprecated-only and disambiguation/list classifications are rejected. Sites' authentication/access enforcement remains the MCP boundary; the static LP does not provide an unauthenticated proxy for MCP calls.
 
 The built Worker is tested with official MCP Client 2.4 in both legacy initialize and modern auto-discovery modes. Modern results carry `resultType: complete`; legacy initialize negotiates supported 2025/2024 revisions. Batch requests are rejected and notifications never execute tool calls.
+
+The four-entity batch avoids unnecessarily downloading claims for twelve subjects: a live production trial exceeded the 2 MiB cap and correctly fell back. Large individual entities can still fall back. Redirects use `manual` and every non-2xx status is rejected; Cloudflare Workers do not support the Node/browser `error` redirect mode.
