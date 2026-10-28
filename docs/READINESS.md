@@ -39,3 +39,8 @@ Unauthenticated POST /mcp returned 401; hostile Origin returned 403. Sites repor
 - Platform-wide rate/concurrency quotas and sustained traffic/latency benchmarks. Per-isolate limits are intentionally described precisely.
 
 Wikidata classification/coverage is bounded and not globally uniform. Upstream failures can produce explicit catalog_fallback; successful tests do not imply every subsequent draw is live. The fallback catalog has 150 real and 150 fictional identities. The optional Node adapter remains catalog-only.
+
+
+## Correction to the 300-entry interpretation
+
+The user-facing LP now explains that 300 is a **fallback** count, not the number of possible Wikidata persons. The optional QID-only full-dump reservoir code and its population-weighted selection are implemented and unit-tested, but an actual complete dump has **not** been processed or approved by this change. Until a real index is committed and the existing Site republished, the production method remains the nonuniform bounded WDQS search. The method must be checked in `/healthz.sampling_method` rather than inferred from the code.

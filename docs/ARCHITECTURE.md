@@ -32,3 +32,8 @@ See CLIENT_WORKFLOW.md: retrieve before interpreting, retain identity in the sam
 ## Live Wikidata path
 
 The Sites Worker now prefers a direct-P31 class-constrained Wikidata Query Service result and resolves one of the candidate QIDs via `wbgetentities`. `get_persona` accepts any valid Wikidata QID and performs a live fetch. Exactly two upstream requests are required for a successful live random draw, one for a direct QID lookup. On 429 or failed network requests it falls back to a separately reviewed local cache and marks `source_mode`. This is bounded class sampling, not a statistically uniform full-Wikidata draw. See LIVE_WIKIDATA.md.
+
+
+## Optional population-weighted QID index
+
+A complete Wikidata JSON dump is streamed through `sampleDumpQidIndex`, preserving only a secure reservoir of QIDs and the direct-P31 eligible population counts (real and fictional separately). If approved `data/persona-index.json` is bundled, Sites chooses a class weighted by the full eligible population, samples a QID from its reservoir, then reads current metadata via the Wikidata Action API. This avoids a public WDQS query on every indexed draw. Missing/invalid current entities get at most two additional draws. When the approved index is absent, current bounded WDQS mode continues. Both remain backed by an independent 300-entry outage catalog.

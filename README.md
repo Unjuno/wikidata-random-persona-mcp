@@ -68,3 +68,10 @@ Code: MIT. See [SECURITY.md](SECURITY.md). No article bodies, images, audio, sec
 ## Landing page
 
 The Japanese public LP and original generated brand images live in `public/`. The Sites build embeds all assets into the Worker; no separate host is used. `/mcp` and `/healthz` retain their own routing. The five-card browser demo uses original fictional archetypes, clearly separate from the live MCP. See [art direction](docs/ART_DIRECTION.md) and [release QA](docs/LP_RELEASE.md).
+
+
+## Full-dump QID reservoir mode (optional, not yet deployed)
+
+300 entries is the size of the approved **outage fallback**, not the draw ceiling. The Sites Worker now supports a QID-only, complete-Wikidata-dump reservoir (up to 250,000 QIDs per eligible kind). With a reviewed index installed, `both` draws kinds in proportion to eligible population counts from the complete scan, chooses a QID uniformly within its reservoir and refreshes that QID from live Wikidata. This does not cover every transitive fictional subclass, and a fixed finite reservoir is not the entire Wikidata corpus.
+
+**This change does not ship a completed dump or an approved index.** Without one, Sites keeps bounded WDQS queries and still is not limited to 300. The new `/healthz.sampling_method` reports the actual method; `/healthz.fallback_catalog.entries` is the backup count. A full-dump scan, review, explicit GitHub commit and existing Site republish are separate release gates. See [index operations](docs/DUMP_INDEX_OPERATIONS.md).

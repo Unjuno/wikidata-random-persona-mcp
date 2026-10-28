@@ -42,3 +42,8 @@ The first demonstration catalog consisted of six hand-selected seeds. To replace
 A read-only staging job has produced **300 unique QIDs (150 real, 150 fictional)** in [Actions run 40653402575](https://github.com/Unjuno/wikidata-random-persona-mcp/actions/runs/40653402575). The archived candidate digest is `b0c793536d5adfdc1bfbf461377e2afb2899b7037a98bc7a01755605b540ab08`; this is the **uncompressed** candidate JSON SHA-256, not the outer GitHub Actions ZIP digest. This candidate is not a live deployment until reviewed, promoted, committed and republished to ChatGPT Sites.
 
 To promote such a candidate deliberately, verify exact QIDs, types, site links, exclusions, SHA-256, and acknowledge the lack of independent live Wikipedia metadata checks with `--accept-unverified-dump-links`. Both download-derived and bounded query-derived Wikidata link sources are supported by the provenance gate. Reviewed source checks are distinct from psychological fidelity or character copyright clearance.
+
+
+## QID-only reservoir rather than a 300-item cache
+
+Use `scripts/sample-wikidata-index.mjs` to stream a complete official Wikidata JSON dump, keeping only up to 250,000 QIDs per eligible kind. Its direct P31 category counts weight `both` draws, and a selected QID is refreshed from Wikidata's current Action API. This does not mirror article text. Approval requires a fully completed scan and a reviewed SHA-256; no automated approval or download occurs. A standby catalog of 300 is independent of this index. Read [DUMP_INDEX_OPERATIONS.md](DUMP_INDEX_OPERATIONS.md).

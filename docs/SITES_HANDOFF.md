@@ -45,3 +45,8 @@ The hosting guide currently distinguishes Site sharing from plugin sharing; pers
 ## Wikidata live acceptance gate
 
 Use `docs/LIVE_WIKIDATA.md` as the current source of truth. Republish the existing Site from a green CI commit, confirm `/healthz.mode=wikidata_live_with_catalog_fallback`, then invoke `random_persona` and `get_persona` for a verified Wikidata QID outside the fallback catalog. Inspect `source_mode`: `wikidata_live` must be observed, not just fallback. Test what happens if Wikidata cannot be reached, and have ChatGPT actually open the referenced article before beginning simulated dialogue. GitHub updates alone do not redeploy Sites.
+
+
+## Correct random population and health fields
+
+The updated `/healthz` deliberately replaces the ambiguous top-level `entries` with `fallback_catalog.entries`. `sampling_method` is either `bounded_wdqs_offset` (no reviewed full-dump index deployed) or `wikidata_dump_reservoir` (approved full-dump QID index active). `eligible_population` and `index_version` are reported only for the latter. Do not claim indexed mode is active until the official full dump has been scanned, approved, and republished to the **existing** ChatGPT Site. The 300 standby records are never a hard cap on live Wikidata selection.
