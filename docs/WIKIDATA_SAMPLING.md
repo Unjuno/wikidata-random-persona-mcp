@@ -34,3 +34,11 @@ The command reads a **large weekly dump** over the network and can use significa
 - Streaming RAM use is proportional to the sample size plus one entity; the full dump is not stored by this script. Cap stage JSON at 20 MiB to protect the Sites bundle. Worker deployment limits must be verified with the actual Sites platform.
 
 Official Wikidata advice: https://www.wikidata.org/wiki/Wikidata:Data_access/en and https://www.wikidata.org/wiki/Wikidata:Database_download
+
+
+## Bounded first catalog bootstrap (not globally uniform)
+The first demonstration catalog consisted of six hand-selected seeds. To replace it without downloading a very large JSON dump, `npm run catalog:bootstrap` queries **specific P31 classes**, bulk-fetches only labels, descriptions and sitelinks, deduplicates QIDs and selects up to 150 per category from the bounded result sets. This avoids heavy `ORDER BY RAND()` queries but is not globally uniform because class queries have limits and do not enumerate every QID.
+
+A read-only staging job has produced **300 unique QIDs (150 real, 150 fictional)** in [Actions run 40653402575](https://github.com/Unjuno/wikidata-random-persona-mcp/actions/runs/40653402575). The archived candidate digest is `b0c793536d5adfdc1bfbf461377e2afb2899b7037a98bc7a01755605b540ab08`; this is the **uncompressed** candidate JSON SHA-256, not the outer GitHub Actions ZIP digest. This candidate is not a live deployment until reviewed, promoted, committed and republished to ChatGPT Sites.
+
+To promote such a candidate deliberately, verify exact QIDs, types, site links, exclusions, SHA-256, and acknowledge the lack of independent live Wikipedia metadata checks with `--accept-unverified-dump-links`. Both download-derived and bounded query-derived Wikidata link sources are supported by the provenance gate. Reviewed source checks are distinct from psychological fidelity or character copyright clearance.

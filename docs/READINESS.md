@@ -9,7 +9,7 @@
 - Metadata-only staging, identity/page validation, bounded retries, respectful maxlag/Retry-After handling.
 - Digest-bound reviewed promotion, backup, atomic replacement and local writer lock. No auto-promote or auto-deploy.
 - Locked dependency graph with npm ci; Node 22/24 CI.
-- Live-reviewed bilingual six-identity catalog; see CATALOG_REVIEW.md.
+- Source of the original six-item demo is live-reviewed. A larger, directly sourced Wikidata candidate is staged separately; **no deployment claim until Sites is explicitly republished**.
 - Client workflow, source-insufficiency recovery and Sites handoff documented.
 
 ## Evidence
@@ -28,7 +28,7 @@
 | Edge controls | Exact Host/Origin validation and 128 KiB body cap are deployed. Sites applies visitor authentication/access checks before MCP dispatch. No account-level rate/concurrency quota was available to confirm through the Sites controls. |
 | ChatGPT browsing and dialogue | Worker/SDK tests do not prove the same ChatGPT chat can browse and interpret the returned article. The browser session used for this task was signed out; run CLIENT_WORKFLOW acceptance trials in the owner's signed-in ChatGPT. |
 | Third-party access and general distribution | Site audience is public. A second account has not installed or called the Site plugin; plugin sharing remains separate from Site visibility. |
-| Broad catalog coverage | Six manually selected identities are a demo, not a representative or exhaustive corpus. Review seeds before expanding. |
+| Broad catalog coverage | The six-identity demo was inadequate. A bounded Wikidata API bootstrap and a separate streaming full-dump sampler are implemented, but neither is a complete fictional subclass closure or globally uniform sample of Wikidata. |
 
 No CPU/latency benchmark or psychological fidelity measurement is claimed. SDK JSON-response-mode warnings about dropping intermediate notifications are expected for these single-result tools; no progress notifications are used. Current Actions v4 may emit a runner Node-version deprecation warning; that is separate from the explicitly selected Node 22/24 application tests.
 

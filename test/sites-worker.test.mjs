@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import catalog from '../data/catalog.json' with {type:'json'};
+const knownQid=catalog.entries[0].qid;
 const {default: worker} = await import('../dist/server/index.js');
 const url = 'https://random-persona-mcp.unjuno.chatgpt.site/mcp';
 const post = body => worker.fetch(new Request(url, {method:'POST',headers:{host:'random-persona-mcp.unjuno.chatgpt.site','content-type':'application/json'},body:JSON.stringify(body)}));
@@ -19,11 +21,11 @@ test('Sites MCP calls real and fictional selection and QID lookup', async () => 
     assert.equal(result.persona.kind, kind);
     assert.ok(result.persona.sources.some(source => source.purpose === 'article'));
   }
-  const found = await (await post(rpc('tools/call', {name:'get_persona',arguments:{qid:'Q42'}}))).json();
-  assert.equal(found.result.structuredContent.persona.qid, 'Q42');
+  const found = await (await post(rpc('tools/call', {name:'get_persona',arguments:{qid:knownQid}}))).json();
+  assert.equal(found.result.structuredContent.persona.qid, knownQid);
 });
 test('Sites MCP rejects malformed arguments and reports missing IDs', async () => {
-  const invalid = await (await post(rpc('tools/call', {name:'get_persona',arguments:{qid:'Q42',url:'https://evil.example'}}))).json();
+  const invalid = await (await post(rpc('tools/call', {name:'get_persona',arguments:{qid:knownQid,url:'https://evil.example'}}))).json();
   assert.equal(invalid.result.isError, true);
   const absent = await (await post(rpc('tools/call', {name:'get_persona',arguments:{qid:'Q999999999'}}))).json();
   assert.equal(absent.result.structuredContent.status, 'not_found');
