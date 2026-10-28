@@ -1,0 +1,9 @@
+{
+  "artifact_run_id": 40653402575,
+  "artifact_name": "unreviewed-wikidata-bootstrap",
+  "sha256": "b0c793536d5adfdc1bfbf461377e2afb2899b7037a98bc7a01755605b540ab08",
+  "expected_entries": 300,
+  "expected_real": 150,
+  "expected_fictional": 150,
+  "notice": "Wikidata category-query bootstrap. Not globally uniform; article URLs not independently live verified; must manually sync Sites after CI."
+}

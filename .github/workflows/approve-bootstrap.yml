@@ -1,0 +1,62 @@
+name: Approve one reviewed Wikidata bootstrap candidate on feature branch
+on:
+  push:
+    branches:
+      - 'feat/wikidata-dump-sampling-20261028'
+    paths:
+      - 'data/bootstrap-approval.json'
+permissions:
+  contents: write
+  actions: read
+jobs:
+  promote-reviewed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Download the exact reviewed candidate artifact
+        run: |
+          set -euo pipefail
+          gh run download 40653402575 --repo Unjuno/wikidata-random-persona-mcp --name unreviewed-wikidata-bootstrap --dir data/approval-staged
+      - name: Check bytes, provenance, dimensions before promotion
+        run: |
+          set -euo pipefail
+          node --input-type=module -e '
+            import fs from "node:fs"; import crypto from "node:crypto";
+            const approval=JSON.parse(fs.readFileSync("data/bootstrap-approval.json"));
+            const bytes=fs.readFileSync("data/approval-staged/catalog.pending.json");
+            const digest=crypto.createHash("sha256").update(bytes).digest("hex");
+            if(digest!==approval.sha256)throw Error("Candidate SHA-256 mismatch");
+            const candidate=JSON.parse(bytes);
+            const real=candidate.entries.filter(x=>x.kind==="real").length;
+            const fictional=candidate.entries.filter(x=>x.kind==="fictional").length;
+            if(candidate.entries.length!==approval.expected_entries||real!==approval.expected_real||fictional!==approval.expected_fictional)throw Error("Unexpected bootstrap dimensions");
+            if(!candidate.source.startsWith("Wikidata direct P31 category query;"))throw Error("Wrong candidate provenance");
+            console.log("Approved candidate",{digest,entries:candidate.entries.length,real,fictional});
+          '
+          cp data/approval-staged/catalog.pending.json data/catalog.pending.json
+          npm run catalog:validate -- data/catalog.pending.json
+      - name: Promote reviewed sitelinks, test, and bundle for Sites
+        run: |
+          set -euo pipefail
+          EXPECTED=$(node -p 'require("./data/bootstrap-approval.json").sha256')
+          npm run catalog:promote -- --reviewed --expected-sha256 "$EXPECTED" --accept-unverified-dump-links
+          npm run check
+          npm run catalog:validate
+          npm run build:sites
+          npm test
+      - name: Commit approved new catalog on the feature branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/catalog.json
+          git commit -m 'data: replace six fixed seeds with 300 reviewed Wikidata candidates'
+          git push origin HEAD:refs/heads/feat/wikidata-dump-sampling-20261028
+      # No Site publishing or main-branch merge. Integration remains separately reviewed.
