@@ -1,6 +1,7 @@
 /** Live Wikidata lookup for the Sites runtime. No article bodies or persistent state. */
 import {isQid, secureRandomIndex, randomPersona, getPersona} from './core.mjs';
 import {normalizeEntity} from './wikidata.mjs';
+import {validatePersonaIndex,chooseIndexedQid} from './persona-index.mjs';
 
 const USER_AGENT='RandomPersonaMCP/0.4 (+https://github.com/Unjuno/wikidata-random-persona-mcp)';
 const MAX_JSON_BYTES=2*1024*1024;
@@ -13,7 +14,9 @@ export const FICTIONAL_CLASSES=Object.freeze([
  {qid:'Q87576284',offsetMax:200},
  {qid:'Q1114461',offsetMax:200}
 ]);
-const FICTIONAL_IDS=new Set(FICTIONAL_CLASSES.map(x=>x.qid));
+const FICTIONAL_IDS=new Set([...FICTIONAL_CLASSES.map(x=>x.qid),
+ 'Q15711870','Q3658341','Q15773347','Q2593744','Q3542731',
+ 'Q28020127','Q30061312','Q89050913']);
 const LANGUAGES=new Set(['ja','en']);
 const KINDS=new Set(['real','fictional','both']);
 const stamp=()=>new Date();
@@ -74,9 +77,10 @@ async function boundedJson(response){
  for(const chunk of chunks){out.set(chunk,pos);pos+=chunk.byteLength;}
  return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(out));
 }
-export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...args),randomIndex=secureRandomIndex,now=stamp,timeoutMs=10000,maxRequestsPerMinute=60,maxConcurrent=4}={}) {
+export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...args),randomIndex=secureRandomIndex,now=stamp,timeoutMs=10000,maxRequestsPerMinute=60,maxConcurrent=4,index=null}={}) {
  if(typeof fetchImpl!=='function'||typeof randomIndex!=='function'||typeof now!=='function')throw Error('Invalid Wikidata client configuration');
  if(!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>30000||!Number.isInteger(maxRequestsPerMinute)||maxRequestsPerMinute<1||!Number.isInteger(maxConcurrent)||maxConcurrent<1)throw Error('Invalid Wikidata request limits');
+ const fullIndex=index===null?null:validatePersonaIndex(index);
  // Defensive, isolate-local budgets; platform-wide quotas belong at the Sites boundary.
  let windowStart=0,requests=0,inFlight=0,cooldownUntil=0;
  async function readJson(url){
@@ -149,6 +153,26 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
  async function random({kind='both',language='ja',exclude_qids=[]}={},options={}){
   validateDraw({kind,language,exclude_qids});
   const blocked=validBlocked(options);
+  if(fullIndex){
+   const attempted=new Set(blocked);
+   for(let attempt=0;attempt<3;attempt++){
+    const candidate=chooseIndexedQid(fullIndex,{kind,exclude_qids},randomIndex,attempted);
+    if(!candidate)break;
+    // Re-read the chosen QID from Wikidata, never trust stale dump metadata for dialogue.
+    const current=await get({qid:candidate.qid,language},{blockedQids:[...blocked]});
+    if(current.status==='ok'&&current.persona.kind===candidate.kind){
+     return {...current,
+      sampling_method:'wikidata_dump_reservoir',
+      index_version:fullIndex.version,
+      eligible_population:fullIndex.population.real+fullIndex.population.fictional,
+      selection_scope:'Wikidata complete-dump reservoir of eligible direct-P31 items; not all Wikidata subclasses'};
+    }
+    attempted.add(candidate.qid);
+   }
+   return responseFor({status:'no_match',catalog_version:'wikidata-live',reason:'No currently eligible dump-index candidates'},now,{
+    sampling_method:'wikidata_dump_reservoir',index_version:fullIndex.version
+   });
+  }
   const desired=kind==='both'?(chooseBounded(randomIndex,2)===0?'real':'fictional'):kind;
   const classInfo=desired==='real'?{qid:HUMAN_CLASS,offsetMax:10000}:
    FICTIONAL_CLASSES[chooseBounded(randomIndex,FICTIONAL_CLASSES.length)];
@@ -171,7 +195,7 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
    if(entry)entries.push(entry);
   }
   if(!entries.length)return responseFor({status:'no_match',catalog_version:'wikidata-live',reason:'No eligible live candidates with articles'},now);
-  return responseFor(randomPersona({version:'wikidata-live',entries},{kind:desired,language,exclude_qids},randomIndex),now);
+  return responseFor(randomPersona({version:'wikidata-live',entries},{kind:desired,language,exclude_qids},randomIndex),now,{sampling_method:'bounded_wdqs_offset'});
  }
  return Object.freeze({random,get});
 }
