@@ -3,6 +3,7 @@ import {readFileSync,writeFileSync,renameSync,unlinkSync,openSync,closeSync} fro
 import {createHash,randomUUID} from 'node:crypto';
 import {join} from 'node:path';
 import {validateCatalog} from './core.mjs';
+import {validatePersonaIndex} from './persona-index.mjs';
 export const sha256=bytes=>createHash('sha256').update(bytes).digest('hex');
 export function atomicWrite(path,bytes){
  const temp=`${path}.${randomUUID()}.tmp`;
@@ -26,4 +27,24 @@ export function promoteCatalog({dir='data',reviewed=false,expectedSha256,allowDu
  const published={...candidate,version:candidate.version.replace(/^candidate-/,'published-')};
  atomicWrite(join(dir,'catalog.json'),JSON.stringify(published,null,2)+'\n');
  return published.version;
+}
+
+
+/** Approve exactly the reviewed complete-dump index. Never touch the blocklist. */
+export function promotePersonaIndex({dir='data',reviewed=false,expectedSha256}={}){
+ if(!reviewed)throw Error('Explicit --reviewed index approval required');
+ const candidatePath=join(dir,'persona-index.pending.json');
+ const bytes=readFileSync(candidatePath);
+ if(!/^[a-f0-9]{64}$/.test(expectedSha256??'')||sha256(bytes)!==expectedSha256)throw Error('Reviewed index digest mismatch');
+ const index=validatePersonaIndex(JSON.parse(bytes));
+ const previousPath=join(dir,'persona-index.json');
+ try {
+  const previous=readFileSync(previousPath);
+  validatePersonaIndex(JSON.parse(previous));
+  atomicWrite(join(dir,'persona-index.previous.json'),previous);
+ } catch(error){if(error.code!=='ENOENT')throw error;}
+ const approved={...index,version:index.version.replace(/^dump-/,'approved-dump-')};
+ validatePersonaIndex(approved);
+ atomicWrite(previousPath,JSON.stringify(approved,null,2)+'\n');
+ return approved;
 }
