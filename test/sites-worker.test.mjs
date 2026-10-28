@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import catalog from '../data/catalog.json' with {type:'json'};
 const knownQid=catalog.entries[0].qid;
-const {default: worker} = await import('../dist/server/index.js');
+const {createWorker} = await import('../dist/server/index.js');
+// Existing protocol tests use a deterministic offline fixture; separate tests verify Wikidata-live preference.
+const worker=createWorker({liveSource:{random:async()=>{throw Error('test upstream offline');},get:async()=>{throw Error('test upstream offline');}}});
 const url = 'https://random-persona-mcp.unjuno.chatgpt.site/mcp';
 const post = body => worker.fetch(new Request(url, {method:'POST',headers:{host:'random-persona-mcp.unjuno.chatgpt.site','content-type':'application/json'},body:JSON.stringify(body)}));
 const rpc = (method, params = {}, id = 1) => ({jsonrpc:'2.0',method,params,id});
