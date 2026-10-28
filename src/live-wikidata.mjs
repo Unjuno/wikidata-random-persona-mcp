@@ -74,7 +74,7 @@ async function boundedJson(response){
  for(const chunk of chunks){out.set(chunk,pos);pos+=chunk.byteLength;}
  return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(out));
 }
-export function createLiveWikidata({fetchImpl=globalThis.fetch,randomIndex=secureRandomIndex,now=stamp,timeoutMs=10000,maxRequestsPerMinute=60,maxConcurrent=4}={}) {
+export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...args),randomIndex=secureRandomIndex,now=stamp,timeoutMs=10000,maxRequestsPerMinute=60,maxConcurrent=4}={}) {
  if(typeof fetchImpl!=='function'||typeof randomIndex!=='function'||typeof now!=='function')throw Error('Invalid Wikidata client configuration');
  if(!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>30000||!Number.isInteger(maxRequestsPerMinute)||maxRequestsPerMinute<1||!Number.isInteger(maxConcurrent)||maxConcurrent<1)throw Error('Invalid Wikidata request limits');
  // Defensive, isolate-local budgets; platform-wide quotas belong at the Sites boundary.

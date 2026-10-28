@@ -80,7 +80,8 @@ async function callTool(name, args, liveSource) {
       const live = await liveSource.random(args, {blockedQids});
       if (live?.status === 'ok') return live;
       return {...local, source_mode: 'catalog_fallback', fallback_reason:'no_live_match'};
-    } catch {
+    } catch (error) {
+      console.warn('Wikidata random unavailable:',String(error?.message??'unknown').slice(0,180));
       return {...local, source_mode: 'catalog_fallback', fallback_reason:'wikidata_unavailable'};
     }
   }
@@ -92,7 +93,8 @@ async function callTool(name, args, liveSource) {
       const live = await liveSource.get(args, {blockedQids});
       if (live?.status === 'ok' || live?.status === 'not_found') return live;
       throw Error('Unexpected Wikidata response');
-    } catch {
+    } catch (error) {
+      console.warn('Wikidata lookup unavailable:',String(error?.message??'unknown').slice(0,180));
       if (local.status === 'ok') return {...local, source_mode:'catalog_fallback', fallback_reason:'wikidata_unavailable'};
       return {status:'upstream_unavailable', qid:args.qid, catalog_version:store.summary.catalog_version,
         source_mode:'wikidata_unavailable', reason:'Cannot verify a QID against Wikidata right now'};
