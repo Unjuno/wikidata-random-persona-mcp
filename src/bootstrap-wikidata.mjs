@@ -46,7 +46,7 @@ export async function listByType(type,limit=500,opts={}) {
 export async function lookupItems(ids,opts={}) {
  if(!Array.isArray(ids)||ids.length>20||!ids.every(isQid))throw Error('Invalid QID batch');
  const url=new URL('https://www.wikidata.org/w/api.php');
- url.search=new URLSearchParams({action:'wbgetentities',ids:ids.join('|'),props:'labels|descriptions|sitelinks|claims',languages:'ja|en',format:'json',maxlag:'5'});
+ url.search=new URLSearchParams({action:'wbgetentities',ids:ids.join('|'),props:'labels|descriptions|sitelinks',languages:'ja|en',format:'json',maxlag:'5'});
  const data=await getJson(url,opts);
  if(!data?.entities||typeof data.entities!=='object')throw Error('Invalid Wikidata entity response');
  return data.entities;
@@ -65,7 +65,10 @@ export async function bootstrapCatalog({perKind=150,queryLimit=800,classes=BOOTS
    const entities=await getEntities(batch);
    for(const qid of batch) {
     seen.add(qid);
-    const row=normalizeEntity(entities[qid],{qid,kind:category.kind});
+    const base=entities[qid];
+    // WDQS P31 membership is authoritative for metadata-only API queries.
+    const verified=base && !base.claims ? {...base,claims:{P31:[{mainsnak:{datavalue:{value:{id:category.id}}},rank:'normal'}]}} : base;
+    const row=normalizeEntity(verified,{qid,kind:category.kind});
     if(row)pools[category.kind].set(qid,row);
    }
    await wait(250);

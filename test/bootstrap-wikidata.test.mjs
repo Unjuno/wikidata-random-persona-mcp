@@ -32,3 +32,12 @@ test('bootstrap fails rather than publish mislabeled fictional characters',async
   sleep:async()=>{}}).catch(e=>e);
  assert.match(String(error),/both real and fictional/);
 });
+
+test('bootstrap accepts slim Wikidata metadata because scoped query proved P31',async()=>{
+ const qids={Q5:['Q10','Q11'],Q15632617:['Q20','Q21']};
+ const r=await bootstrapCatalog({perKind:2,classes:[{id:'Q5',kind:'real'},{id:'Q15632617',kind:'fictional'}],
+  queryIds:async id=>qids[id],getEntities:async ids=>Object.fromEntries(ids.map(qid=>{
+   const entry=item(qid,'Q5');delete entry.claims;return [qid,entry];
+  })),sleep:async()=>{}});
+ assert.equal(r.catalog.entries.length,4);
+});

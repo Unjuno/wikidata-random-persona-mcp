@@ -1,4 +1,4 @@
-/** Bounded bootstrap from live Wikidata; never automatically publishes. */
+/** Bounded bootstrap from live Wikidata with metadata-only QID lookup; never automatically publishes. */
 import {bootstrapCatalog} from '../src/bootstrap-wikidata.mjs';
 import {validateCatalog} from '../src/core.mjs';
 import {atomicWrite,sha256} from '../src/catalog-files.mjs';
