@@ -35,3 +35,7 @@ No CPU/latency benchmark or psychological fidelity measurement is claimed. SDK J
 ## Completion rule
 
 Repository implementation passes when the final commit's syntax, catalog and unit/protocol CI pass. Product release passes only after the actual Sites endpoint, end-to-end ChatGPT dialogue, access controls and intended third-party distribution are all checked. A documented gate is not a passed gate.
+
+## Live Wikidata deployment readiness
+
+The Sites source can read Wikidata at request time. Synthetic integration tests and a separate real-Wikidata smoke test must pass. No claim of Site deployment is valid until `/healthz.mode` and `random_persona.source_mode=wikidata_live` have both been verified against the published Site. The 300-record catalog remains only an outage fallback in Sites live mode. The optional Node adapter remains catalog-only.

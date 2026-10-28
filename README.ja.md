@@ -10,8 +10,8 @@ MCPは実在人物・架空キャラクターのQID、名前、分類、Wikipedi
 
 | 項目 | 内容 |
 |---|---|
-| random_persona | 登録済みの有効な人物から1人を抽選 |
-| get_persona | 登録済みQIDの参照先を取得 |
+| random_persona | Sites版はWikidata APIから候補取得・抽選、通信障害時だけカタログへ切替 |
+| get_persona | Sites版は登録済み300件に限らずWikidataのQIDから直接参照先を取得 |
 | 抽選 | 人物単位の均等抽選。実在・架空の混合集合であり、種類ごとの50％固定ではない |
 | 言語 | 日本語優先、英語へ代替。記事の優先順であり人物の除外条件ではない |
 | 配信停止 | blocked-qids.jsonを両ツールに適用。カタログ単独の巻き戻しでも保持 |
@@ -56,3 +56,9 @@ npm run catalog:promote -- --reviewed --expected-sha256 REVIEWED_SHA256
 SitesではNode常駐サーバーを使わず、`sites/worker/index.js` を使います。`npm run build:sites` が承認済みカタログ、配信停止リスト、純粋な抽選ロジックをWorker用出力へまとめ、`/mcp` で `server/discover`・`tools/list`・`tools/call` を提供します。`.openai/hosting.json` はMCP機能を宣言します。HostはSiteの完全一致ホスト名に限定し、Originも同じSiteだけ、本文は実バイト数で128 KiBまでです。認証とSite閲覧可否はSitesがMCP転送前に検査します。アカウント側にトラフィック上限があれば追加設定します。
 
 ツール説明と返却される `guidance` に、記事取得・同一性確認・仮想対話の明示・QID維持・取得失敗の正直な報告を含めます。これはChatGPTへの連携指示であり、実際の閲覧機能や会話挙動の実機確認の代替ではありません。
+
+## Wikidataライブ抽選（Sites）
+
+Sites版は `query.wikidata.org` の分類別クエリと `www.wikidata.org` のエンティティAPIを使い、要求時に参照先を取得します。`source_mode: wikidata_live` は生データからの取得、`source_mode: catalog_fallback` はAPI障害や対象なしによる承認済みカタログ利用を示します。`/healthz` の `entries` は代替用の件数であり、Wikidataの全項目数ではありません。
+
+分類P31と限定クエリ範囲を使うため、**Wikidata全件からの一様な抽選ではありません**。本番トラフィックの上限を設定し、将来はWikidataの全件ダンプから効率的なQID索引を構築する構成へ移行します。現行のSitesへの再デプロイ手順は [LIVE_WIKIDATA.md](docs/LIVE_WIKIDATA.md) を参照してください。

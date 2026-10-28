@@ -21,3 +21,7 @@ Use only when the user requests a random conversation partner, asks for a differ
 
 ## Acceptance trials (manual in the actual ChatGPT environment)
 Record account/surface, date, model, catalog version and pass/fail, not private chat transcripts. Run 30 normal conversations (10 real, 10 fictional, 10 mixed), five exchanges each. Provisional pass: at least 29 start from one request, zero identity mixups, zero claims of having fetched unread sources. Also test no browser, missing source, weak source, redraw, exit and injected article instructions. Automated SDK tests do not replace these trials.
+
+## Source provenance in dialogue
+
+Check `source_mode` in the returned tool response. `wikidata_live` means the current request fetched Wikidata metadata; `catalog_fallback` means the selected person came from the reviewed local cache because Wikimedia access failed or yielded no match. Do not portray fallback as a fresh Wikidata draw. `upstream_unavailable` for a QID is not proof of nonexistence. The ChatGPT client still needs to read the linked article itself before roleplay.

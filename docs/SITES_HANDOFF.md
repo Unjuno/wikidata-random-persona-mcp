@@ -6,7 +6,7 @@
 
 ## Runtime seam
 
-The Sites-specific production entry is `sites/worker/index.js`. Build it with `npm run build:sites`; the generated artifact places its Worker entry at `dist/server/index.js` and declares `capabilities: ["mcp"]` in `.openai/hosting.json`. This adapter speaks the Sites MCP protocol (`server/discover`, `tools/list`, `tools/call`) and reuses `src/core.mjs`, `src/catalog-store.mjs`, `data/catalog.json`, and `data/blocked-qids.json`. It does not run the Node HTTP adapter or make outgoing requests. The target hostname is deliberately exact in the Worker and must be updated in source and tests if the Site slug changes.
+The Sites-specific production entry is `sites/worker/index.js`. Build it with `npm run build:sites`; the generated artifact places its Worker entry at `dist/server/index.js` and declares `capabilities: ["mcp"]` in `.openai/hosting.json`. This adapter speaks the Sites MCP protocol (`server/discover`, `tools/list`, `tools/call`) and reuses `src/core.mjs`, `src/catalog-store.mjs`, `data/catalog.json`, and `data/blocked-qids.json`. It does not run the Node HTTP adapter. It makes bounded requests only to the Wikidata structured-data endpoints `query.wikidata.org/sparql` and `www.wikidata.org/w/api.php`. The Site must be allowed to reach these hosts; the Node adapter remains a separate catalog-only implementation. The target hostname is deliberately exact in the Worker and must be updated in source and tests if the Site slug changes.
 
 `src/app.mjs` exports `createApp(options)`, returning `{fetch, close}`. The adapter must preserve the original request URL, method, headers and streaming body. Do not mount raw `src/mcp.mjs` without equivalent guards. Never put a body parser in front that bypasses the byte limit. Mount `/mcp` and `/healthz`; call `close` during shutdown where supported.
 
@@ -41,3 +41,7 @@ GitHub updates do not necessarily redeploy an existing Site. Catalog and suspens
 - https://github.com/modelcontextprotocol/typescript-sdk/blob/main/packages/server/src/server/createMcpHandler.ts
 
 The hosting guide currently distinguishes Site sharing from plugin sharing; personal/Pro direct plugin invitations/share links are restricted. Confirm the actual account's available route rather than assuming that a public repository enables public plugin sharing.
+
+## Wikidata live acceptance gate
+
+Use `docs/LIVE_WIKIDATA.md` as the current source of truth. Republish the existing Site from a green CI commit, confirm `/healthz.mode=wikidata_live_with_catalog_fallback`, then invoke `random_persona` and `get_persona` for a verified Wikidata QID outside the fallback catalog. Inspect `source_mode`: `wikidata_live` must be observed, not just fallback. Test what happens if Wikidata cannot be reached, and have ChatGPT actually open the referenced article before beginning simulated dialogue. GitHub updates alone do not redeploy Sites.

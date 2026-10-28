@@ -9,7 +9,7 @@ The server draws an identity and returns metadata, trusted reference URLs and fi
 - `random_persona`: kind defaults to both, language defaults ja, up to 20 exclusions. Sampling is uniform over eligible catalog identities, not URLs or all Wikipedia, and not a forced 50/50 split. Language controls source priority with fallback, not filtering.
 - `get_persona`: QID required; unknown/suspended items return not_found. This does not retrieve article content.
 - Both return structuredContent plus equivalent JSON text; source metadata is cloned and fields are bounded. Outcomes are ok, no_match and not_found. Invalid arguments are tool validation errors.
-- No runtime external network access. Host and Origin allowlists, 128 KiB actual-byte cap, JSON-only input, no-store responses. Optional Node adapter also has timeouts. Sites edge quotas and authentication are separate prerequisites.
+- The Sites runtime reads live Wikidata structured metadata only; the optional Node adapter is catalog-only. No server-side article-body browsing. Host and Origin allowlists, 128 KiB actual-byte cap, JSON-only input, no-store responses. Optional Node adapter also has timeouts. Sites edge quotas and authentication are separate prerequisites.
 - Selection validates a bounded catalog; this implementation is for small reviewed batches, not an optimized million-identity database. Rebuild the snapshot on data/suspension changes.
 
 ## Operator-only update pipeline
@@ -28,3 +28,7 @@ Real seeds require direct P31=Q5; fictional seeds reject direct Q5 but otherwise
 
 ## Consumer
 See CLIENT_WORKFLOW.md: retrieve before interpreting, retain identity in the same chat, disclose simulation, cite sources, separate fact/interpretation/fiction. At most two articles per identity and two redraws; absent browsing or global access failures stop without pretending success.
+
+## Live Wikidata path
+
+The Sites Worker now prefers a direct-P31 class-constrained Wikidata Query Service result and resolves one of the candidate QIDs via `wbgetentities`. `get_persona` accepts any valid Wikidata QID and performs a live fetch. Exactly two upstream requests are required for a successful live random draw, one for a direct QID lookup. On 429 or failed network requests it falls back to a separately reviewed local cache and marks `source_mode`. This is bounded class sampling, not a statistically uniform full-Wikidata draw. See LIVE_WIKIDATA.md.
