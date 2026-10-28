@@ -62,3 +62,57 @@ test('a 429 stops Wikidata calls and raises an upstream error',async()=>{
  await assert.rejects(()=>source.random({kind:'real'}),/429|upstream|Wikidata|rate/i);
  assert.equal(f.calls.length,1);
 });
+
+test('Retry-After and isolate budget prevent subsequent upstream requests',async()=>{
+ let clock=Date.parse('2026-10-28T00:00:00Z');
+ const f=fake({},{status:429});
+ const source=createLiveWikidata({fetchImpl:f.fetchImpl,now:()=>new Date(clock)});
+ await assert.rejects(()=>source.get({qid:'Q42'}),/429/);
+ await assert.rejects(()=>source.get({qid:'Q42'}),/cooldown/);
+ assert.equal(f.calls.length,1);
+ clock+=61000;
+ await assert.rejects(()=>source.get({qid:'Q42'}),/429/);
+ assert.equal(f.calls.length,2);
+ const g=fake({Q42:record('Q42','Q5')});
+ const limited=createLiveWikidata({fetchImpl:g.fetchImpl,maxRequestsPerMinute:1});
+ await limited.get({qid:'Q42'});
+ await assert.rejects(()=>limited.get({qid:'Q42'}),/budget/);
+ assert.equal(g.calls.length,1);
+});
+test('missing entity is distinct from malformed or mismatched identity response',async()=>{
+ for(const entities of [{},{Q42:record('Q99','Q5')}]){
+  const s=createLiveWikidata({fetchImpl:async()=>Response.json({entities})});
+  await assert.rejects(()=>s.get({qid:'Q42'}),/mismatch/);
+ }
+ const s=createLiveWikidata({fetchImpl:async()=>Response.json({entities:{Q42:{id:'Q42',missing:''}}})});
+ assert.equal((await s.get({qid:'Q42'})).status,'not_found');
+});
+test('ambiguous, deprecated and disambiguation classifications are not returned',async()=>{
+ for(const claims of [[claim('Q5'),claim('Q15632617')],[{...claim('Q5'),rank:'deprecated'}],[claim('Q5'),claim('Q4167410')]]){
+  const entity=record('Q42','Q5');entity.claims.P31=claims;
+  const f=fake({Q42:entity}),s=createLiveWikidata({fetchImpl:f.fetchImpl});
+  assert.equal((await s.get({qid:'Q42'})).status,'not_found');
+ }
+});
+test('upstream body limit, invalid JSON and a hanging fetch fail boundedly',async()=>{
+ for(const response of [new Response(' '.repeat(2*1024*1024+1)),new Response('{bad')]){
+  const s=createLiveWikidata({fetchImpl:async()=>response});
+  await assert.rejects(()=>s.get({qid:'Q42'}));
+ }
+ const s=createLiveWikidata({fetchImpl:()=>new Promise(()=>{}),timeoutMs:15});
+ await assert.rejects(()=>s.get({qid:'Q42'}),/timeout/);
+});
+test('concurrent request budget is released after completion',async()=>{
+ let finish;
+ const source=createLiveWikidata({maxConcurrent:1,fetchImpl:()=>new Promise(resolve=>{finish=resolve;})});
+ const first=source.get({qid:'Q42'});
+ await assert.rejects(()=>source.get({qid:'Q42'}),/budget/);
+ finish(Response.json({entities:{Q42:record('Q42','Q5')}}));await first;
+});
+test('exact no-such-entity API errors become not_found, unrelated errors do not',async()=>{
+ for(const id of ['Q999999999999','Q42']){
+  const s=createLiveWikidata({fetchImpl:async()=>Response.json({error:{code:'no-such-entity',id}})});
+  if(id==='Q999999999999')assert.equal((await s.get({qid:id})).status,'not_found');
+  else await assert.rejects(()=>s.get({qid:'Q999999999999'}),/upstream/);
+ }
+});

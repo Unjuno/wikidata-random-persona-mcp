@@ -30,3 +30,11 @@ The current technique is NOT uniformly random across Wikidata. It draws from dir
 **GitHub changes do not automatically republish an existing ChatGPT Site.**
 
 Official references: https://www.wikidata.org/wiki/Wikidata:Data_access and https://www.mediawiki.org/wiki/API:Presenting_Wikidata_knowledge
+
+## Limits in the LP release
+
+Each draw makes at most two upstream GET requests (12 candidate IDs, then one entity batch). The query selects direct-class identities; ja/en sitelinks are verified in the entity response, so no expensive article join is required. Each request and response body share a 10-second deadline and a 2 MiB response limit. No automatic retry loop runs. HTTP 429/503 Retry-After (including HTTP dates) and maxlag put that isolate into a cooldown. At most 60 upstream requests/minute and 4 simultaneous upstream operations are allowed per Worker isolate. `/mcp` additionally permits at most 120 requests/minute per isolate and 128 KiB per body. These volatile safety budgets are not distributed account-level quotas and reset when Sites starts a new isolate.
+
+A no-such-entity API error with the exact requested QID is `not_found`. Missing/mismatched response maps are upstream errors. Contradictory human/fictional, deprecated-only and disambiguation/list classifications are rejected. Sites' authentication/access enforcement remains the MCP boundary; the static LP does not provide an unauthenticated proxy for MCP calls.
+
+The built Worker is tested with official MCP Client 2.4 in both legacy initialize and modern auto-discovery modes. Modern results carry `resultType: complete`; legacy initialize negotiates supported 2025/2024 revisions. Batch requests are rejected and notifications never execute tool calls.

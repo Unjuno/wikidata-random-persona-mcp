@@ -48,8 +48,11 @@ function kindOf(entity) {
  const active=claims.filter(c=>c&&c.rank!=='deprecated');
  const preferred=active.filter(c=>c.rank==='preferred');
  const classes=new Set((preferred.length?preferred:active).map(c=>c?.mainsnak?.datavalue?.value?.id).filter(Boolean));
- if(classes.has('Q5'))return 'real';
- if([...classes].some(id=>FICTIONAL_IDS.has(id)))return 'fictional';
+ if(classes.has('Q4167410')||classes.has('Q13406463'))return null;
+ const human=classes.has('Q5'),fictional=[...classes].some(id=>FICTIONAL_IDS.has(id));
+ if(human&&fictional)return null; // Contradictory claims are not a safe persona identity.
+ if(human)return 'real';
+ if(fictional)return 'fictional';
  return null;
 }
 async function boundedJson(response){
@@ -71,25 +74,53 @@ async function boundedJson(response){
  for(const chunk of chunks){out.set(chunk,pos);pos+=chunk.byteLength;}
  return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(out));
 }
-export function createLiveWikidata({fetchImpl=globalThis.fetch,randomIndex=secureRandomIndex,now=stamp,timeoutMs=7000}={}) {
+export function createLiveWikidata({fetchImpl=globalThis.fetch,randomIndex=secureRandomIndex,now=stamp,timeoutMs=10000,maxRequestsPerMinute=60,maxConcurrent=4}={}) {
  if(typeof fetchImpl!=='function'||typeof randomIndex!=='function'||typeof now!=='function')throw Error('Invalid Wikidata client configuration');
+ if(!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>30000||!Number.isInteger(maxRequestsPerMinute)||maxRequestsPerMinute<1||!Number.isInteger(maxConcurrent)||maxConcurrent<1)throw Error('Invalid Wikidata request limits');
+ // Defensive, isolate-local budgets; platform-wide quotas belong at the Sites boundary.
+ let windowStart=0,requests=0,inFlight=0,cooldownUntil=0;
  async function readJson(url){
   if(!(url instanceof URL)||url.protocol!=='https:'||url.username||url.password||
     !['www.wikidata.org','query.wikidata.org'].includes(url.hostname)||
     (url.hostname==='www.wikidata.org'&&url.pathname!=='/w/api.php')||
     (url.hostname==='query.wikidata.org'&&url.pathname!=='/sparql'))throw Error('Unapproved Wikimedia URL');
-  const response=await fetchImpl(url.toString(),{
-   method:'GET',redirect:'error',
-   headers:{'Accept':'application/json','User-Agent':USER_AGENT,'Api-User-Agent':USER_AGENT},
-   signal:AbortSignal.timeout(timeoutMs)
-  });
-  if(!response.ok) {
-   if(response.status===429||response.status===503)throw Error('Wikidata rate limited: '+response.status);
-   throw Error('Wikidata upstream HTTP '+response.status);
-  }
-  const body=await boundedJson(response);
-  if(body?.error)throw Error('Wikidata upstream error');
-  return body;
+  const time=now().getTime();
+  if(time<cooldownUntil)throw Error('Wikidata Retry-After cooldown');
+  if(time-windowStart>=60000){windowStart=time;requests=0;}
+  if(requests>=maxRequestsPerMinute||inFlight>=maxConcurrent)throw Error('Wikidata local request budget exceeded');
+  requests++;inFlight++;
+  const controller=new AbortController();
+  let timer;
+  const deadline=new Promise((_,reject)=>{timer=setTimeout(()=>{controller.abort();reject(Error('Wikidata timeout'));},timeoutMs);});
+  const operation=(async()=>{
+   const response=await fetchImpl(url.toString(),{
+    method:'GET',redirect:'error',
+    headers:{'Accept':'application/json','User-Agent':USER_AGENT,'Api-User-Agent':USER_AGENT},
+    signal:controller.signal
+   });
+   if(!response.ok) {
+    if(response.status===429||response.status===503){
+     const header=response.headers.get('retry-after')??'60';
+     const seconds=/^\d+$/.test(header)?Number(header):(Date.parse(header)-now().getTime())/1000;
+     cooldownUntil=now().getTime()+Math.max(1,Number.isFinite(seconds)?seconds:60)*1000;
+     void response.body?.cancel().catch(()=>{});
+     throw Error('Wikidata rate limited: '+response.status);
+    }
+    void response.body?.cancel().catch(()=>{});
+    throw Error('Wikidata upstream HTTP '+response.status);
+   }
+   if(Number(response.headers.get('content-length'))>MAX_JSON_BYTES){void response.body?.cancel().catch(()=>{});throw Error('Wikidata response too large');}
+   const body=await boundedJson(response);
+   if(body?.error?.code==='no-such-entity'&&isQid(body.error.id)&&url.hostname==='www.wikidata.org'&&url.searchParams.get('ids')===body.error.id)return {entities:{[body.error.id]:{id:body.error.id,missing:''}}};
+   if(body?.error){
+    if(body.error.code==='maxlag')cooldownUntil=now().getTime()+60000;
+    throw Error('Wikidata upstream error');
+   }
+   return body;
+  })();
+  try{return await Promise.race([operation,deadline]);}
+  finally{clearTimeout(timer);inFlight--;}
+
  }
  async function fetchEntities(ids){
   if(!Array.isArray(ids)||!ids.length||ids.length>20||!ids.every(isQid))throw Error('Invalid Wikidata QID batch');
@@ -107,6 +138,8 @@ export function createLiveWikidata({fetchImpl=globalThis.fetch,randomIndex=secur
   if(validBlocked(options).has(qid))return noMatch(qid);
   const entities=await fetchEntities([qid]);
   const entity=entities[qid];
+  if(!validObject(entity)||entity.id!==qid)throw Error('Wikidata identity response mismatch');
+  if(Object.hasOwn(entity,'missing'))return noMatch(qid);
   const kind=kindOf(entity);
   if(!kind)return noMatch(qid);
   const entry=normalizeEntity(entity,{qid,kind});
@@ -120,8 +153,7 @@ export function createLiveWikidata({fetchImpl=globalThis.fetch,randomIndex=secur
   const classInfo=desired==='real'?{qid:HUMAN_CLASS,offsetMax:10000}:
    FICTIONAL_CLASSES[chooseBounded(randomIndex,FICTIONAL_CLASSES.length)];
   const offset=chooseBounded(randomIndex,classInfo.offsetMax+1);
-  const q='SELECT ?item WHERE { ?item wdt:P31 wd:'+classInfo.qid+
-   ' . ?article schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> . } LIMIT 12 OFFSET '+offset;
+  const q='SELECT ?item WHERE { ?item wdt:P31 wd:'+classInfo.qid+' . } LIMIT 12 OFFSET '+offset;
   const search=new URL('https://query.wikidata.org/sparql');
   search.search=new URLSearchParams({query:q,format:'json'});
   const results=await readJson(search);

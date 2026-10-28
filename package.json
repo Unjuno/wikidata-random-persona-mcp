@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": false,
   "type": "module",
-  "description": "Read-only MCP tool that draws people and fictional characters from a reviewed Wikidata URL catalog.",
+  "description": "Wikidata-live persona reference MCP with transparent catalog fallback and a Japanese discovery landing page.",
   "license": "MIT",
   "engines": {
     "node": ">=22"
@@ -18,7 +18,8 @@
     "catalog:refresh": "node scripts/refresh-catalog.mjs",
     "catalog:promote": "node scripts/promote-catalog.mjs",
     "catalog:sample-dump": "node scripts/sample-wikidata-dump.mjs",
-    "catalog:bootstrap": "node scripts/bootstrap-wikidata.mjs --per-kind 150"
+    "catalog:bootstrap": "node scripts/bootstrap-wikidata.mjs --per-kind 150",
+    "dev": "node scripts/preview-lp.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/node": "2.1.2",

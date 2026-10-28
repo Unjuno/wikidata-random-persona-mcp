@@ -2,7 +2,7 @@
 
 ## Copy into Work or Codex
 
-> https://github.com/Unjuno/wikidata-random-persona-mcp を開き、AGENTS.md、README.ja.md、docs/ARCHITECTURE.md、docs/CLIENT_WORKFLOW.md、docs/READINESS.mdを読んでください。Random Persona MCPというSiteを作成し、src/app.mjsのcreateAppが返すfetchを、実際のSitesサーバー環境に適合させてください。公開するツールはrandom_personaとget_personaだけです。data/catalog.jsonとdata/blocked-qids.jsonを同時に読み、実際のSiteホスト名をallowedHostsへ設定してください。Node常駐サーバー、任意URL取得、LLM呼び出し、Wikipedia本文保存は追加しません。docs/CLIENT_WORKFLOW.mdを利用側の共通ワークフローとして組み込みます。まず非公開でnpm ci、npm run check、npm run catalog:validate、npm testを実行し、Sites上のMCP接続と資料取得から仮想対話開始までを確認してください。所有者の公開・プラグイン接続・第三者利用は別々に検証し、未確認の段階を完了扱いにしないでください。
+> https://github.com/Unjuno/wikidata-random-persona-mcp を開き、AGENTS.md、README.ja.md、docs/ARCHITECTURE.md、docs/CLIENT_WORKFLOW.md、docs/READINESS.mdを読んでください。既存Site https://random-persona-mcp.unjuno.chatgpt.site を更新し、sites/worker/index.js をSitesのWorker環境へビルドしてください。別Siteを新規作成しないでください。公開するツールはrandom_personaとget_personaだけです。data/catalog.jsonとdata/blocked-qids.jsonを同時に読み、実際のSiteホスト名をallowedHostsへ設定してください。Node常駐サーバー、任意URL取得、LLM呼び出し、Wikipedia本文保存は追加しません。docs/CLIENT_WORKFLOW.mdを利用側の共通ワークフローとして組み込みます。まず非公開でnpm ci、npm run check、npm run catalog:validate、npm testを実行し、Sites上のMCP接続と資料取得から仮想対話開始までを確認してください。所有者の公開・プラグイン接続・第三者利用は別々に検証し、未確認の段階を完了扱いにしないでください。
 
 ## Runtime seam
 
@@ -19,13 +19,13 @@ The Sites-specific production entry is `sites/worker/index.js`. Build it with `n
 
 Request-body bound is 131072 bytes, a byte count rather than time or character count. Node request timeout is 15 seconds. In Sites, explicitly verify the platform's request deadline, memory/concurrency limits, traffic quotas/rate limits and any required authentication. Host/Origin checks are not authentication and do not stop non-browser callers. Current adapter is server-to-server; no generic cross-origin browser CORS support is promised.
 
-Use bundled reviewed data first. Do not assume a writable filesystem, a persistent Node process, cron, or background jobs. `catalog:refresh`/`catalog:promote` are operator-side Node scripts: run them in Work/Codex or use the manual GitHub Actions staging workflow, review results, commit approved data, then sync/republish the Site. A future Sites database requires a separate transactional storage adapter.
+Use live metadata first in Sites and bundled reviewed data only as labeled fallback. Do not assume a writable filesystem, a persistent Node process, cron, or background jobs. `catalog:refresh`/`catalog:promote` are operator-side Node scripts: run them in Work/Codex or use the manual GitHub Actions staging workflow, review results, commit approved data, then sync/republish the Site. A future Sites database requires a separate transactional storage adapter.
 
 ## Publish gates, in order
 
 1. Select an actual commit with green CI; use its package-lock.json and `npm ci`.
 2. Read the current catalog status in READINESS. Demo data is not a comprehensive/representative database. Verify real metadata before broad publication.
-3. Create a private Site; set real host/origin and platform request/traffic controls. Never use `*` to make a failed guard disappear.
+3. Update the existing Site, preserving its current audience; verify real host/origin and request/traffic controls. Never use `*` to make a failed guard disappear.
 4. Check actual SDK connection, exactly two tools, both kinds, exclusions, unknown QID, strict invalid inputs, suspended IDs, oversized request rejection and health.
 5. Confirm the SAME ChatGPT conversation can fetch a returned article URL and start a disclosed simulation. Test missing browsing/insufficient evidence with bounded recovery.
 6. Site owner publishes/republishes; install the produced plugin card and complete required connection. Check the tool list again.

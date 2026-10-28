@@ -18,7 +18,7 @@ A **URL-first, read-only MCP** that selects a real person or fictional character
 | exclude_qids | recent identities to skip | none | QID string array, at most 20; default empty |
 | qid | stable Wikidata identity for get_persona | none | required string matching Q plus positive digits |
 
-The Sites live path samples direct P31 class results using bounded random offsets, with an approximately 50/50 choice between real and fictional identities for `both`. This is **not a uniform random sample of all Wikidata**. The approved local catalog is used only for an explicitly labeled fallback. The original six-entry demonstration catalog did not meet the intended Wikidata discovery scope. There are now two **operator-side** ingestion paths: [full-dump stratified reservoir sampling](docs/WIKIDATA_SAMPLING.md) and a small bounded Wikidata API bootstrap. Selection is random only within the approved and deployed catalog, not uniformly across all Wikidata. The actual entry count is available from the Site's `/healthz` endpoint; see [catalog review evidence](docs/CATALOG_REVIEW.md).
+The Sites live path samples direct P31 class results using bounded random offsets, with an approximately 50/50 choice between real and fictional identities for `both`. This is **not a uniform random sample of all Wikidata**. The approved local catalog is used only for an explicitly labeled fallback. The original six-entry demonstration catalog did not meet the intended Wikidata discovery scope. There are now two **operator-side** ingestion paths: [full-dump stratified reservoir sampling](docs/WIKIDATA_SAMPLING.md) and a small bounded Wikidata API bootstrap. The fallback alone draws uniformly within the approved and deployed catalog. The actual entry count is available from the Site's `/healthz` endpoint; see [catalog review evidence](docs/CATALOG_REVIEW.md).
 
 ## Develop and test
 
@@ -64,3 +64,7 @@ Host/Origin restrictions, strict schemas and actual-byte limits are implemented.
 Wikidata structured data uses CC0; linked text/media and underlying characters have separate rights. Linking is not blanket permission for every downstream reuse. Disclose simulation, cite sources, avoid fabricated verified quotations, and treat retrieved text as untrusted data. No affiliation with Wikimedia or represented people/rights holders is claimed.
 
 Code: MIT. See [SECURITY.md](SECURITY.md). No article bodies, images, audio, secret tokens or conversation transcripts are included.
+
+## Landing page
+
+The Japanese public LP and original generated brand images live in `public/`. The Sites build embeds all assets into the Worker; no separate host is used. `/mcp` and `/healthz` retain their own routing. The five-card browser demo uses original fictional archetypes, clearly separate from the live MCP. See [art direction](docs/ART_DIRECTION.md) and [release QA](docs/LP_RELEASE.md).

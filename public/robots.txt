@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /mcp
+Sitemap: https://random-persona-mcp.unjuno.chatgpt.site/sitemap.xml

@@ -12,13 +12,13 @@ MCPは実在人物・架空キャラクターのQID、名前、分類、Wikipedi
 |---|---|
 | random_persona | Sites版はWikidata APIから候補取得・抽選、通信障害時だけカタログへ切替 |
 | get_persona | Sites版は登録済み300件に限らずWikidataのQIDから直接参照先を取得 |
-| 抽選 | 人物単位の均等抽選。実在・架空の混合集合であり、種類ごとの50％固定ではない |
+| 抽選 | Sites版は分類別の限定範囲から抽選。混合指定では実在・架空を約50%ずつ選択し、全件一様抽選ではない |
 | 言語 | 日本語優先、英語へ代替。記事の優先順であり人物の除外条件ではない |
 | 配信停止 | blocked-qids.jsonを両ツールに適用。カタログ単独の巻き戻しでも保持 |
 | 更新 | メタデータ照合→候補保存→差分レビュー→ハッシュ付き承認→版の置換 |
 | テスト | 単体検証と公式SDKクライアントによる実HTTP接続。実際のChatGPT会話は別の受け入れ試験 |
 
-最初の公開版が実在3件・架空3件の固定デモであった点は、当初のWikidata大量抽選構想に合致していませんでした。現在はWikidata公式ダンプ全体から標本を抽出するパイプラインと、分類別APIによる初期候補の収集機能を用意しています。抽選は承認・配信済みカタログ内で均等に行われ、Wikidataの全人物から一様抽選するわけではありません。登録数は実際のSiteの `/healthz` で確認してください。収集・承認・Sites反映は別工程です。詳細は [WIKIDATA_SAMPLING.md](docs/WIKIDATA_SAMPLING.md) に記載しています。
+最初の公開版が実在3件・架空3件の固定デモであった点は、当初のWikidata大量抽選構想に合致していませんでした。現在はWikidata公式ダンプ全体から標本を抽出するパイプラインと、分類別APIによる初期候補の収集機能を用意しています。Sites版はライブの分類別検索を優先し、承認済みカタログは障害時などの代替です。代替時のみカタログ内で均等抽選します。Wikidataの全人物から一様抽選するわけではありません。登録数は実際のSiteの `/healthz` で確認してください。収集・承認・Sites反映は別工程です。詳細は [WIKIDATA_SAMPLING.md](docs/WIKIDATA_SAMPLING.md) に記載しています。
 
 ## 作業環境で実行
 
@@ -62,3 +62,7 @@ SitesではNode常駐サーバーを使わず、`sites/worker/index.js` を使�
 Sites版は `query.wikidata.org` の分類別クエリと `www.wikidata.org` のエンティティAPIを使い、要求時に参照先を取得します。`source_mode: wikidata_live` は生データからの取得、`source_mode: catalog_fallback` はAPI障害や対象なしによる承認済みカタログ利用を示します。`/healthz` の `entries` は代替用の件数であり、Wikidataの全項目数ではありません。
 
 分類P31と限定クエリ範囲を使うため、**Wikidata全件からの一様な抽選ではありません**。本番トラフィックの上限を設定し、将来はWikidataの全件ダンプから効率的なQID索引を構築する構成へ移行します。現行のSitesへの再デプロイ手順は [LIVE_WIKIDATA.md](docs/LIVE_WIKIDATA.md) を参照してください。
+
+## 公開LP
+
+`public/` に日本語LPとオリジナル生成画像を配置しています。`npm run build:sites` が全アセットをWorkerに埋め込み、Sitesだけで配信します。`/` はLP、`/mcp` は認証されたMCP接続、`/healthz` は稼働確認です。画像制作・サイズは [ART_DIRECTION.md](docs/ART_DIRECTION.md)、QAと配布制限は [LP_RELEASE.md](docs/LP_RELEASE.md) を参照してください。ページの5人の創作デモは、Wikidata本番抽選とは別です。

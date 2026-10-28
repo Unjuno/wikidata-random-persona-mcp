@@ -1,5 +1,6 @@
-import {cp, mkdir, readFile, rm, writeFile} from 'node:fs/promises';
-import {resolve} from 'node:path';
+import {cp, mkdir, readFile, readdir, rm, writeFile} from 'node:fs/promises';
+import {resolve, extname} from 'node:path';
+import {createHash} from 'node:crypto';
 import {validateCatalog} from '../src/core.mjs';
 
 const root = resolve(import.meta.dirname, '..');
@@ -21,3 +22,33 @@ await writeFile(resolve(server, 'catalog.mjs'), `export default ${JSON.stringify
 await writeFile(resolve(server, 'blocked-qids.mjs'), `export default ${JSON.stringify(blocked)};\n`);
 await cp(resolve(root, '.openai/hosting.json'), resolve(out, '.openai/hosting.json'));
 console.log(`Built Sites Worker from ${catalog.version} (${catalog.entries.length} entries).`);
+
+// Embed static bytes in the Worker bundle: Sites' ESM deployment does not copy public/.
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.txt':'text/plain; charset=utf-8','.xml':'application/xml; charset=utf-8'};
+const assets={};
+async function collect(dir,prefix=''){
+ for(const file of await readdir(dir,{withFileTypes:true})){
+  const path=resolve(dir,file.name),name=prefix+'/'+file.name;
+  if(file.isDirectory()){await collect(path,name);continue;}
+  const type=types[extname(file.name)];
+  if(!type||!file.isFile())throw Error('Unsupported public asset: '+name);
+  const bytes=await readFile(path);
+  if(!bytes.length)throw Error('Empty public asset: '+name);
+  if(bytes.length>400000)throw Error('Public asset exceeds 400 KB: '+name);
+  assets[name]={type,size:bytes.length,etag:'"'+createHash('sha256').update(bytes).digest('hex').slice(0,24)+'"',data:bytes.toString('base64')};
+ }
+}
+await collect(resolve(root,'public'));
+const html=await readFile(resolve(root,'public/index.html'),'utf8');
+for(const path of html.match(/\/assets\/[a-z0-9.-]+/g)??[])if(!assets[path])throw Error('Missing LP asset: '+path);
+await writeFile(resolve(server,'site-assets.mjs'),'export default '+JSON.stringify(assets)+';\n');
+await cp(resolve(root,'sites/worker/web.mjs'),resolve(server,'web.mjs'));
+console.log('Embedded '+Object.keys(assets).length+' LP assets.');
+
+// A reproducible fingerprint ties deployed runtime/assets to the GitHub source.
+const fingerprint=createHash('sha256');
+for(const name of ['sites/worker/index.js','sites/worker/web.mjs','src/core.mjs','src/catalog-store.mjs','src/wikidata.mjs','src/live-wikidata.mjs','data/catalog.json','data/blocked-qids.json','scripts/build-sites-worker.mjs','.openai/hosting.json','package-lock.json']){
+ fingerprint.update(name+'\0');fingerprint.update(await readFile(resolve(root,name)));
+}
+for(const name of Object.keys(assets).sort()){fingerprint.update(name+'\0');fingerprint.update(assets[name].data);}
+await writeFile(resolve(server,'build-info.mjs'),'export default '+JSON.stringify({fingerprint:fingerprint.digest('hex')})+';\n');

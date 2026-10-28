@@ -43,3 +43,30 @@ test('Sites edge guards host, origin, methods, content, and streamed body size',
   response = await worker.fetch(new Request(url,{method:'POST',headers:{host:'random-persona-mcp.unjuno.chatgpt.site','content-type':'application/json'},body,duplex:'half'}));
   assert.equal(response.status,413);
 });
+
+test('batch, invalid IDs and notifications never trigger live fetches',async()=>{
+ let calls=0;
+ const isolated=createWorker({liveSource:{random:async()=>{calls++;throw Error('unexpected');}}});
+ const send=body=>isolated.fetch(new Request(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}));
+ const call=rpc('tools/call',{name:'random_persona'});
+ for(const body of [[call,call],{...call,id:{}},{...call,id:null}]){
+  assert.equal((await (await send(body)).json()).error.code,-32600);
+ }
+ delete call.id;
+ assert.equal((await send(call)).status,202);
+ assert.equal(calls,0);
+});
+test('MCP request budget returns 429 with Retry-After and resets',async()=>{
+ let clock=100000;
+ const limited=createWorker({now:()=>clock,maxRequestsPerMinute:1});
+ const send=()=>limited.fetch(new Request(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(rpc('ping'))}));
+ assert.equal((await send()).status,200);
+ const blocked=await send();assert.equal(blocked.status,429);assert.equal(blocked.headers.get('retry-after'),'60');
+ clock+=60000;assert.equal((await send()).status,200);
+});
+test('a stalled request body is bounded by the read deadline',async()=>{
+ const bounded=createWorker({requestTimeoutMs:15});
+ const body=new ReadableStream({start(){}});
+ const response=await bounded.fetch(new Request(url,{method:'POST',headers:{'content-type':'application/json'},body,duplex:'half'}));
+ assert.equal(response.status,408);
+});
