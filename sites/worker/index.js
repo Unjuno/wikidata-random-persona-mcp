@@ -1,6 +1,7 @@
 import catalog from './catalog.mjs';
 import blockedQids from './blocked-qids.mjs';
 import { createCatalogStore } from './catalog-store.mjs';
+import { createLiveWikidata } from './live-wikidata.mjs';
 
 const SITE_HOST = 'random-persona-mcp.unjuno.chatgpt.site';
 const SITE_ORIGIN = `https://${SITE_HOST}`;
@@ -10,7 +11,7 @@ const store = createCatalogStore(catalog, blockedQids);
 const toolDefinitions = [
   {
     name: 'random_persona',
-    description: 'Use when the user asks to talk with a random person/character or asks for a different one. Select one reviewed identity and return reference links; then use your available browser to read the first Wikipedia article before beginning. If read, disclose that dialogue is simulated, separate sourced facts from interpretation and invented dialogue, and keep this QID for the rest of the chat. Never claim to have read an unavailable source. On “another person,” call again and exclude recent QIDs. This tool does not generate a persona.',
+    description: 'Use when the user asks to talk with a random person/character or asks for a different one. Select a live Wikidata identity; when Wikidata is unavailable, fall back to the reviewed catalog with an explicit source_mode. Return reference links; then use your available browser to read the first Wikipedia article before beginning. If read, disclose that dialogue is simulated, separate sourced facts from interpretation and invented dialogue, and keep this QID for the rest of the chat. Never claim to have read an unavailable source. On “another person,” call again and exclude recent QIDs. This tool does not generate a persona.',
     inputSchema: {
       type: 'object', additionalProperties: false,
       properties: {
@@ -22,7 +23,7 @@ const toolDefinitions = [
   },
   {
     name: 'get_persona',
-    description: 'Return stored reference links for a known Wikidata QID when resuming that identity. Use your available browser to read the article before simulating dialogue. Disclose simulation, distinguish sourced facts from interpretation and invention, and never claim to have read an unavailable source. Does not retrieve arbitrary URLs or article text.',
+    description: 'Retrieve up-to-date structured metadata and article links for any eligible Wikidata QID. On Wikimedia outage, a known QID may use the catalog as explicitly labeled fallback. Use your available browser to read the article before simulating dialogue. Disclose simulation, distinguish sourced facts from interpretation and invention, and never claim to have read an unavailable source. Does not retrieve arbitrary URLs or article text.',
     inputSchema: {
       type: 'object', additionalProperties: false,
       properties: {
@@ -64,21 +65,40 @@ async function readLimited(request) {
 function requireKeys(args, allowed, required = []) {
   if (!isRecord(args) || Object.keys(args).some(key => !allowed.includes(key)) || required.some(key => !(key in args))) throw new Error('Invalid tool arguments');
 }
-function callTool(name, args) {
+async function callTool(name, args, liveSource) {
   if (name === 'random_persona') {
     requireKeys(args, ['kind', 'language', 'exclude_qids']);
-    return store.random(args);
+    // Validate before network. Keep a real random fallback, not a hard-coded index.
+    const local = store.random(args);
+    try {
+      const live = await liveSource.random(args, {blockedQids});
+      if (live?.status === 'ok') return live;
+      return {...local, source_mode: 'catalog_fallback', fallback_reason:'no_live_match'};
+    } catch {
+      return {...local, source_mode: 'catalog_fallback', fallback_reason:'wikidata_unavailable'};
+    }
   }
   if (name === 'get_persona') {
     requireKeys(args, ['qid', 'language'], ['qid']);
-    return store.get(args);
+    // This call also validates QID/language and observes the independent block list.
+    const local = store.get(args);
+    try {
+      const live = await liveSource.get(args, {blockedQids});
+      if (live?.status === 'ok' || live?.status === 'not_found') return live;
+      throw Error('Unexpected Wikidata response');
+    } catch {
+      if (local.status === 'ok') return {...local, source_mode:'catalog_fallback', fallback_reason:'wikidata_unavailable'};
+      return {status:'upstream_unavailable', qid:args.qid, catalog_version:store.summary.catalog_version,
+        source_mode:'wikidata_unavailable', reason:'Cannot verify a QID against Wikidata right now'};
+    }
   }
   throw new Error('Unknown tool');
 }
+
 function toolResult(result, isError = false) {
   return { content: [{ type: 'text', text: JSON.stringify(result) }], structuredContent: result, ...(isError ? { isError: true } : {}) };
 }
-async function dispatch(message) {
+async function dispatch(message, liveSource) {
   if (!isRecord(message) || message.jsonrpc !== '2.0' || typeof message.method !== 'string') return rpcError(message?.id, -32600, 'Invalid Request');
   const hasId = Object.hasOwn(message, 'id');
   const id = hasId ? message.id : null;
@@ -91,7 +111,7 @@ async function dispatch(message) {
     try {
       const params = message.params;
       if (!isRecord(params) || typeof params.name !== 'string') throw new Error('Invalid tool call');
-      return result(toolResult(callTool(params.name, params.arguments ?? {})));
+      return result(toolResult(await callTool(params.name, params.arguments ?? {}, liveSource)));
     } catch (error) {
       return result(toolResult({ error: error instanceof Error ? error.message : 'Tool call failed' }, true));
     }
@@ -100,7 +120,8 @@ async function dispatch(message) {
   return rpcError(id, -32601, 'Method not found');
 }
 
-export async function fetch(request) {
+export function createWorker({liveSource=createLiveWikidata()}={}) {
+return { async fetch(request) {
   const url = new URL(request.url);
   const host = request.headers.get('host');
   if (url.hostname.toLowerCase() !== SITE_HOST || (host && host.toLowerCase() !== SITE_HOST)) return json({ error: 'Host not permitted' }, 403);
@@ -109,7 +130,7 @@ export async function fetch(request) {
   if (url.pathname === '/' && request.method === 'GET') {
     return new Response('Random Persona MCP\nPOST /mcp — tools: random_persona, get_persona\nGET /healthz — health check\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } });
   }
-  if (url.pathname === '/healthz' && request.method === 'GET') return json({ status: 'ok', catalog_version: store.summary.catalog_version, entries: store.summary.entries });
+  if (url.pathname === '/healthz' && request.method === 'GET') return json({ status: 'ok', catalog_version: store.summary.catalog_version, entries: store.summary.entries, mode: 'wikidata_live_with_catalog_fallback' });
   if (url.pathname !== '/mcp') return json({ error: 'Not found' }, 404);
   if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405, { Allow: 'POST' });
   if (request.headers.get('content-type')?.split(';')[0].trim().toLowerCase() !== 'application/json') return json({ error: 'Expected application/json' }, 415);
@@ -120,8 +141,10 @@ export async function fetch(request) {
   let message;
   try { message = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)); }
   catch { return rpcError(null, -32700, 'Parse error'); }
-  if (Array.isArray(message)) return json(await Promise.all(message.map(dispatch)));
-  return dispatch(message);
+  if (Array.isArray(message)) return json(await Promise.all(message.map(value => dispatch(value,liveSource))));
+  return dispatch(message,liveSource);
+}};
 }
-
-export default { fetch };
+const instance = createWorker();
+export const fetch = instance.fetch;
+export default instance;

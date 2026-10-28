@@ -8,8 +8,8 @@ A **URL-first, read-only MCP** that selects a real person or fictional character
 
 | Tool | Contract |
 |---|---|
-| `random_persona` | Select one eligible catalog identity; optional kind, source-language preference, recent-QID exclusions. |
-| `get_persona` | Return stored references for a known QID; never fetch arbitrary URLs. |
+| `random_persona` | Sites: discover candidates through Wikidata's live P31 metadata query; return one person's link or transparent catalog fallback. |
+| `get_persona` | Sites: look up any eligible QID directly in Wikidata, including QIDs outside the 300-entry fallback. |
 
 | Argument | Meaning | SI unit | Type / range / default |
 |---|---|---|---|
@@ -18,7 +18,7 @@ A **URL-first, read-only MCP** that selects a real person or fictional character
 | exclude_qids | recent identities to skip | none | QID string array, at most 20; default empty |
 | qid | stable Wikidata identity for get_persona | none | required string matching Q plus positive digits |
 
-`both` draws uniformly from the combined eligible catalog, **not** a forced 50/50 split and not all of Wikipedia. The original six-entry demonstration catalog did not meet the intended Wikidata discovery scope. There are now two **operator-side** ingestion paths: [full-dump stratified reservoir sampling](docs/WIKIDATA_SAMPLING.md) and a small bounded Wikidata API bootstrap. Selection is random only within the approved and deployed catalog, not uniformly across all Wikidata. The actual entry count is available from the Site's `/healthz` endpoint; see [catalog review evidence](docs/CATALOG_REVIEW.md).
+The Sites live path samples direct P31 class results using bounded random offsets, with an approximately 50/50 choice between real and fictional identities for `both`. This is **not a uniform random sample of all Wikidata**. The approved local catalog is used only for an explicitly labeled fallback. The original six-entry demonstration catalog did not meet the intended Wikidata discovery scope. There are now two **operator-side** ingestion paths: [full-dump stratified reservoir sampling](docs/WIKIDATA_SAMPLING.md) and a small bounded Wikidata API bootstrap. Selection is random only within the approved and deployed catalog, not uniformly across all Wikidata. The actual entry count is available from the Site's `/healthz` endpoint; see [catalog review evidence](docs/CATALOG_REVIEW.md).
 
 ## Develop and test
 
@@ -53,7 +53,7 @@ Alternatively use GitHub Actions **Stage catalog metadata for review → Run wor
 
 ## Deploy to Sites
 
-The Sites runtime uses `sites/worker/index.js`, not the optional Node adapter. `npm run build:sites` packages the reviewed catalog, suspension list and pure selection logic into a Cloudflare Worker implementing Sites' `server/discover`, `tools/list`, and `tools/call` endpoint at `/mcp`. `.openai/hosting.json` declares the MCP capability. The Worker pins the exact generated Site host, allows only its matching Origin, and caps streamed request bodies at 128 KiB. Sites supplies authentication and access checks before MCP dispatch; configure any traffic quotas the account exposes at the platform boundary.
+The Sites runtime uses `sites/worker/index.js`, not the optional Node adapter. This Worker makes bounded live requests to Wikidata Query Service and Action API, never fetches full articles, and exposes `source_mode` to distinguish live results from fallback. See [live Wikidata integration](docs/LIVE_WIKIDATA.md). `npm run build:sites` packages the reviewed catalog, suspension list and pure selection logic into a Cloudflare Worker implementing Sites' `server/discover`, `tools/list`, and `tools/call` endpoint at `/mcp`. `.openai/hosting.json` declares the MCP capability. The Worker pins the exact generated Site host, allows only its matching Origin, and caps streamed request bodies at 128 KiB. Sites supplies authentication and access checks before MCP dispatch; configure any traffic quotas the account exposes at the platform boundary.
 
 Tool descriptions and the returned `guidance` field carry the core [CLIENT_WORKFLOW.md](docs/CLIENT_WORKFLOW.md) steps to the calling ChatGPT: fetch the article, verify identity, disclose simulation, retain the QID, and report browsing failures honestly. This is an integration hint, not proof that a particular ChatGPT surface will browse; complete real-client acceptance tests separately. See [SITES_HANDOFF.md](docs/SITES_HANDOFF.md).
 

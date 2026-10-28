@@ -15,6 +15,8 @@ if (!Array.isArray(blocked)) throw new Error('Invalid suspension list');
 await cp(resolve(root, 'sites/worker/index.js'), resolve(server, 'index.js'));
 await cp(resolve(root, 'src/core.mjs'), resolve(server, 'core.mjs'));
 await cp(resolve(root, 'src/catalog-store.mjs'), resolve(server, 'catalog-store.mjs'));
+await cp(resolve(root, 'src/wikidata.mjs'), resolve(server, 'wikidata.mjs'));
+await cp(resolve(root, 'src/live-wikidata.mjs'), resolve(server, 'live-wikidata.mjs'));
 await writeFile(resolve(server, 'catalog.mjs'), `export default ${JSON.stringify(catalog)};\n`);
 await writeFile(resolve(server, 'blocked-qids.mjs'), `export default ${JSON.stringify(blocked)};\n`);
 await cp(resolve(root, '.openai/hosting.json'), resolve(out, '.openai/hosting.json'));

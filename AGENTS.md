@@ -1,7 +1,7 @@
 # Instructions for ChatGPT Work / Codex
 
 ## Product contract
-The MCP is a **random URL catalog selector**, not a persona generator. Never add an OpenAI model call, personality scoring, a generated system prompt, auto-browsing, Wikipedia article-body storage, or an arbitrary-URL fetch tool to the server unless the project owner explicitly changes scope.
+The MCP is a **Wikidata-live URL selector with a transparent reviewed-catalog fallback**, not a persona generator. Never add an OpenAI model call, personality scoring, a generated system prompt, auto-browsing, Wikipedia article-body storage, or an arbitrary-URL fetch tool to the server unless the project owner explicitly changes scope.
 
 ## Repo architecture
 - `src/core.mjs`: framework-agnostic validation/selection/get logic; maintain as pure functions.
@@ -25,3 +25,7 @@ The MCP is a **random URL catalog selector**, not a persona generator. Never add
 
 ## Handoff
 Read docs/CLIENT_WORKFLOW.md and docs/READINESS.md. Preserve the independent blocked-qids list across catalog-only rollbacks; changes require a new runtime snapshot and Site republishing. Unit fixtures live in test/fixtures; do not weaken checks to accommodate live metadata changes. Source timestamps certify metadata checks, not article truth or persona fidelity.
+
+## Wikidata-live Sites requirement
+
+The Sites Worker must fetch only Wikidata structured metadata from `query.wikidata.org/sparql` and `www.wikidata.org/w/api.php`. It must not browse article text or persist chats. Both tools must preserve response provenance (`source_mode`, `fetched_at` or `fallback_reason`). An upstream outage for an uncataloged QID is `upstream_unavailable`, not `not_found`. The Node adapter remains an optional catalog-only test utility; the Sites worker has the live implementation. Follow docs/LIVE_WIKIDATA.md and verify Site egress permissions before declaring completion.

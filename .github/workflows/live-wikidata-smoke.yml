@@ -1,0 +1,20 @@
+name: Verify live Wikidata source (bounded manual smoke)
+on:
+  push:
+    branches: ['feat/live-wikidata-source']
+    paths: ['scripts/smoke-live-wikidata.mjs']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Query Wikidata live (not local 300-entry catalog)
+        run: node scripts/smoke-live-wikidata.mjs
+      # Deliberately no production deployment or periodic polling.
