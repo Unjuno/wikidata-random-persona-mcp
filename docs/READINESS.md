@@ -23,9 +23,9 @@
 
 | Gate | Why it still requires an actual deployment |
 |---|---|
-| Sites runtime adapter and public endpoint | No Site or actual endpoint has been created by these commits. Bundler/storage/route integration must be checked in the user's Sites environment. |
-| Edge controls | Host/Origin validation is not authentication, abuse prevention or a distributed rate limiter. Configure actual platform quotas/deadlines/access controls. |
-| ChatGPT browsing and dialogue | SDK tool success does not prove the same ChatGPT chat can browse and interpret the returned article. Run CLIENT_WORKFLOW acceptance trials. |
+| Sites runtime adapter and public endpoint | A Sites-specific Worker adapter now implements `server/discover`, `tools/list`, and `tools/call`; deployment and live endpoint checks remain. |
+| Edge controls | Host/Origin validation and body cap are in the Worker. Sites supplies visitor authentication/access checks; account-level traffic quotas, deadlines and abuse controls still need confirmation. |
+| ChatGPT browsing and dialogue | Worker/SDK tests do not prove the same ChatGPT chat can browse and interpret the returned article. Run CLIENT_WORKFLOW acceptance trials. |
 | Third-party access and general distribution | Site sharing and plugin sharing are separate. Test another account; verify current account/product restrictions and directory requirements. |
 | Broad catalog coverage | Six manually selected identities are a demo, not a representative or exhaustive corpus. Review seeds before expanding. |
 

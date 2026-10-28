@@ -8,7 +8,8 @@
   "engines":{"node":">=22"},
   "scripts":{
     "start":"node src/server.mjs",
-    "test":"node --test test/*.test.mjs",
+    "test":"node scripts/build-sites-worker.mjs && node --test test/*.test.mjs",
+    "build:sites":"node scripts/build-sites-worker.mjs",
     "test:protocol":"node --test test/protocol.test.mjs",
     "check":"node scripts/check.mjs",
     "catalog:validate":"node scripts/validate-catalog.mjs",

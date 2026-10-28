@@ -50,3 +50,9 @@ npm run catalog:promote -- --reviewed --expected-sha256 REVIEWED_SHA256
 [docs/SITES_HANDOFF.md](docs/SITES_HANDOFF.md) の日本語指示をWork/Codexに渡し、Sitesの実ランタイムへ移植します。利用側の共通手順は [CLIENT_WORKFLOW.md](docs/CLIENT_WORKFLOW.md)。ユーザーが長い人格プロンプトを書く設計にはしません。
 
 **GitHubの公開、MCP実装のテスト合格、Sitesへのデプロイ、第三者による利用成功は、それぞれ別の到達点です。** 現在の未検証項目を [READINESS.md](docs/READINESS.md) で確認してください。
+
+### Sites実行アダプター
+
+SitesではNode常駐サーバーを使わず、`sites/worker/index.js` を使います。`npm run build:sites` が承認済みカタログ、配信停止リスト、純粋な抽選ロジックをWorker用出力へまとめ、`/mcp` で `server/discover`・`tools/list`・`tools/call` を提供します。`.openai/hosting.json` はMCP機能を宣言します。HostはSiteの完全一致ホスト名に限定し、Originも同じSiteだけ、本文は実バイト数で128 KiBまでです。認証とSite閲覧可否はSitesがMCP転送前に検査します。アカウント側にトラフィック上限があれば追加設定します。
+
+ツール説明と返却される `guidance` に、記事取得・同一性確認・仮想対話の明示・QID維持・取得失敗の正直な報告を含めます。これはChatGPTへの連携指示であり、実際の閲覧機能や会話挙動の実機確認の代替ではありません。

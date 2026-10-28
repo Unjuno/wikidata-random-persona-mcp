@@ -53,7 +53,9 @@ Alternatively use GitHub Actions **Stage catalog metadata for review → Run wor
 
 ## Deploy to Sites
 
-Follow [SITES_HANDOFF.md](docs/SITES_HANDOFF.md). Mount `createApp().fetch` from `src/app.mjs` in the actual supported runtime; the standalone Node server is not assumed to run unchanged. Attach [CLIENT_WORKFLOW.md](docs/CLIENT_WORKFLOW.md) to the client/plugin so users need no extra personality prompt.
+The Sites runtime uses `sites/worker/index.js`, not the optional Node adapter. `npm run build:sites` packages the reviewed catalog, suspension list and pure selection logic into a Cloudflare Worker implementing Sites' `server/discover`, `tools/list`, and `tools/call` endpoint at `/mcp`. `.openai/hosting.json` declares the MCP capability. The Worker pins the exact generated Site host, allows only its matching Origin, and caps streamed request bodies at 128 KiB. Sites supplies authentication and access checks before MCP dispatch; configure any traffic quotas the account exposes at the platform boundary.
+
+Tool descriptions and the returned `guidance` field carry the core [CLIENT_WORKFLOW.md](docs/CLIENT_WORKFLOW.md) steps to the calling ChatGPT: fetch the article, verify identity, disclose simulation, retain the QID, and report browsing failures honestly. This is an integration hint, not proof that a particular ChatGPT surface will browse; complete real-client acceptance tests separately. See [SITES_HANDOFF.md](docs/SITES_HANDOFF.md).
 
 Host/Origin restrictions, strict schemas and actual-byte limits are implemented. **Authentication where required, platform rate limits/concurrency/deadlines, real ChatGPT browsing, publishing and third-party access remain deployment acceptance gates.** Do not equate green CI or a public repository with a deployed public MCP endpoint.
 

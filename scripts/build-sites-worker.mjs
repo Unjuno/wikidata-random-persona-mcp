@@ -1,0 +1,21 @@
+import {cp, mkdir, readFile, rm, writeFile} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {validateCatalog} from '../src/core.mjs';
+
+const root = resolve(import.meta.dirname, '..');
+const out = resolve(root, 'dist');
+const server = resolve(out, 'server');
+await rm(out, {recursive:true, force:true});
+await mkdir(server, {recursive:true});
+await mkdir(resolve(out, '.openai'), {recursive:true});
+const catalog = JSON.parse(await readFile(resolve(root, 'data/catalog.json'), 'utf8'));
+validateCatalog(catalog);
+const blocked = JSON.parse(await readFile(resolve(root, 'data/blocked-qids.json'), 'utf8'));
+if (!Array.isArray(blocked)) throw new Error('Invalid suspension list');
+await cp(resolve(root, 'sites/worker/index.js'), resolve(server, 'index.js'));
+await cp(resolve(root, 'src/core.mjs'), resolve(server, 'core.mjs'));
+await cp(resolve(root, 'src/catalog-store.mjs'), resolve(server, 'catalog-store.mjs'));
+await writeFile(resolve(server, 'catalog.mjs'), `export default ${JSON.stringify(catalog)};\n`);
+await writeFile(resolve(server, 'blocked-qids.mjs'), `export default ${JSON.stringify(blocked)};\n`);
+await cp(resolve(root, '.openai/hosting.json'), resolve(out, '.openai/hosting.json'));
+console.log(`Built Sites Worker from ${catalog.version} (${catalog.entries.length} entries).`);

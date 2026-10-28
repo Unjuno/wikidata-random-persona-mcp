@@ -4,6 +4,7 @@ node_modules/
 !.env.example
 .DS_Store
 coverage/
+dist/
 *.log
 data/catalog.pending.json
 data/catalog.previous.json
