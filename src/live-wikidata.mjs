@@ -94,7 +94,7 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
   const deadline=new Promise((_,reject)=>{timer=setTimeout(()=>{controller.abort();reject(Error('Wikidata timeout'));},timeoutMs);});
   const operation=(async()=>{
    const response=await fetchImpl(url.toString(),{
-    method:'GET',redirect:'error',
+    method:'GET',redirect:'manual',
     headers:{'Accept':'application/json','User-Agent':USER_AGENT,'Api-User-Agent':USER_AGENT},
     signal:controller.signal
    });

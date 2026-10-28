@@ -116,3 +116,11 @@ test('exact no-such-entity API errors become not_found, unrelated errors do not'
   else await assert.rejects(()=>s.get({qid:'Q999999999999'}),/upstream/);
  }
 });
+test('Worker-compatible manual redirect policy rejects redirects without following Location',async()=>{
+ let count=0;
+ const s=createLiveWikidata({fetchImpl:async(_url,options)=>{
+  count++;assert.equal(options.redirect,'manual');
+  return new Response(null,{status:302,headers:{location:'https://evil.example/article'}});
+ }});
+ await assert.rejects(()=>s.get({qid:'Q42'}),/HTTP 302/);assert.equal(count,1);
+});
