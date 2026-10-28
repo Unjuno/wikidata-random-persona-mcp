@@ -4,6 +4,7 @@ import catalog from './catalog.mjs';
 import blockedQids from './blocked-qids.mjs';
 import { createCatalogStore } from './catalog-store.mjs';
 import { createLiveWikidata } from './live-wikidata.mjs';
+import personaIndex from './persona-index-data.mjs';
 
 const SITE_HOST = 'random-persona-mcp.unjuno.chatgpt.site';
 const SITE_ORIGIN = `https://${SITE_HOST}`;
@@ -134,7 +135,7 @@ async function dispatch(message, liveSource) {
   return rpcError(id, -32601, 'Method not found');
 }
 
-export function createWorker({liveSource=createLiveWikidata(),now=()=>Date.now(),maxRequestsPerMinute=120,requestTimeoutMs=5000}={}) {
+export function createWorker({indexSnapshot=personaIndex,liveSource=createLiveWikidata({index:indexSnapshot}),now=()=>Date.now(),maxRequestsPerMinute=120,requestTimeoutMs=5000}={}) {
 let windowStart=0,requests=0;
 return { async fetch(request) {
   const url = new URL(request.url);
@@ -144,7 +145,15 @@ return { async fetch(request) {
   if (origin !== null && origin !== SITE_ORIGIN) return json({ error: 'Origin not permitted' }, 403);
   const asset=serveAsset(request,url.pathname);
   if(asset)return asset;
-  if (url.pathname === '/healthz' && request.method === 'GET') return json({ status: 'ok', catalog_version: store.summary.catalog_version, entries: store.summary.entries, mode: 'wikidata_live_with_catalog_fallback', release_fingerprint:buildInfo.fingerprint });
+  if (url.pathname === '/healthz' && request.method === 'GET') return json({
+   status:'ok',
+   mode:'wikidata_live_with_catalog_fallback',
+   sampling_method:indexSnapshot?'wikidata_dump_reservoir':'bounded_wdqs_offset',
+   index_version:indexSnapshot?.version??null,
+   eligible_population:indexSnapshot?indexSnapshot.population.real+indexSnapshot.population.fictional:null,
+   fallback_catalog:{version:store.summary.catalog_version,entries:store.summary.entries},
+   release_fingerprint:buildInfo.fingerprint
+  });
   if (url.pathname !== '/mcp') return json({ error: 'Not found' }, 404);
   if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405, { Allow: 'POST' });
   const time=now();
