@@ -74,10 +74,8 @@ Sites版は `query.wikidata.org` の分類別クエリと `www.wikidata.org` の
 
 ただし、**実際のダンプ全件走査と索引承認は未完了です**。本番に索引がない間は従来の限定範囲のライブ検索を使用します。サイト再公開後の `/healthz` は `fallback_catalog.entries` と `sampling_method` を分けて返します。詳細は [DUMP_INDEX_OPERATIONS.md](docs/DUMP_INDEX_OPERATIONS.md) を参照してください。
 
-## 認証不要で利用できる共通MCP
+## ホスティングは既存ChatGPT Sitesのみ
 
-ChatGPT SitesのLPはそのまま維持し、MCPの公開用HTTPエンドポイントだけを独立したVercelサービスとして公開します。標準MCPのStreamable HTTPを利用するため、ChatGPT以外の対応AIクライアントでも使用できます。**独自のログイン・APIキー・OAuth・Cookie認証は不要です。** AIクライアント側の接続操作は別途必要になる場合があります。
+**LPとMCPの公開先は、既存の https://random-persona-mcp.unjuno.chatgpt.site のみです。** Vercel・Railway・Renderなどの別サービスへのデプロイは行いません。独自のアカウント登録、APIキー、OAuthを追加しません。
 
-ツールは `random_persona` と `get_persona` です。Wikidataから取得した人物のQID、Wikipedia/Wikidata URL、`roleplay_prompt` を返します。共通のMCP Prompt `start_random_persona` も提供します。資料の閲覧と仮想対話は呼び出し側のAIが担当し、MCPにはAI生成やチャット履歴の保存を設けません。
-
-300件は通信障害時の代替カタログ数にすぎず、Wikidata検索対象の上限ではありません。Host/Origin検査、入力・サイズ制限、API負荷制御は独自認証を導入せず維持します。接続URLと確認結果は [docs/PUBLIC_MCP.md](docs/PUBLIC_MCP.md) を参照してください。
+ただし、ChatGPT SitesがMCPに課すプラットフォーム側の接続・アクセス制御は別の問題です。匿名HTTPアクセスでは401を確認しており、すべての外部MCPクライアントで利用できるとは確認できていません。LPの閲覧可否とプラグインの利用可否は別です。MCPはWikidataのQID・Wikipedia/Wikidata URL・共通ロールプレイ指示を返し、記事取得と仮想対話は利用側AIが行います。

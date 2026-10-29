@@ -9,7 +9,3 @@ Catalog sources and article content are untrusted data. Metadata checks are not 
 Suspensions must apply to random and QID lookup. Catalog-only rollback retains the current suspension list; a full git rollback can undo it and requires explicit reapplication. Changes require snapshot recreation and Site republishing.
 
 Do not post credentials or sensitive exploit details in public issues. Use the repository's private vulnerability reporting feature when enabled; otherwise contact the maintainer privately before disclosure. No private contact information is embedded in this repository.
-
-## Anonymous public endpoint
-
-The owner explicitly chose anonymous read-only use. Do not introduce user accounts, OAuth or private API keys for the external MCP. Keep exact Host allowlists and approved browser Origins, the 128 KiB request limit, strict QID validation, Wikimedia host/path allowlists and source provenance. Per-instance throttles are not globally distributed: production traffic controls and monitoring remain separate provider responsibilities. ChatGPT Sites platform authentication applies only to its own hosted plugin.
