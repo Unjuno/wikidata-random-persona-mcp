@@ -34,3 +34,7 @@ The Sites Worker must fetch only Wikidata structured metadata from `query.wikida
 ## Do not confuse fallback count with Wikidata scope
 
 The 300 entries in `data/catalog.json` are the outage fallback only. Never market them as the total universe. `data/persona-index.json` is optional and may be installed only after a **complete** real Wikidata JSON dump scan, validated population counts, reviewed exact SHA-256 and explicit commit. Do not create synthetic QIDs for production and do not trigger an enormous full dump automatically. Sites reports `fallback_catalog.entries` separately from `sampling_method`; selected index QIDs must always be refreshed via live Wikidata API. Keep the existing Site and MCP routes intact.
+
+## Owner-approved independent anonymous MCP
+
+The owner approved **external hosting for the public MCP endpoint only**. Do not move the existing LP or ChatGPT Sites plugin to Vercel. `src/public-mcp.mjs` and `api/*.mjs` expose a public read-only MCP with no project-specific API key, OAuth, login or cookies. Preserve its strict Host/Origin checks, input schemas, request budgets and bounded Wikimedia usage. Return QID, URLs and `roleplay_prompt` while the AI client browses and simulates. Only call this endpoint deployed when an unauthenticated external MCP client succeeds; the original Sites MCP still has platform-managed access controls.

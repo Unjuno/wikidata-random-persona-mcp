@@ -73,3 +73,11 @@ Sites版は `query.wikidata.org` の分類別クエリと `www.wikidata.org` の
 **300件はWikidata接続障害時の代替用カタログ件数で、通常の抽選対象数ではありません。** 現在のサイトはWikidataの分類別検索を行いますが、検索範囲に偏りがあります。この偏りを軽減するため、Wikidataの公式全件JSONダンプから対応する実在人物・架空キャラクターのQIDのみを一様なリザーバ抽出で取り出し、人物カテゴリーの母集団件数に応じて抽選する経路を追加しました。抽選されたQIDの人物情報は最新のWikidata APIで取得します。
 
 ただし、**実際のダンプ全件走査と索引承認は未完了です**。本番に索引がない間は従来の限定範囲のライブ検索を使用します。サイト再公開後の `/healthz` は `fallback_catalog.entries` と `sampling_method` を分けて返します。詳細は [DUMP_INDEX_OPERATIONS.md](docs/DUMP_INDEX_OPERATIONS.md) を参照してください。
+
+## 認証不要で利用できる共通MCP
+
+ChatGPT SitesのLPはそのまま維持し、MCPの公開用HTTPエンドポイントだけを独立したVercelサービスとして公開します。標準MCPのStreamable HTTPを利用するため、ChatGPT以外の対応AIクライアントでも使用できます。**独自のログイン・APIキー・OAuth・Cookie認証は不要です。** AIクライアント側の接続操作は別途必要になる場合があります。
+
+ツールは `random_persona` と `get_persona` です。Wikidataから取得した人物のQID、Wikipedia/Wikidata URL、`roleplay_prompt` を返します。共通のMCP Prompt `start_random_persona` も提供します。資料の閲覧と仮想対話は呼び出し側のAIが担当し、MCPにはAI生成やチャット履歴の保存を設けません。
+
+300件は通信障害時の代替カタログ数にすぎず、Wikidata検索対象の上限ではありません。Host/Origin検査、入力・サイズ制限、API負荷制御は独自認証を導入せず維持します。接続URLと確認結果は [docs/PUBLIC_MCP.md](docs/PUBLIC_MCP.md) を参照してください。
