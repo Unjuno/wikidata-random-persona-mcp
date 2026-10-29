@@ -27,6 +27,15 @@ function makeApp(other={}){
 const endpoint='https://public.example/mcp';
 const rpc=(method,params={},id=1)=>({jsonrpc:'2.0',id,method,params});
 const post=(app,body,headers={})=>app.fetch(new Request(endpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json, text/event-stream',...headers},body:JSON.stringify(body)}));
+async function parseMcp(response){
+ const text=await response.text();
+ if(response.headers.get('content-type')?.includes('text/event-stream')){
+  const line=text.split(/\r?\n/).find(item=>item.startsWith('data:'));
+  assert.ok(line,'SSE reply must contain a data event');
+  return JSON.parse(line.slice(5).trim());
+ }
+ return JSON.parse(text);
+}
 
 test('public health is anonymous and does not mistake fallback entries for draw universe',async()=>{
  const app=makeApp();
@@ -45,27 +54,27 @@ test('public endpoint is usable with no API key, bearer header, OAuth or cookies
  const app=makeApp();
  const init=await post(app,rpc('initialize',{protocolVersion:'2025-11-25',capabilities:{},clientInfo:{name:'anonymous-client',version:'1'}}));
  assert.equal(init.status,200);
- const initJson=await init.json();
+ const initJson=await parseMcp(init);
  assert.equal(initJson.result.serverInfo.name,'random-persona-public');
- const listed=await (await post(app,rpc('tools/list'))).json();
+ const listed=await parseMcp(await post(app,rpc('tools/list')));
  assert.deepEqual(listed.result.tools.map(x=>x.name).sort(),['get_persona','random_persona']);
- const called=await (await post(app,rpc('tools/call',{name:'random_persona',arguments:{kind:'both',language:'ja'}}))).json();
+ const called=await parseMcp(await post(app,rpc('tools/call',{name:'random_persona',arguments:{kind:'both',language:'ja'}})));
  const data=called.result.structuredContent;
  assert.equal(data.persona.qid,identity.qid);
  assert.equal(data.source_mode,'wikidata_live');
  assert.match(data.roleplay_prompt,/Open Wikidata example/);
  assert.match(data.roleplay_prompt,/https:\/\/en.wikipedia.org\/wiki\/Example/);
  assert.match(data.roleplay_prompt,/仮想対話/);
- const got=await (await post(app,rpc('tools/call',{name:'get_persona',arguments:{qid:identity.qid}}))).json();
+ const got=await parseMcp(await post(app,rpc('tools/call',{name:'get_persona',arguments:{qid:identity.qid}})));
  assert.equal(got.result.structuredContent.persona.qid,identity.qid);
  await app.close();
 });
 
 test('public MCP exposes a reusable prompt without requiring users to write a long persona prompt',async()=>{
  const app=makeApp();
- const prompts=(await (await post(app,rpc('prompts/list'))).json()).result.prompts;
+ const prompts=(await parseMcp(await post(app,rpc('prompts/list')))).result.prompts;
  assert.ok(prompts.some(x=>x.name==='start_random_persona'));
- const selected=(await (await post(app,rpc('prompts/get',{name:'start_random_persona',arguments:{kind:'fictional'}}))).json()).result;
+ const selected=(await parseMcp(await post(app,rpc('prompts/get',{name:'start_random_persona',arguments:{kind:'fictional'}})))).result;
  assert.match(selected.messages[0].content.text,/random_persona/);
  assert.match(selected.messages[0].content.text,/Wikipedia/);
  await app.close();
@@ -73,13 +82,13 @@ test('public MCP exposes a reusable prompt without requiring users to write a lo
 
 test('outages fall back visibly and do not turn uncataloged QIDs into false not_found',async()=>{
  const app=makeApp({liveSource:{random:async()=>{throw Error('Wikidata offline');},get:async()=>{throw Error('Wikidata offline');}}});
- const random=await (await post(app,rpc('tools/call',{name:'random_persona',arguments:{kind:'real'}}))).json();
+ const random=await parseMcp(await post(app,rpc('tools/call',{name:'random_persona',arguments:{kind:'real'}})));
  const outcome=random.result.structuredContent;
  assert.equal(outcome.status,'ok');
  assert.equal(outcome.source_mode,'catalog_fallback');
  assert.equal(outcome.fallback_reason,'wikidata_unavailable');
  assert.ok(outcome.roleplay_prompt.includes(outcome.persona.qid));
- const get=await (await post(app,rpc('tools/call',{name:'get_persona',arguments:{qid:'Q90000999'}}))).json();
+ const get=await parseMcp(await post(app,rpc('tools/call',{name:'get_persona',arguments:{qid:'Q90000999'}})));
  assert.equal(get.result.structuredContent.status,'upstream_unavailable');
  await app.close();
 });
