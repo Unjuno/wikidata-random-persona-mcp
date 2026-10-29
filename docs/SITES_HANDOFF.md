@@ -50,3 +50,9 @@ Use `docs/LIVE_WIKIDATA.md` as the current source of truth. Republish the existi
 ## Correct random population and health fields
 
 The updated `/healthz` deliberately replaces the ambiguous top-level `entries` with `fallback_catalog.entries`. `sampling_method` is either `bounded_wdqs_offset` (no reviewed full-dump index deployed) or `wikidata_dump_reservoir` (approved full-dump QID index active). `eligible_population` and `index_version` are reported only for the latter. Do not claim indexed mode is active until the official full dump has been scanned, approved, and republished to the **existing** ChatGPT Site. The 300 standby records are never a hard cap on live Wikidata selection.
+
+## Corrected single-Site deployment boundary (2026-10-29)
+
+The only deployment target is the existing https://random-persona-mcp.unjuno.chatgpt.site. Keep both / and /mcp on that Site, including the existing generated imagery and live Wikidata integration. Do not create any new ChatGPT Site or deploy to Vercel/Railway/Render.
+
+Do not add custom login, API keys or OAuth. Sites-managed access checks are platform features and should not be bypassed; anonymous /mcp requests have returned HTTP 401. General access by other AI clients remains unverified even though MCP itself is an open protocol. Do not report anonymous public distribution as implemented without a real external-client test.

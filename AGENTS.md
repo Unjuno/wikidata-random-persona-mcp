@@ -35,6 +35,8 @@ The Sites Worker must fetch only Wikidata structured metadata from `query.wikida
 
 The 300 entries in `data/catalog.json` are the outage fallback only. Never market them as the total universe. `data/persona-index.json` is optional and may be installed only after a **complete** real Wikidata JSON dump scan, validated population counts, reviewed exact SHA-256 and explicit commit. Do not create synthetic QIDs for production and do not trigger an enormous full dump automatically. Sites reports `fallback_catalog.entries` separately from `sampling_method`; selected index QIDs must always be refreshed via live Wikidata API. Keep the existing Site and MCP routes intact.
 
-## Owner-approved independent anonymous MCP
+## Deployment boundary: existing ChatGPT Sites ONLY (2026-10-29)
 
-The owner approved **external hosting for the public MCP endpoint only**. Do not move the existing LP or ChatGPT Sites plugin to Vercel. `src/public-mcp.mjs` and `api/*.mjs` expose a public read-only MCP with no project-specific API key, OAuth, login or cookies. Preserve its strict Host/Origin checks, input schemas, request budgets and bounded Wikimedia usage. Return QID, URLs and `roleplay_prompt` while the AI client browses and simulates. Only call this endpoint deployed when an unauthenticated external MCP client succeeds; the original Sites MCP still has platform-managed access controls.
+The owner confirmed that the LP and MCP must remain together on the existing https://random-persona-mcp.unjuno.chatgpt.site Site. Do not create or deploy a separate project on Vercel, Railway, Render or any other host. The previous external-hosting PR was reverted; new hosting elsewhere requires an explicit, new owner decision.
+
+The MCP has no application-specific account, API key, OAuth or login. However, ChatGPT Sites may enforce its own platform access controls on /mcp, and an anonymous request returned HTTP 401. Do not claim that the plugin is anonymously accessible by all MCP clients; do not attempt to bypass Sites platform controls. Preserve Wikidata-live identity discovery, article URL + shared guidance output, the LP, strict input checks and rate budgets.

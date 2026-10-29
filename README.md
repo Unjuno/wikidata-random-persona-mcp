@@ -76,14 +76,6 @@ The Japanese public LP and original generated brand images live in `public/`. Th
 
 **This change does not ship a completed dump or an approved index.** Without one, Sites keeps bounded WDQS queries and still is not limited to 300. The new `/healthz.sampling_method` reports the actual method; `/healthz.fallback_catalog.entries` is the backup count. A full-dump scan, review, explicit GitHub commit and existing Site republish are separate release gates. See [index operations](docs/DUMP_INDEX_OPERATIONS.md).
 
-## Public anonymous MCP for any compatible AI client
+## Deployment boundary: existing ChatGPT Sites only
 
-An **independent standard Streamable HTTP MCP** is provided by `src/public-mcp.mjs` and `api/mcp.mjs`, alongside the existing ChatGPT Sites LP. It returns Wikidata identity QIDs, Wikipedia URLs, a `roleplay_prompt`, and source provenance. The MCP client browses the article and conducts a clearly labeled simulation; this server never calls an LLM.
-
-- No project-specific account, API key, OAuth or cookie. Any compatible MCP client may connect using the public `/mcp` URL.
-- Read-only tools: `random_persona` and `get_persona`. Optional MCP prompt: `start_random_persona`.
-- `/healthz` is public and distinguishes a bounded live Wikidata draw from the 300-item *outage fallback*.
-- Browser Origins are allowlisted, and desktop clients without an Origin are accepted. Request sizes, QIDs, Wikimedia access and per-instance budgets remain restricted.
-- Vercel is approved **only for the independent public MCP API**. `.vercelignore` prevents uploading the LP and images there. The existing LP stays on ChatGPT Sites.
-
-Find the verified public URL and connection guidance in [docs/PUBLIC_MCP.md](docs/PUBLIC_MCP.md). A GitHub commit without a remote anonymous client test does not count as deployment.
+The landing page, generated artwork and MCP remain at https://random-persona-mcp.unjuno.chatgpt.site. There is no independent Vercel, Railway or other hosting. The MCP implements no custom account, login, API key or OAuth. The ChatGPT Sites plugin nevertheless has platform-managed access checks; unauthenticated /mcp returned HTTP 401. An openly viewable LP is not proof that arbitrary external MCP clients can connect. The tool contract remains Wikidata QID + article links + shared browsing/roleplay guidance.
