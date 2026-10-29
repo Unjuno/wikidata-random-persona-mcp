@@ -44,3 +44,7 @@ Wikidata classification/coverage is bounded and not globally uniform. Upstream f
 ## Correction to the 300-entry interpretation
 
 The user-facing LP now explains that 300 is a **fallback** count, not the number of possible Wikidata persons. The optional QID-only full-dump reservoir code and its population-weighted selection are implemented and unit-tested, but an actual complete dump has **not** been processed or approved by this change. Until a real index is committed and the existing Site republished, the production method remains the nonuniform bounded WDQS search. The method must be checked in `/healthz.sampling_method` rather than inferred from the code.
+
+## Independent cross-client public MCP
+
+Implemented `src/public-mcp.mjs` and Vercel Node API routes for an anonymous Streamable HTTP MCP, with `random_persona`, `get_persona`, the reusable `start_random_persona` prompt, live Wikidata URL metadata and `roleplay_prompt`. The original Site and LP stay on ChatGPT Sites. GitHub tests are not evidence of actual external public deployment; verify the production URL, 200 health and a real SDK call without Authorization before claiming this release.
