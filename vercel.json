@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "framework": null,
+  "functions": {
+    "api/mcp.mjs": {
+      "maxDuration": 30
+    },
+    "api/healthz.mjs": {
+      "maxDuration": 10
+    }
+  },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://random-persona-mcp.unjuno.chatgpt.site",
+      "permanent": false
+    },
+    {
+      "source": "/assets/:path*",
+      "destination": "https://random-persona-mcp.unjuno.chatgpt.site/assets/:path*",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/mcp",
+      "destination": "/api/mcp"
+    },
+    {
+      "source": "/healthz",
+      "destination": "/api/healthz"
+    }
+  ]
+}

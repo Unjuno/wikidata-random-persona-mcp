@@ -1,0 +1,14 @@
+# Public Vercel project hosts MCP only. Website/visuals stay on ChatGPT Sites.
+public
+docs
+test
+sites
+scripts
+.github
+dist
+data/seeds.json
+.env.example
+AGENTS.md
+README.md
+README.ja.md
+SECURITY.md
