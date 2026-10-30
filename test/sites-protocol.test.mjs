@@ -7,7 +7,8 @@ import {Client,StreamableHTTPClientTransport} from '@modelcontextprotocol/client
 import {createWorker} from '../dist/server/index.js';
 import catalog from '../data/catalog.json' with {type:'json'};
 test('built Sites worker is compatible with the official MCP client',async t=>{
- const worker=createWorker({liveSource:{random:async()=>{throw Error('offline fixture');},get:async()=>{throw Error('offline fixture');}}});
+ let automaticDraws=0;
+ const worker=createWorker({liveSource:{random:async()=>{automaticDraws++;throw Error('offline fixture');},get:async()=>{throw Error('offline fixture');}}});
  const server=createServer(async(req,res)=>{
   const chunks=[];for await(const chunk of req)chunks.push(chunk);
   const headers=new Headers(req.headers);headers.set('host','random-persona-mcp.unjuno.chatgpt.site');
@@ -19,7 +20,12 @@ test('built Sites worker is compatible with the official MCP client',async t=>{
  for(const mode of ['legacy','auto']){
  const client=new Client({name:'sites-release-test',version:'1'},{versionNegotiation:{mode}});
  try{
+  const before=automaticDraws;
   await client.connect(new StreamableHTTPClientTransport(new URL(`http://127.0.0.1:${server.address().port}/mcp`)));
+  assert.equal(automaticDraws,before+1,'connecting through the official MCP SDK must automatically draw a person');
+  if(typeof client.getInstructions==='function'){
+    assert.match(client.getInstructions()??'',/CONNECTION_PERSONA_JSON/);
+  }
   const {tools}=await client.listTools();assert.deepEqual(tools.map(t=>t.name),['random_persona','get_persona']);
   assert.ok(tools.every(t=>t.annotations.readOnlyHint));
   const random=await client.callTool({name:'random_persona',arguments:{kind:'fictional'}});
