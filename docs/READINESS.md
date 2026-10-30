@@ -44,3 +44,12 @@ Wikidata classification/coverage is bounded and not globally uniform. Upstream f
 ## Correction to the 300-entry interpretation
 
 The user-facing LP now explains that 300 is a **fallback** count, not the number of possible Wikidata persons. The optional QID-only full-dump reservoir code and its population-weighted selection are implemented and unit-tested, but an actual complete dump has **not** been processed or approved by this change. Until a real index is committed and the existing Site republished, the production method remains the nonuniform bounded WDQS search. The method must be checked in `/healthz.sampling_method` rather than inferred from the code.
+
+
+## D1 persona cache release gate (2026-10-31)
+
+Implemented and CI-tested an **optional** D1 cache adapter in the existing Sites Worker. With a provisioned binding, the fallback order is live Wikidata, then persisted D1 persona references, then the bundled 300. Valid live identity results can be appended/upserted to D1; the D1 read is validated and provenance is labeled.
+
+**Not deployed or populated by this code change.** The current `.openai/hosting.json` has no D1 `DB` binding and no storage migration has been executed on the live Site. `/healthz.cache_storage` must show `d1`, actual cached counts/size must be measured and recorded, and an injected upstream outage must result in `source_mode=d1_cache_fallback` before declaring persistent fallback live. Until then, the bundled catalog remains the final fallback.
+
+A full Wikidata dump cannot be stored in a 10GB D1 database. Precompute compact eligible QID and verified link metadata, sample across categories and stage updates through reviewed owner-controlled storage jobs. Scheduled ingestion depends on Sites/Work capabilities, not an in-process background task in the Worker.

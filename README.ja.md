@@ -79,3 +79,14 @@ Sites版は `query.wikidata.org` の分類別クエリと `www.wikidata.org` の
 **LPとMCPの公開先は、既存の https://random-persona-mcp.unjuno.chatgpt.site のみです。** Vercel・Railway・Renderなどの別サービスへのデプロイは行いません。独自のアカウント登録、APIキー、OAuthを追加しません。
 
 ただし、ChatGPT SitesがMCPに課すプラットフォーム側の接続・アクセス制御は別の問題です。匿名HTTPアクセスでは401を確認しており、すべての外部MCPクライアントで利用できるとは確認できていません。LPの閲覧可否とプラグインの利用可否は別です。MCPはWikidataのQID・Wikipedia/Wikidata URL・共通ロールプレイ指示を返し、記事取得と仮想対話は利用側AIが行います。
+
+
+## 既存SiteのD1キャッシュ（10GB上限）
+
+SitesのD1データベースはサイトあたり最大10GBです。これを使い、Wikidataから確認できた人物・キャラクターのQID、分類、名称、Wikipedia参照URL、検証日時を段階的に保存する設計を追加しました。**記事本文・会話履歴・画像そのものはD1へ保存しません**。10GBを使い切るより、更新・索引用に余地を残し、まず8GB程度を運用上限として監視してください。
+
+本番の抽選順は **Wikidataライブ取得 → Site内D1で事前蓄積した人物 → 同梱の300件カタログ** です。D1のキャッシュから取得した場合は `source_mode: d1_cache_fallback` と `cache_checked_at` を返します。Wikidataから正常に取得した人物はD1へ自動的にアップサートされます。
+
+重要：**このGitHub変更だけでは、D1はまだ作成・接続されません。** 既存ChatGPT SiteをWork/Sitesで開き、D1を `DB` という名前で接続し、`migrations/0001_persona_cache.sql` を適用して、実データを投入した後に再公開してください。実際の `/healthz.cache_storage` が `d1` と表示されるまで有効化済みと記載しないでください。
+
+D1を初期化する際は、承認済みの300件から始め、Wikidata APIで再検証した人物をバッチ単位で追加してください。大規模蓄積はGitHub Actions等で検証候補を段階的に作成し、Workが安全な管理経路でD1に反映します。インポート用の認証なし公開書き込みエンドポイントは作りません。操作と前提条件は [D1_CACHE_OPERATIONS.md](docs/D1_CACHE_OPERATIONS.md) を参照してください。

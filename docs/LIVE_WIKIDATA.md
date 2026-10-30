@@ -47,3 +47,8 @@ The four-entity batch avoids unnecessarily downloading claims for twelve subject
 300 entries is the size of the approved **outage fallback**, not the draw ceiling. The Sites Worker now supports a QID-only, complete-Wikidata-dump reservoir (up to 250,000 QIDs per eligible kind). With a reviewed index installed, `both` draws kinds in proportion to eligible population counts from the complete scan, chooses a QID uniformly within its reservoir and refreshes that QID from live Wikidata. This does not cover every transitive fictional subclass, and a fixed finite reservoir is not the entire Wikidata corpus.
 
 **This change does not ship a completed dump or an approved index.** Without one, Sites keeps bounded WDQS queries and still is not limited to 300. The new `/healthz.sampling_method` reports the actual method; `/healthz.fallback_catalog.entries` is the backup count. A full-dump scan, review, explicit GitHub commit and existing Site republish are separate release gates. See [index operations](DUMP_INDEX_OPERATIONS.md).
+
+
+## Storage-backed fallback hierarchy
+
+Live queries remain preferred. When Site-local D1 is provisioned as `DB`, the Worker caches validated live identity references and selects a cached QID (with clearly labeled `source_mode=d1_cache_fallback`) on Wikimedia errors or missing eligible candidates. If D1 is empty or unavailable, the prior 300 bundled records are the last resort. Site D1 is capped at 10GB; the project proposes an 8GB soft target, not full-capacity fill. Do not change the GitHub build to embed gigabytes of data into the Worker. See D1_CACHE_OPERATIONS.md.
