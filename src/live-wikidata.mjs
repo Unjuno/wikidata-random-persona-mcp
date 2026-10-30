@@ -155,6 +155,41 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
   if(!entry)return noMatch(qid);
   return responseFor(getPersona({version:'wikidata-live',entries:[entry]},{qid,language}),now);
  }
+ /** Small multi-subject discovery for owner-owned background ingestion, never a public tool.
+  * Uses exactly one bounded WDQS query and at most one 4-entity metadata batch.
+  */
+ async function discoverBatch({kind='real',language='ja',exclude_qids=[]}={},options={}){
+  validateDraw({kind,language,exclude_qids});
+  if(kind==='both')throw Error('Invalid discovery kind: choose one category');
+  const blocked=validBlocked(options);
+  const classInfo=kind==='real'?{qid:HUMAN_CLASS,offsetMax:10000}:
+   FICTIONAL_CLASSES[chooseBounded(randomIndex,FICTIONAL_CLASSES.length)];
+  const offset=chooseBounded(randomIndex,classInfo.offsetMax+1);
+  const q='SELECT ?item WHERE { ?item wdt:P31 wd:'+classInfo.qid+' . } LIMIT 4 OFFSET '+offset;
+  const search=new URL('https://query.wikidata.org/sparql');
+  search.search=new URLSearchParams({query:q,format:'json'});
+  const results=await readJson(search);
+  const bindings=results?.results?.bindings;
+  if(!Array.isArray(bindings))throw Error('Invalid Wikidata discovery response');
+  const excluded=new Set([...blocked,...exclude_qids]);
+  const ids=[...new Set(bindings.map(r=>r?.item?.value?.match(/^https?:\/\/www\.wikidata\.org\/entity\/(Q[1-9][0-9]{0,11})$/)?.[1]).filter(id=>id&&!excluded.has(id)))].slice(0,4);
+  if(!ids.length)return responseFor({status:'no_match',personas:[]},now,{sampling_method:'bounded_wdqs_offset'});
+  const entities=await fetchEntities(ids);
+  const personas=[];
+  for(const qid of ids){
+   const entity=entities[qid];
+   if(!entity||kindOf(entity)!==kind)continue;
+   const entry=normalizeEntity(entity,{qid,kind});
+   if(!entry)continue;
+   try{
+    const current=getPersona({version:'wikidata-live',entries:[entry]},{qid,language});
+    if(current.status==='ok')personas.push(current.persona);
+   }catch{/* Reject malformed or unsupported Wikimedia records, never fabricate a persona. */}
+  }
+  return responseFor({
+   status:personas.length?'ok':'no_match',personas
+  },now,{sampling_method:'bounded_wdqs_offset'});
+ }
  async function random({kind='both',language='ja',exclude_qids=[]}={},options={}){
   validateDraw({kind,language,exclude_qids});
   const blocked=validBlocked(options);
@@ -202,5 +237,5 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
   if(!entries.length)return responseFor({status:'no_match',catalog_version:'wikidata-live',reason:'No eligible live candidates with articles'},now);
   return responseFor(randomPersona({version:'wikidata-live',entries},{kind:desired,language,exclude_qids},randomIndex),now,{sampling_method:'bounded_wdqs_offset'});
  }
- return Object.freeze({random,get});
+ return Object.freeze({random,get,discoverBatch});
 }

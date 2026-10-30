@@ -53,3 +53,10 @@ Implemented and CI-tested an **optional** D1 cache adapter in the existing Sites
 **Not deployed or populated by this code change.** The current `.openai/hosting.json` has no D1 `DB` binding and no storage migration has been executed on the live Site. `/healthz.cache_storage` must show `d1`, actual cached counts/size must be measured and recorded, and an injected upstream outage must result in `source_mode=d1_cache_fallback` before declaring persistent fallback live. Until then, the bundled catalog remains the final fallback.
 
 A full Wikidata dump cannot be stored in a 10GB D1 database. Precompute compact eligible QID and verified link metadata, sample across categories and stage updates through reviewed owner-controlled storage jobs. Scheduled ingestion depends on Sites/Work capabilities, not an in-process background task in the Worker.
+
+
+## Progressive ingestion (2026-10-31)
+
+GitHub now includes a private bounded multi-person collector, a Site Worker `scheduled` entry point and `runSiteCollection`, storage checks against the 8GB D1 soft budget, and no public ingest route. The collector preserves existing QIDs, appends newly verified Wikidata records and can update old metadata on conflict.
+
+**This is code and a tested simulated scheduled handler only, not evidence of a running Site schedule.** The currently deployed Site's D1 connection, database migration, scheduled task and actual accumulated QID count must be checked independently. Do not advertise continuous collection before the Site Automations job succeeds twice and a D1 count increases.
