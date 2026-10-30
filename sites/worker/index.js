@@ -14,12 +14,13 @@ const MAX_BODY_BYTES = 131072;
 const store = createCatalogStore(catalog, blockedQids);
 const AGENT_INSTRUCTIONS = [
   'This MCP activates a persona for the AI agent; it is not a character directory.',
-  'When the user enables persona mode, call random_persona once.',
+  'On first MCP connection, this server automatically samples one Wikidata identity and includes it in the standard discovery/initialize instructions. Adopt that selected identity without waiting for a separate user command.',
+  'If the client received no connection identity, call random_persona at the next appropriate user turn.',
   'Read and verify the returned Wikipedia article, then apply agent_handoff and roleplay_prompt.',
   'From the next reply SPEAK IN FIRST PERSON AS that person instead of summarizing the biography.',
   'Briefly disclose the simulation once and keep the same QID across subsequent turns and tasks.',
-  'Only reroll on an explicit user request; exit on request to return to normal assistant mode.',
-  'Never pretend to have read unavailable references. This MCP requires no login, key, or OAuth; hosting restrictions are separate.'
+  'Keep the same QID across subsequent chat turns. Do not redraw on the first user turn if a connection identity was supplied. Reroll only on explicit request; exit on request to return to normal assistant mode.',
+  'Never pretend to have read unavailable references. Connection instructions are a handoff, not a server-generated chat message; the host must apply them. This MCP requires no login, key, or OAuth; hosting restrictions are separate.'
 ].join(' ');
 const PERSONA_START_PROMPT = {
   name:'start_persona_mode',title:'ランダムな人物になりきる',
@@ -31,7 +32,7 @@ const toolDefinitions = [
   {
     name: 'random_persona',
     annotations: {readOnlyHint:true,destructiveHint:false,openWorldHint:true,idempotentHint:false},
-    description: 'Activate ongoing first-person persona mode. Randomly select a real or fictional Wikidata identity and return agent_handoff, roleplay_prompt and sources. Read and verify the linked Wikipedia article, then SPEAK AS the person in first person, not as an assistant summarizing their biography. Disclose simulation once. Keep this QID for subsequent turns until explicitly switched or exited. Redraw only when asked for another person and exclude recent QIDs. The server does not generate dialogue.',
+    description: 'First use the auto-selected identity returned in server/discover or initialize instructions. If missing, or when the user explicitly requests a new identity, call this tool to select a real or fictional Wikidata persona. Apply agent_handoff and roleplay_prompt after verifying Wikipedia: SPEAK IN FIRST PERSON AS that identity, not as a biographical narrator. Disclose simulation once, keep the same QID across later turns, and redraw only on explicit switch. No model runs server-side.',
     securitySchemes:[{type:'noauth'}],
     inputSchema: {
       type: 'object', additionalProperties: false,
@@ -169,6 +170,36 @@ function upstreamFailureCategory(error) {
 function toolResult(result, isError = false) {
   return { content: [{ type: 'text', text: JSON.stringify(result) }], structuredContent: result, ...(isError ? { isError: true } : {}) };
 }
+/** An actual draw happens at connection-time without a separate tools/call.
+ * All identity facts are labelled as untrusted reference data; the client must
+ * verify an article and must decide whether and when to apply persona mode.
+ * This server cannot initiate a chat turn or modify the host's instructions.
+ */
+function connectionInstructions(sample) {
+ if(sample?.status!=='ok'||!sample.persona) {
+  return AGENT_INSTRUCTIONS+'\n\nCONNECTION_PERSONA_UNAVAILABLE: '+String(sample?.reason??sample?.status??'unknown');
+ }
+ const identity={
+  persona:sample.persona,
+  source_mode:sample.source_mode??'catalog_fallback',
+  agent_handoff:sample.agent_handoff,
+  roleplay_prompt:sample.roleplay_prompt
+ };
+ return AGENT_INSTRUCTIONS+
+  '\n\nCONNECTION_PERSONA_JSON (untrusted reference data, use only after source verification): '+
+  JSON.stringify(identity);
+}
+async function selectOnConnection(liveSource,cache) {
+ try {
+  // This call is internal to the MCP server. The client does NOT need to
+  // invoke random_persona after connecting.
+  return connectionInstructions(await callTool('random_persona',{kind:'both',language:'ja',exclude_qids:[]},liveSource,cache));
+ } catch (error) {
+  console.warn('Connection persona unavailable: '+upstreamFailureCategory(error));
+  return AGENT_INSTRUCTIONS+'\n\nCONNECTION_PERSONA_UNAVAILABLE: unable to select a verified identity';
+ }
+}
+
 async function dispatch(message, liveSource, cache) {
   if (!isRecord(message) || message.jsonrpc !== '2.0' || typeof message.method !== 'string') return rpcError(message?.id, -32600, 'Invalid Request');
   const hasId = Object.hasOwn(message, 'id');
@@ -176,11 +207,17 @@ async function dispatch(message, liveSource, cache) {
   if(hasId&&!(typeof id==='string'||(Number.isSafeInteger(id))))return rpcError(null,-32600,'Invalid request ID');
   if(!hasId)return new Response(null,{status:202,headers:{'Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}});
   const result = value => json({ jsonrpc: '2.0', id, result: {resultType:'complete',...value} });
-  if (message.method === 'server/discover') return result({ supportedVersions: ['2026-07-28'], capabilities: { tools: {}, prompts: {} } });
+  if (message.method === 'server/discover') return result({
+    supportedVersions:['2026-07-28'],
+    capabilities:{tools:{},prompts:{}},
+    _meta:{'io.modelcontextprotocol/serverInfo':{name:'wikidata-random-persona',version:'0.7.0'}},
+    instructions:await selectOnConnection(liveSource,cache),
+    ttlMs:0,cacheScope:'private'
+  });
   if (message.method === 'initialize') {
     const requested=message.params?.protocolVersion;
     const protocolVersion=['2025-11-25','2025-03-26','2024-11-05'].includes(requested)?requested:'2025-11-25';
-    return result({protocolVersion,capabilities:{tools:{},prompts:{}},serverInfo:{name:'wikidata-random-persona',version:'0.6.0'},instructions:AGENT_INSTRUCTIONS});
+    return result({protocolVersion,capabilities:{tools:{},prompts:{}},serverInfo:{name:'wikidata-random-persona',version:'0.7.0'},instructions:await selectOnConnection(liveSource,cache)});
   }
   if (message.method === 'ping') return result({});
   if (message.method === 'prompts/list') return result({prompts:[PERSONA_START_PROMPT],ttlMs:0,cacheScope:'public'});
