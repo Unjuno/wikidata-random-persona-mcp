@@ -4,6 +4,7 @@ import catalog from './catalog.mjs';
 import blockedQids from './blocked-qids.mjs';
 import { createCatalogStore } from './catalog-store.mjs';
 import { createLiveWikidata } from './live-wikidata.mjs';
+import { createD1PersonaCache } from './d1-persona-cache.mjs';
 import personaIndex from './persona-index-data.mjs';
 
 const SITE_HOST = 'random-persona-mcp.unjuno.chatgpt.site';
@@ -72,36 +73,70 @@ async function readLimited(request, timeoutMs) {
 function requireKeys(args, allowed, required = []) {
   if (!isRecord(args) || Object.keys(args).some(key => !allowed.includes(key)) || required.some(key => !(key in args))) throw new Error('Invalid tool arguments');
 }
-async function callTool(name, args, liveSource) {
-  if (name === 'random_persona') {
-    requireKeys(args, ['kind', 'language', 'exclude_qids']);
-    // Validate before network. Keep a real random fallback, not a hard-coded index.
-    const local = store.random(args);
-    try {
-      const live = await liveSource.random(args, {blockedQids});
-      if (live?.status === 'ok') return live;
-      return {...local, source_mode: 'catalog_fallback', fallback_reason:'no_live_match'};
-    } catch (error) {
-      console.warn('Wikidata random unavailable:',String(error?.message??'unknown').slice(0,180));
-      return {...local, source_mode: 'catalog_fallback', fallback_reason:'wikidata_unavailable', upstream_failure_category:upstreamFailureCategory(error)};
-    }
+async function cacheAfterLive(cache,live){
+ if(!cache||typeof cache.put!=='function'||live?.status!=='ok'||!live.persona)return;
+ try{await cache.put(live.persona);}
+ catch{console.warn('Sites D1 cache write unavailable; live result preserved');}
+}
+async function readCache(cache,method,args){
+ if(!cache||typeof cache[method]!=='function')return null;
+ try{return await cache[method](args,{blockedQids});}
+ catch{console.warn('Sites D1 cache read unavailable; bundled fallback retained');return null;}
+}
+async function callTool(name, args, liveSource, cache) {
+ if(name==='random_persona'){
+  requireKeys(args,['kind','language','exclude_qids']);
+  const local=store.random(args);
+  let reason='wikidata_unavailable',failureCategory;
+  try{
+   const live=await liveSource.random(args,{blockedQids});
+   if(live?.status==='ok'){
+    await cacheAfterLive(cache,live);
+    return live;
+   }
+   if(live?.status!=='no_match')throw Error('Unexpected Wikidata response');
+   reason='no_live_match';
+  }catch(error){
+   failureCategory=upstreamFailureCategory(error);
+   console.warn('Wikidata random unavailable: '+failureCategory);
   }
-  if (name === 'get_persona') {
-    requireKeys(args, ['qid', 'language'], ['qid']);
-    // This call also validates QID/language and observes the independent block list.
-    const local = store.get(args);
-    try {
-      const live = await liveSource.get(args, {blockedQids});
-      if (live?.status === 'ok' || live?.status === 'not_found') return live;
-      throw Error('Unexpected Wikidata response');
-    } catch (error) {
-      console.warn('Wikidata lookup unavailable:',String(error?.message??'unknown').slice(0,180));
-      if (local.status === 'ok') return {...local, source_mode:'catalog_fallback', fallback_reason:'wikidata_unavailable', upstream_failure_category:upstreamFailureCategory(error)};
-      return {status:'upstream_unavailable', qid:args.qid, catalog_version:store.summary.catalog_version,
-        source_mode:'wikidata_unavailable', upstream_failure_category:upstreamFailureCategory(error), reason:'Cannot verify a QID against Wikidata right now'};
-    }
+  const cached=await readCache(cache,'random',args);
+  if(cached?.status==='ok')return {
+   ...cached,source_mode:'d1_cache_fallback',fallback_reason:reason,
+   ...(failureCategory?{upstream_failure_category:failureCategory}:{})
+  };
+  return {
+   ...local,source_mode:'catalog_fallback',fallback_reason:reason,
+   ...(failureCategory?{upstream_failure_category:failureCategory}:{})
+  };
+ }
+ if(name==='get_persona'){
+  requireKeys(args,['qid','language'],['qid']);
+  const local=store.get(args);
+  try{
+   const live=await liveSource.get(args,{blockedQids});
+   if(live?.status==='ok'){
+    await cacheAfterLive(cache,live);
+    return live;
+   }
+   if(live?.status==='not_found')return live;
+   throw Error('Unexpected Wikidata response');
+  }catch(error){
+   const failureCategory=upstreamFailureCategory(error);
+   console.warn('Wikidata lookup unavailable: '+failureCategory);
+   const cached=await readCache(cache,'get',args);
+   if(cached?.status==='ok')return {
+    ...cached,source_mode:'d1_cache_fallback',fallback_reason:'wikidata_unavailable',
+    upstream_failure_category:failureCategory
+   };
+   if(local.status==='ok')return {...local,source_mode:'catalog_fallback',
+    fallback_reason:'wikidata_unavailable',upstream_failure_category:failureCategory};
+   return {status:'upstream_unavailable',qid:args.qid,
+    catalog_version:store.summary.catalog_version,source_mode:'wikidata_unavailable',
+    upstream_failure_category:failureCategory,reason:'Cannot verify a QID against Wikidata right now'};
   }
-  throw new Error('Unknown tool');
+ }
+ throw Error('Unknown tool');
 }
 
 /** Expose stable, non-sensitive failure categories. Never return raw upstream errors. */
@@ -117,7 +152,7 @@ function upstreamFailureCategory(error) {
 function toolResult(result, isError = false) {
   return { content: [{ type: 'text', text: JSON.stringify(result) }], structuredContent: result, ...(isError ? { isError: true } : {}) };
 }
-async function dispatch(message, liveSource) {
+async function dispatch(message, liveSource, cache) {
   if (!isRecord(message) || message.jsonrpc !== '2.0' || typeof message.method !== 'string') return rpcError(message?.id, -32600, 'Invalid Request');
   const hasId = Object.hasOwn(message, 'id');
   const id = hasId ? message.id : null;
@@ -136,7 +171,7 @@ async function dispatch(message, liveSource) {
     try {
       const params = message.params;
       if (!isRecord(params) || typeof params.name !== 'string') throw new Error('Invalid tool call');
-      return result(toolResult(await callTool(params.name, params.arguments ?? {}, liveSource)));
+      return result(toolResult(await callTool(params.name, params.arguments ?? {}, liveSource, cache)));
     } catch (error) {
       return result(toolResult({ error: error instanceof Error ? error.message : 'Tool call failed' }, true));
     }
@@ -145,9 +180,10 @@ async function dispatch(message, liveSource) {
   return rpcError(id, -32601, 'Method not found');
 }
 
-export function createWorker({indexSnapshot=personaIndex,liveSource=createLiveWikidata({index:indexSnapshot}),now=()=>Date.now(),maxRequestsPerMinute=120,requestTimeoutMs=5000}={}) {
+export function createWorker({indexSnapshot=personaIndex,liveSource=createLiveWikidata({index:indexSnapshot}),cacheSource=null,now=()=>Date.now(),maxRequestsPerMinute=120,requestTimeoutMs=5000}={}) {
 let windowStart=0,requests=0;
-return { async fetch(request) {
+return { async fetch(request, env) {
+  const cache=cacheSource ?? (env?.DB?.prepare?createD1PersonaCache(env.DB):null);
   const url = new URL(request.url);
   const host = request.headers.get('host');
   if (url.hostname.toLowerCase() !== SITE_HOST || (host && host.toLowerCase() !== SITE_HOST)) return json({ error: 'Host not permitted' }, 403);
@@ -158,6 +194,8 @@ return { async fetch(request) {
   if (url.pathname === '/healthz' && request.method === 'GET') return json({
    status:'ok',
    mode:'wikidata_live_with_catalog_fallback',
+   cache_storage:cache?'d1':'not_configured',
+   fallback_order:['wikidata_live','d1_cache','bundled_catalog'],
    sampling_method:indexSnapshot?'wikidata_dump_reservoir':'bounded_wdqs_offset',
    index_version:indexSnapshot?.version??null,
    eligible_population:indexSnapshot?indexSnapshot.population.real+indexSnapshot.population.fictional:null,
@@ -178,7 +216,7 @@ return { async fetch(request) {
   try { message = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)); }
   catch { return rpcError(null, -32700, 'Parse error'); }
   if (Array.isArray(message)) return rpcError(null,-32600,'Batch requests are not supported');
-  return dispatch(message,liveSource);
+  return dispatch(message,liveSource,cache);
 }};
 }
 const instance = createWorker();

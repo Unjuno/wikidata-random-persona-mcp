@@ -56,3 +56,14 @@ The updated `/healthz` deliberately replaces the ambiguous top-level `entries` w
 The only deployment target is the existing https://random-persona-mcp.unjuno.chatgpt.site. Keep both / and /mcp on that Site, including the existing generated imagery and live Wikidata integration. Do not create any new ChatGPT Site or deploy to Vercel/Railway/Render.
 
 Do not add custom login, API keys or OAuth. Sites-managed access checks are platform features and should not be bypassed; anonymous /mcp requests have returned HTTP 401. General access by other AI clients remains unverified even though MCP itself is an open protocol. Do not report anonymous public distribution as implemented without a real external-client test.
+
+
+## D1 cache in the same Site — mandatory provisioning and verification
+
+Use the existing `random-persona-mcp.unjuno.chatgpt.site` Site only. Request a Site-local D1 database binding named `DB` using the Sites storage capability, preserving the existing Site project_id and MCP capability. The repository's hosting manifest is **not** evidence of a provisioned database; do not set a made-up database identifier. Run the migration from `migrations/0001_persona_cache.sql` in that bound database through authorized Sites management, without exposing an anonymous HTTP write endpoint.
+
+Start by revalidating and importing the reviewed fallback QIDs into D1, then progressively ingest additional verified Wikidata QIDs in manageable batches. Set a soft operating target of 8GB/10GB with alerts and plan for retention/eviction. Cache source objects must be validated; do not store Wikipedia article bodies or conversations.
+
+Republish the same Site from a green GitHub commit. Check `/healthz.cache_storage=d1`, then simulate Wikidata unavailability and confirm `random_persona.source_mode=d1_cache_fallback`, correct QID and `cache_checked_at`. Verify `get_persona` for a cached QID outside the 300-record embedded catalog and ensure unauthorized cache-write routes do not exist. If D1 provisioning is unsupported on this account, report it and leave the old live → 300 fallback intact.
+
+Reference: [D1_CACHE_OPERATIONS.md](D1_CACHE_OPERATIONS.md).

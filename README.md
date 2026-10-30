@@ -79,3 +79,10 @@ The Japanese public LP and original generated brand images live in `public/`. Th
 ## Deployment boundary: existing ChatGPT Sites only
 
 The landing page, generated artwork and MCP remain at https://random-persona-mcp.unjuno.chatgpt.site. There is no independent Vercel, Railway or other hosting. The MCP implements no custom account, login, API key or OAuth. The ChatGPT Sites plugin nevertheless has platform-managed access checks; unauthenticated /mcp returned HTTP 401. An openly viewable LP is not proof that arbitrary external MCP clients can connect. The tool contract remains Wikidata QID + article links + shared browsing/roleplay guidance.
+
+
+## Progressive persona cache in the existing Site (D1 up to 10GB)
+
+OpenAI documents a 10GB per-Site limit for the D1 database. A new optional D1 adapter supports verified Wikidata QID/name/class/article-link metadata only, with **live Wikidata → D1 persisted references → the bundled 300-item emergency catalog** precedence. A successful live draw opportunistically refreshes D1. Fallback responses report `d1_cache_fallback` and `cache_checked_at`, not a claim of live retrieval.
+
+**No D1 binding is provisioned by a GitHub commit.** Work/Sites must add a D1 binding named `DB` to the existing ChatGPT Site, run `migrations/0001_persona_cache.sql`, populate it through an owner-controlled storage workflow, and republish. If no binding exists, all existing behavior continues and health reports `cache_storage: not_configured`. Use a monitored 8GB operating ceiling rather than filling the 10GB database to capacity. Do not expose any anonymous database write endpoint. See [D1 cache operations](docs/D1_CACHE_OPERATIONS.md).

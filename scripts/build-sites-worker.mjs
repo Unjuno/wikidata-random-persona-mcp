@@ -19,6 +19,7 @@ await cp(resolve(root, 'src/core.mjs'), resolve(server, 'core.mjs'));
 await cp(resolve(root, 'src/catalog-store.mjs'), resolve(server, 'catalog-store.mjs'));
 await cp(resolve(root, 'src/wikidata.mjs'), resolve(server, 'wikidata.mjs'));
 await cp(resolve(root, 'src/live-wikidata.mjs'), resolve(server, 'live-wikidata.mjs'));
+await cp(resolve(root, 'src/d1-persona-cache.mjs'), resolve(server, 'd1-persona-cache.mjs'));
 await cp(resolve(root, 'src/persona-index.mjs'), resolve(server, 'persona-index.mjs'));
 let reviewedIndex=null;
 try{
@@ -59,7 +60,7 @@ console.log('Embedded '+Object.keys(assets).length+' LP assets.');
 
 // A reproducible fingerprint ties deployed runtime/assets to the GitHub source.
 const fingerprint=createHash('sha256');
-for(const name of ['sites/worker/index.js','sites/worker/web.mjs','src/core.mjs','src/catalog-store.mjs','src/wikidata.mjs','src/live-wikidata.mjs','src/persona-index.mjs','data/catalog.json','data/blocked-qids.json','scripts/build-sites-worker.mjs','.openai/hosting.json','package-lock.json']){
+for(const name of ['sites/worker/index.js','sites/worker/web.mjs','src/core.mjs','src/catalog-store.mjs','src/wikidata.mjs','src/live-wikidata.mjs','src/d1-persona-cache.mjs','src/persona-index.mjs','data/catalog.json','data/blocked-qids.json','scripts/build-sites-worker.mjs','.openai/hosting.json','package-lock.json']){
  fingerprint.update(name+'\0');fingerprint.update(await readFile(resolve(root,name)));
 }
 fingerprint.update('persona-index-data\0');fingerprint.update(JSON.stringify(reviewedIndex));

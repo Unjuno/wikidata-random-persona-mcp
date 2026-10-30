@@ -37,3 +37,10 @@ The Sites Worker now prefers a direct-P31 class-constrained Wikidata Query Servi
 ## Optional population-weighted QID index
 
 A complete Wikidata JSON dump is streamed through `sampleDumpQidIndex`, preserving only a secure reservoir of QIDs and the direct-P31 eligible population counts (real and fictional separately). If approved `data/persona-index.json` is bundled, Sites chooses a class weighted by the full eligible population, samples a QID from its reservoir, then reads current metadata via the Wikidata Action API. This avoids a public WDQS query on every indexed draw. Missing/invalid current entities get at most two additional draws. When the approved index is absent, current bounded WDQS mode continues. Both remain backed by an independent 300-entry outage catalog.
+
+
+## Persistent Site-local D1 fallback
+
+The Site Worker accepts the runtime's optional `env.DB` D1 binding, which is configured by Sites, not inferred from the Git repository. A successful live Wikidata call performs a validated, parameter-bound upsert of the QID, kind, name, description and source URLs. A live failure or empty candidate search checks the Site-local indexed D1 persona_cache table first and then the pre-reviewed bundled 300-entry fallback. A definitive Wikidata not_found is never overridden by old cached metadata.
+
+The cache uses a `(kind,random_key,qid)` index and short indexed seeks instead of an unbounded `ORDER BY RANDOM()` sort. Cached selection is approximate over currently stored QIDs and is **not globally uniform across Wikidata**. Strict QID/URL validation also applies to data read from D1. The DB has a documented maximum size of 10GB; monitor a soft budget of about 8GB for safe updates and indexes. This architecture requires a Work/Sites D1 binding `DB` and migration, which have not been created solely by GitHub changes. No public write endpoint is exposed.

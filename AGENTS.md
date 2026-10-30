@@ -40,3 +40,12 @@ The 300 entries in `data/catalog.json` are the outage fallback only. Never marke
 The owner confirmed that the LP and MCP must remain together on the existing https://random-persona-mcp.unjuno.chatgpt.site Site. Do not create or deploy a separate project on Vercel, Railway, Render or any other host. The previous external-hosting PR was reverted; new hosting elsewhere requires an explicit, new owner decision.
 
 The MCP has no application-specific account, API key, OAuth or login. However, ChatGPT Sites may enforce its own platform access controls on /mcp, and an anonymous request returned HTTP 401. Do not claim that the plugin is anonymously accessible by all MCP clients; do not attempt to bypass Sites platform controls. Preserve Wikidata-live identity discovery, article URL + shared guidance output, the LP, strict input checks and rate budgets.
+
+
+## Sites D1 persistent fallback cache (2026-10-31)
+
+The product owner chose to progressively collect Wikidata persona metadata in the **existing ChatGPT Site** and prefer this D1 cache when live Wikidata is unavailable. D1 has a documented 10GB max per Site; operate below it (suggested 8GB), measure actual index and storage consumption, and do not upload full Wikidata JSON dumps into D1.
+
+New adapter `src/d1-persona-cache.mjs` is optional until Work/Sites binds `DB` and applies `migrations/0001_persona_cache.sql`. Preserve the exact order: live Wikidata → validated D1 cache → reviewed bundled catalog. Cache records must contain only QID, kind, name, short description, allowlisted Wikipedia/Wikidata URLs and checked timestamp; no article prose, user chats or LLM calls. Maintain source modes and never identify a stale/uncertain cached identity as newly live verified.
+
+No public anonymous ingestion API or user authentication. Data seeding/review/import must be owner-controlled through Sites storage management. No Vercel, Railway or new ChatGPT Site. Never claim D1 is active before the *deployed* /healthz reports `cache_storage=d1` and a real cache-fallback tool call passes.
