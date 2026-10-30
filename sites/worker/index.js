@@ -5,6 +5,7 @@ import blockedQids from './blocked-qids.mjs';
 import { createCatalogStore } from './catalog-store.mjs';
 import { createLiveWikidata } from './live-wikidata.mjs';
 import { createD1PersonaCache } from './d1-persona-cache.mjs';
+import { createProgressiveIngestor } from './progressive-ingestion.mjs';
 import personaIndex from './persona-index-data.mjs';
 
 const SITE_HOST = 'random-persona-mcp.unjuno.chatgpt.site';
@@ -180,7 +181,23 @@ async function dispatch(message, liveSource, cache) {
   return rpcError(id, -32601, 'Method not found');
 }
 
-export function createWorker({indexSnapshot=personaIndex,liveSource=createLiveWikidata({index:indexSnapshot}),cacheSource=null,now=()=>Date.now(),maxRequestsPerMinute=120,requestTimeoutMs=5000}={}) {
+/** Called only by an authorized Sites scheduled task/Worker scheduled event.
+ * No public HTTP ingestion route is provided.
+ */
+export async function runSiteCollection(env,{
+ source=createLiveWikidata(),cache=null,batches=8
+}={}){
+ if(!env?.DB||typeof env.DB.prepare!=='function')
+  return {status:'not_configured',added:0};
+ const ingestor=createProgressiveIngestor({
+  db:env.DB,source,
+  cache:cache??createD1PersonaCache(env.DB),
+  blockedQids
+ });
+ return ingestor.runOnce({batches});
+}
+
+export function createWorker({indexSnapshot=personaIndex,liveSource=createLiveWikidata({index:indexSnapshot}),cacheSource=null,scheduledCollector=null,now=()=>Date.now(),maxRequestsPerMinute=120,requestTimeoutMs=5000}={}) {
 let windowStart=0,requests=0;
 return { async fetch(request, env) {
   const cache=cacheSource ?? (env?.DB?.prepare?createD1PersonaCache(env.DB):null);
@@ -217,7 +234,22 @@ return { async fetch(request, env) {
   catch { return rpcError(null, -32700, 'Parse error'); }
   if (Array.isArray(message)) return rpcError(null,-32600,'Batch requests are not supported');
   return dispatch(message,liveSource,cache);
-}};
+},
+async scheduled(event,env,ctx){
+ const execute=()=>scheduledCollector
+  ? scheduledCollector.runOnce({batches:8})
+  : runSiteCollection(env,{source:liveSource,cache:cacheSource,batches:8});
+ const task=execute();
+ if(typeof ctx?.waitUntil==='function'){
+  ctx.waitUntil(task.then(result=>{
+   console.info('Scheduled Wikidata metadata collection: '+result.status+
+    '; added='+result.added+'; batches='+result.batches_completed);
+  }));
+  return;
+ }
+ return task;
+}
+};
 }
 const instance = createWorker();
 export const fetch = instance.fetch;
