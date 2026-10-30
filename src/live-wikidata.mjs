@@ -77,9 +77,10 @@ async function boundedJson(response){
  for(const chunk of chunks){out.set(chunk,pos);pos+=chunk.byteLength;}
  return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(out));
 }
-export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...args),randomIndex=secureRandomIndex,now=stamp,timeoutMs=10000,maxRequestsPerMinute=60,maxConcurrent=4,index=null}={}) {
+export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...args),randomIndex=secureRandomIndex,now=stamp,timeoutMs=10000,maxRequestsPerMinute=60,maxConcurrent=4,index=null,maxlagSeconds=15}={}) {
  if(typeof fetchImpl!=='function'||typeof randomIndex!=='function'||typeof now!=='function')throw Error('Invalid Wikidata client configuration');
  if(!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>30000||!Number.isInteger(maxRequestsPerMinute)||maxRequestsPerMinute<1||!Number.isInteger(maxConcurrent)||maxConcurrent<1)throw Error('Invalid Wikidata request limits');
+ if(!Number.isInteger(maxlagSeconds)||maxlagSeconds<5||maxlagSeconds>30)throw Error('Invalid Wikidata maxlag threshold');
  const indexedSelector=index===null?null:createIndexSelector(index);
  const fullIndex=indexedSelector?.index??null;
  // Defensive, isolate-local budgets; platform-wide quotas belong at the Sites boundary.
@@ -118,7 +119,10 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
    const body=await boundedJson(response);
    if(body?.error?.code==='no-such-entity'&&isQid(body.error.id)&&url.hostname==='www.wikidata.org'&&url.searchParams.get('ids')===body.error.id)return {entities:{[body.error.id]:{id:body.error.id,missing:''}}};
    if(body?.error){
-    if(body.error.code==='maxlag')cooldownUntil=now().getTime()+60000;
+    if(body.error.code==='maxlag'){
+     cooldownUntil=now().getTime()+60000;
+     throw Error('Wikidata upstream error: maxlag');
+    }
     throw Error('Wikidata upstream error');
    }
    return body;
@@ -132,7 +136,7 @@ export function createLiveWikidata({fetchImpl=(...args)=>globalThis.fetch(...arg
   const u=new URL('https://www.wikidata.org/w/api.php');
   u.search=new URLSearchParams({
    action:'wbgetentities',ids:ids.join('|'),props:'labels|descriptions|sitelinks|claims',
-   sitefilter:'jawiki|enwiki',languages:'ja|en',format:'json',maxlag:'5'
+   sitefilter:'jawiki|enwiki',languages:'ja|en',format:'json',maxlag:String(maxlagSeconds)
   });
   const data=await readJson(u);
   if(!validObject(data?.entities))throw Error('Wikidata returned no entity map');

@@ -83,7 +83,7 @@ async function callTool(name, args, liveSource) {
       return {...local, source_mode: 'catalog_fallback', fallback_reason:'no_live_match'};
     } catch (error) {
       console.warn('Wikidata random unavailable:',String(error?.message??'unknown').slice(0,180));
-      return {...local, source_mode: 'catalog_fallback', fallback_reason:'wikidata_unavailable'};
+      return {...local, source_mode: 'catalog_fallback', fallback_reason:'wikidata_unavailable', upstream_failure_category:upstreamFailureCategory(error)};
     }
   }
   if (name === 'get_persona') {
@@ -96,14 +96,24 @@ async function callTool(name, args, liveSource) {
       throw Error('Unexpected Wikidata response');
     } catch (error) {
       console.warn('Wikidata lookup unavailable:',String(error?.message??'unknown').slice(0,180));
-      if (local.status === 'ok') return {...local, source_mode:'catalog_fallback', fallback_reason:'wikidata_unavailable'};
+      if (local.status === 'ok') return {...local, source_mode:'catalog_fallback', fallback_reason:'wikidata_unavailable', upstream_failure_category:upstreamFailureCategory(error)};
       return {status:'upstream_unavailable', qid:args.qid, catalog_version:store.summary.catalog_version,
-        source_mode:'wikidata_unavailable', reason:'Cannot verify a QID against Wikidata right now'};
+        source_mode:'wikidata_unavailable', upstream_failure_category:upstreamFailureCategory(error), reason:'Cannot verify a QID against Wikidata right now'};
     }
   }
   throw new Error('Unknown tool');
 }
 
+/** Expose stable, non-sensitive failure categories. Never return raw upstream errors. */
+function upstreamFailureCategory(error) {
+  const message = error instanceof Error ? error.message : '';
+  if(/maxlag/i.test(message))return 'wikimedia_maxlag';
+  if(/rate limited|Retry-After|HTTP 429|HTTP 503/i.test(message))return 'wikimedia_rate_limited';
+  if(/timeout|AbortError/i.test(message))return 'wikimedia_timeout';
+  if(/response too large/i.test(message))return 'wikimedia_response_too_large';
+  if(/request budget/i.test(message))return 'local_request_budget';
+  return 'other_upstream_failure';
+}
 function toolResult(result, isError = false) {
   return { content: [{ type: 'text', text: JSON.stringify(result) }], structuredContent: result, ...(isError ? { isError: true } : {}) };
 }

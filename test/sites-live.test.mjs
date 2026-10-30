@@ -45,3 +45,29 @@ test('client validation occurs before live Wikidata requests',async()=>{
  assert.equal(badRandom.isError,true);
  assert.equal(hits,0);
 });
+
+
+test('Wikidata maxlag fallback retains a safe diagnostic category instead of a generic silent outage',async()=>{
+ const worker=createWorker({liveSource:{
+  random:async()=>{throw Error('Wikidata upstream error: maxlag');},
+  get:async()=>{throw Error('Wikidata upstream error: maxlag');}
+ }});
+ const picked=(await (await post(worker,'random_persona',{kind:'real'})).json()).result.structuredContent;
+ assert.equal(picked.status,'ok');
+ assert.equal(picked.source_mode,'catalog_fallback');
+ assert.equal(picked.fallback_reason,'wikidata_unavailable');
+ assert.equal(picked.upstream_failure_category,'wikimedia_maxlag');
+ const unknown=(await (await post(worker,'get_persona',{qid:'Q98765432'})).json()).result.structuredContent;
+ assert.equal(unknown.status,'upstream_unavailable');
+ assert.equal(unknown.upstream_failure_category,'wikimedia_maxlag');
+});
+test('upstream diagnostic categorization never exposes arbitrary exception content',async()=>{
+ const secret='Authorization bearer SHOULD_NOT_LEAK';
+ const worker=createWorker({liveSource:{
+  random:async()=>{throw Error(secret);},
+  get:async()=>{throw Error(secret);}
+ }});
+ const picked=(await (await post(worker,'random_persona',{kind:'fictional'})).json()).result.structuredContent;
+ assert.equal(picked.upstream_failure_category,'other_upstream_failure');
+ assert.equal(JSON.stringify(picked).includes(secret),false);
+});
