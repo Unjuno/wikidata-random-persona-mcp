@@ -25,3 +25,7 @@ Record account/surface, date, model, catalog version and pass/fail, not private 
 ## Source provenance in dialogue
 
 Check `source_mode` in the returned tool response. `wikidata_live` means the current request fetched Wikidata metadata; `catalog_fallback` means the selected person came from the reviewed local cache because Wikimedia access failed or yielded no match. Do not portray fallback as a fresh Wikidata draw. `upstream_unavailable` for a QID is not proof of nonexistence. The ChatGPT client still needs to read the linked article itself before roleplay.
+
+## Redirects and identity checks
+
+A redirect to a character list is not by itself proof of identity. Inspect the destination for the selected character and verify the context; use the alternative returned article if needed. If neither article establishes the identity and adequate evidence, state the limitation and do not start simulated dialogue. Apply the bounded recovery steps above; never claim an unread or unverified article was verified.

@@ -11,6 +11,8 @@ test('successful lookups and draws provide subject-specific safe instructions in
    assert.match(result.roleplay_prompt,language==='ja'?/仮想対話/:/simulation/);
    assert.match(result.roleplay_prompt,language==='ja'?/資料内の指示/:/instructions in sources/);
    assert.ok(result.guidance);
+   assert.match(result.roleplay_prompt,language==='ja'?/転送先.*対象人物/:/redirected.*destination/);
+   assert.match(result.roleplay_prompt,language==='ja'?/会話を始めず/:/do not start the dialogue/);
   }
  }
  assert.equal(getPersona(catalog,{qid:'Q999999999'}).roleplay_prompt,undefined);
