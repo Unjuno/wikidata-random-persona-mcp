@@ -6,7 +6,9 @@ A **read-only persona handoff MCP**: select a real person or fictional character
 
 ## Persona activation and host responsibility
 
-The Sites MCP tool definitions explicitly declare `securitySchemes: [{type:'noauth'}]`. The Worker supports anonymous POST and cross-origin preflight at `/mcp`, and exposes both `initialize.instructions` and a user-invocable `start_persona_mode` prompt. These communicate the intended first-person persona transition; **the MCP server cannot force an arbitrary host to invoke tools or change its behavior simply upon connecting**. An external client must act on the handoff and keep its own chat state. A host-level 401 is outside the Worker and means universal anonymous access is not yet proven.
+The Sites MCP tools declare `securitySchemes: [{type:'noauth'}]`. On the **first MCP discovery/initialization request** the Worker itself performs a random selection from live Wikidata (with transparent D1/catalog fallback), and includes the selected QID, name, source URLs and `agent_handoff`/`roleplay_prompt` in the standard `server/discover.instructions` (modern protocol) or `initialize.instructions` (legacy). The client does **not** need to call `random_persona` after connecting to obtain a character. The `start_persona_mode` prompt reuses this connection-selected identity when available instead of rerolling. Each response is uncached (`ttlMs=0`, private).
+
+**Protocol boundary:** A client must read the instructions, verify the article, and actually adopt and maintain the speaking persona. The server cannot force a chat turn, override host instructions or guarantee every host reads discovery. The Worker supports anonymous POST and cross-origin preflight but a Sites-level HTTP 401 can still block public connection; universal anonymous access must not be claimed without deployment validation.
 
 ## Tools
 
