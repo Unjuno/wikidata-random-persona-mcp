@@ -32,6 +32,6 @@ draw.addEventListener('click', async () => {
 });
 document.querySelector('#copy-prompt').addEventListener('click', async () => {
   const status=document.querySelector('#copy-status');
-  try {await navigator.clipboard.writeText('ランダムな人物と話したい');status.textContent='コピーしました。接続済みのChatGPTで貼り付けてください。';}
-  catch {status.textContent='コピーできませんでした。「ランダムな人物と話したい」を選択してコピーしてください。';}
+  try {await navigator.clipboard.writeText('ランダムな人物になりきって話して');status.textContent='コピーしました。接続済みのChatGPTで貼り付けてください。';}
+  catch {status.textContent='コピーできませんでした。「ランダムな人物になりきって話して」を選択してコピーしてください。';}
 });
