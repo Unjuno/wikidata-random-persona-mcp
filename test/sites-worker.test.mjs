@@ -31,6 +31,7 @@ test('Sites MCP discovery and exactly two tools', async () => {
   assert.deepEqual(prompts.result.prompts.map(p=>p.name),['start_persona_mode']);
   const activation=await (await post(rpc('prompts/get',{name:'start_persona_mode',arguments:{kind:'fictional',language:'ja'}}))).json();
   assert.match(activation.result.messages[0].content.text,/一人称/);
+  assert.match(activation.result.messages[0].content.text,/CONNECTION_PERSONA_JSON/);
   const bad=await (await post(rpc('prompts/get',{name:'start_persona_mode',arguments:{kind:'arbitrary'}}))).json();
   assert.equal(bad.error.code,-32602);
 });
