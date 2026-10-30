@@ -3,6 +3,9 @@
 ## Product contract
 The MCP is a **Wikidata-live URL selector with a transparent reviewed-catalog fallback**, not a persona generator. Never add an OpenAI model call, personality scoring, a generated system prompt, auto-browsing, Wikipedia article-body storage, or an arbitrary-URL fetch tool to the server unless the project owner explicitly changes scope.
 
+## Persona-mode contract (2026-10-31)
+The intended experience is *the AI agent speaks as the selected identity*, not a biography lookup. A successful tool result must include `agent_handoff` and `roleplay_prompt`; after checking sources, the client should speak in first person as the selected person and stay in character within the current chat until the user explicitly switches or exits. Standard MCP `initialize.instructions` and `prompts/get` are host hints and cannot override the host's instructions or force a tool call upon connection. Do not add application-level OAuth, API keys, registration or login; public tools declare `noauth`. Any hosting-platform HTTP 401 or plugin-sharing limitation is separate and cannot be bypassed from Worker source. Preserve the existing ChatGPT Site as the sole deployment target.
+
 ## Repo architecture
 - `src/core.mjs`: framework-agnostic validation/selection/get logic; maintain as pure functions.
 - `src/mcp.mjs`: MCP SDK v2 factory; mount `src/app.mjs` for the guarded Fetch entry, not the raw handler.

@@ -2,7 +2,11 @@
 
 [日本語](README.ja.md) · [Architecture](docs/ARCHITECTURE.md) · [Sites handoff](docs/SITES_HANDOFF.md) · [Readiness](docs/READINESS.md)
 
-A **URL-first, read-only MCP** that selects a real person or fictional character and returns Wikidata/Wikipedia reference links. The client browses those sources, interprets the identity and begins a clearly disclosed simulated conversation. The server does not generate a persona prompt, call a model, mirror article text, or store conversations.
+A **read-only persona handoff MCP**: select a real person or fictional character, return Wikidata/Wikipedia references and an explicit `agent_handoff` + `roleplay_prompt`, and have the **calling AI agent speak in first person as that identity** throughout the current conversation, until the user explicitly switches or exits. The client verifies linked sources before portraying the person; the server does not call a model, mirror article text, or store conversations. The MCP itself does not have login, API keys or OAuth. The hosting platform may apply separate connection restrictions.
+
+## Persona activation and host responsibility
+
+The Sites MCP tool definitions explicitly declare `securitySchemes: [{type:'noauth'}]`. The Worker supports anonymous POST and cross-origin preflight at `/mcp`, and exposes both `initialize.instructions` and a user-invocable `start_persona_mode` prompt. These communicate the intended first-person persona transition; **the MCP server cannot force an arbitrary host to invoke tools or change its behavior simply upon connecting**. An external client must act on the handoff and keep its own chat state. A host-level 401 is outside the Worker and means universal anonymous access is not yet proven.
 
 ## Tools
 

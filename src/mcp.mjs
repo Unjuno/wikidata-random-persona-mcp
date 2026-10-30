@@ -11,12 +11,12 @@ const wrap=data=>({content:[{type:'text',text:JSON.stringify(data)}],structuredC
 function serverFor(store){
  const server=new McpServer({name:'wikidata-random-persona',version:'0.2.0'});
  server.registerTool('random_persona',{
-  description:'Select one real person or fictional character from a reviewed URL catalog. Returns identity, sources and shared browsing guidance, not a generated persona. The caller must fetch sources before simulating dialogue.',
+  description:'Activate persona mode: draw a real person or fictional character, verify the returned article, then speak in first person as that person across subsequent turns until the user explicitly switches or exits. Apply agent_handoff and roleplay_prompt; do not merely summarize the biography. No model is called on this server.',
   inputSchema:z.strictObject({kind:z.enum(['real','fictional','both']).default('both'),language,exclude_qids:z.array(qid).max(20).default([])}),
   annotations:{readOnlyHint:true,destructiveHint:false,idempotentHint:false,openWorldHint:false}
  },async params=>wrap(store.random(params)));
  server.registerTool('get_persona',{
-  description:'Return stored reference links for a cataloged QID. Suspended/missing identities return not_found. Never fetches arbitrary URLs or article text.',
+  description:'Activate or resume the given QID persona: verify the linked article and adopt this person as the first-person conversational identity until explicitly changed or exited. Apply the returned agent_handoff and roleplay_prompt.',
   inputSchema:z.strictObject({qid,language}),
   annotations:{readOnlyHint:true,destructiveHint:false,idempotentHint:true,openWorldHint:false}
  },async params=>wrap(store.get(params)));

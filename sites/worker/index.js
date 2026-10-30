@@ -12,12 +12,27 @@ const SITE_HOST = 'random-persona-mcp.unjuno.chatgpt.site';
 const SITE_ORIGIN = `https://${SITE_HOST}`;
 const MAX_BODY_BYTES = 131072;
 const store = createCatalogStore(catalog, blockedQids);
+const AGENT_INSTRUCTIONS = [
+  'This MCP activates a persona for the AI agent; it is not a character directory.',
+  'When the user enables persona mode, call random_persona once.',
+  'Read and verify the returned Wikipedia article, then apply agent_handoff and roleplay_prompt.',
+  'From the next reply SPEAK IN FIRST PERSON AS that person instead of summarizing the biography.',
+  'Briefly disclose the simulation once and keep the same QID across subsequent turns and tasks.',
+  'Only reroll on an explicit user request; exit on request to return to normal assistant mode.',
+  'Never pretend to have read unavailable references. This MCP requires no login, key, or OAuth; hosting restrictions are separate.'
+].join(' ');
+const PERSONA_START_PROMPT = {
+  name:'start_persona_mode',title:'ランダムな人物になりきる',
+  description:'Randomly select an identity and have the agent speak as them for the rest of this conversation.',
+  arguments:[{name:'kind',description:'real, fictional, or both (default both)',required:false},{name:'language',description:'ja or en (default ja)',required:false}]
+};
 
 const toolDefinitions = [
   {
     name: 'random_persona',
     annotations: {readOnlyHint:true,destructiveHint:false,openWorldHint:true,idempotentHint:false},
-    description: 'Use when the user asks to talk with a random person/character or asks for a different one. Select a live Wikidata identity; when Wikidata is unavailable, fall back to the reviewed catalog with an explicit source_mode. Return reference links; then use your available browser to read the first Wikipedia article before beginning. If read, disclose that dialogue is simulated, separate sourced facts from interpretation and invented dialogue, and keep this QID for the rest of the chat. Never claim to have read an unavailable source. On “another person,” call again and exclude recent QIDs. This tool does not generate a persona.',
+    description: 'Activate ongoing first-person persona mode. Randomly select a real or fictional Wikidata identity and return agent_handoff, roleplay_prompt and sources. Read and verify the linked Wikipedia article, then SPEAK AS the person in first person, not as an assistant summarizing their biography. Disclose simulation once. Keep this QID for subsequent turns until explicitly switched or exited. Redraw only when asked for another person and exclude recent QIDs. The server does not generate dialogue.',
+    securitySchemes:[{type:'noauth'}],
     inputSchema: {
       type: 'object', additionalProperties: false,
       properties: {
@@ -30,7 +45,8 @@ const toolDefinitions = [
   {
     name: 'get_persona',
     annotations: {readOnlyHint:true,destructiveHint:false,openWorldHint:true,idempotentHint:true},
-    description: 'Retrieve up-to-date structured metadata and article links for any eligible Wikidata QID. On Wikimedia outage, a known QID may use the catalog as explicitly labeled fallback. Use your available browser to read the article before simulating dialogue. Disclose simulation, distinguish sourced facts from interpretation and invention, and never claim to have read an unavailable source. Does not retrieve arbitrary URLs or article text.',
+    description: 'Activate or resume the specified Wikidata QID as the current first-person speaking identity. Verify the article links, apply agent_handoff and roleplay_prompt, disclose the simulation once and maintain this identity until an explicit change or exit. The server returns metadata, not generated dialogue.',
+    securitySchemes:[{type:'noauth'}],
     inputSchema: {
       type: 'object', additionalProperties: false,
       properties: {
@@ -42,7 +58,7 @@ const toolDefinitions = [
 ];
 
 function json(data, status = 200, extra = {}) {
-  return Response.json(data, { status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', ...extra } });
+  return Response.json(data, { status, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Access-Control-Allow-Origin':'*', ...extra } });
 }
 function rpcError(id, code, message) {
   return json({ jsonrpc: '2.0', id: id ?? null, error: { code, message } });
@@ -158,15 +174,29 @@ async function dispatch(message, liveSource, cache) {
   const hasId = Object.hasOwn(message, 'id');
   const id = hasId ? message.id : null;
   if(hasId&&!(typeof id==='string'||(Number.isSafeInteger(id))))return rpcError(null,-32600,'Invalid request ID');
-  if(!hasId)return new Response(null,{status:202,headers:{'Cache-Control':'no-store'}});
+  if(!hasId)return new Response(null,{status:202,headers:{'Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}});
   const result = value => json({ jsonrpc: '2.0', id, result: {resultType:'complete',...value} });
-  if (message.method === 'server/discover') return result({ supportedVersions: ['2026-07-28'], capabilities: { tools: {} } });
+  if (message.method === 'server/discover') return result({ supportedVersions: ['2026-07-28'], capabilities: { tools: {}, prompts: {} } });
   if (message.method === 'initialize') {
     const requested=message.params?.protocolVersion;
     const protocolVersion=['2025-11-25','2025-03-26','2024-11-05'].includes(requested)?requested:'2025-11-25';
-    return result({protocolVersion,capabilities:{tools:{}},serverInfo:{name:'wikidata-random-persona',version:'0.5.0'}});
+    return result({protocolVersion,capabilities:{tools:{},prompts:{}},serverInfo:{name:'wikidata-random-persona',version:'0.6.0'},instructions:AGENT_INSTRUCTIONS});
   }
   if (message.method === 'ping') return result({});
+  if (message.method === 'prompts/list') return result({prompts:[PERSONA_START_PROMPT],ttlMs:0,cacheScope:'public'});
+  if (message.method === 'prompts/get') {
+    const params=message.params;
+    if(!isRecord(params)||params.name!=='start_persona_mode')return rpcError(id,-32602,'Unknown prompt');
+    const args=params.arguments??{};
+    try{requireKeys(args,['kind','language']);}
+    catch{return rpcError(id,-32602,'Invalid prompt arguments');}
+    const kind=args.kind??'both',language=args.language??'ja';
+    if(!['real','fictional','both'].includes(kind)||!['ja','en'].includes(language))return rpcError(id,-32602,'Invalid prompt arguments');
+    const prompt=language==='ja'
+      ? 'Random Persona MCP の random_persona ツールで '+kind+' の人物を1人選んでください。Wikipedia記事を読み本人確認したうえで、返された agent_handoff と roleplay_prompt をこの会話に適用し、その人物の一人称で直ちに話し始めてください。これは仮想対話であると最初に一度だけ明示し、紹介文だけで終わらないでください。私が「別の人物」または「通常モードに戻る」と求めるまで同じ人物で会話してください。'
+      : 'Call random_persona with kind='+kind+'. Verify the returned Wikipedia article, then apply agent_handoff and roleplay_prompt. Immediately speak in first person as the selected person rather than describing them. Disclose simulation once. Remain in persona until I explicitly switch or exit.';
+    return result({description:'Start a continuing simulated persona conversation',messages:[{role:'user',content:{type:'text',text:prompt}}]});
+  }
   if (message.method === 'tools/list') return result({ tools: toolDefinitions,ttlMs:0,cacheScope:'private' });
   if (message.method === 'tools/call') {
     try {
@@ -205,7 +235,7 @@ return { async fetch(request, env) {
   const host = request.headers.get('host');
   if (url.hostname.toLowerCase() !== SITE_HOST || (host && host.toLowerCase() !== SITE_HOST)) return json({ error: 'Host not permitted' }, 403);
   const origin = request.headers.get('origin');
-  if (origin !== null && origin !== SITE_ORIGIN) return json({ error: 'Origin not permitted' }, 403);
+  if (origin !== null && origin !== SITE_ORIGIN && url.pathname !== '/mcp') return json({ error: 'Origin not permitted' }, 403);
   const asset=serveAsset(request,url.pathname);
   if(asset)return asset;
   if (url.pathname === '/healthz' && request.method === 'GET') return json({
@@ -220,6 +250,12 @@ return { async fetch(request, env) {
    release_fingerprint:buildInfo.fingerprint
   });
   if (url.pathname !== '/mcp') return json({ error: 'Not found' }, 404);
+  // Anonymous, read-only endpoint: browser clients need CORS, not a custom auth scheme.
+  if (request.method === 'OPTIONS') return new Response(null,{status:204,headers:{
+    'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'POST, OPTIONS',
+    'Access-Control-Allow-Headers':'content-type,mcp-protocol-version,mcp-session-id',
+    'Access-Control-Max-Age':'600'
+  }});
   if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405, { Allow: 'POST' });
   const time=now();
   if(time-windowStart>=60000){windowStart=time;requests=0;}
