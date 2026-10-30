@@ -139,6 +139,16 @@ async function callTool(name, args, liveSource, cache) {
  throw Error('Unknown tool');
 }
 
+/** Expose stable, non-sensitive failure categories. Never return raw upstream errors. */
+function upstreamFailureCategory(error) {
+  const message = error instanceof Error ? error.message : '';
+  if(/maxlag/i.test(message))return 'wikimedia_maxlag';
+  if(/rate limited|Retry-After|HTTP 429|HTTP 503/i.test(message))return 'wikimedia_rate_limited';
+  if(/timeout|AbortError/i.test(message))return 'wikimedia_timeout';
+  if(/response too large/i.test(message))return 'wikimedia_response_too_large';
+  if(/request budget/i.test(message))return 'local_request_budget';
+  return 'other_upstream_failure';
+}
 function toolResult(result, isError = false) {
   return { content: [{ type: 'text', text: JSON.stringify(result) }], structuredContent: result, ...(isError ? { isError: true } : {}) };
 }
