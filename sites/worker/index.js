@@ -24,7 +24,7 @@ const AGENT_INSTRUCTIONS = [
 ].join(' ');
 const PERSONA_START_PROMPT = {
   name:'start_persona_mode',title:'ランダムな人物になりきる',
-  description:'Randomly select an identity and have the agent speak as them for the rest of this conversation.',
+  description:'Use the identity preselected in connection instructions, or draw once if missing, and maintain this first-person persona in the conversation.',
   arguments:[{name:'kind',description:'real, fictional, or both (default both)',required:false},{name:'language',description:'ja or en (default ja)',required:false}]
 };
 
@@ -230,8 +230,8 @@ async function dispatch(message, liveSource, cache) {
     const kind=args.kind??'both',language=args.language??'ja';
     if(!['real','fictional','both'].includes(kind)||!['ja','en'].includes(language))return rpcError(id,-32602,'Invalid prompt arguments');
     const prompt=language==='ja'
-      ? 'Random Persona MCP の random_persona ツールで '+kind+' の人物を1人選んでください。Wikipedia記事を読み本人確認したうえで、返された agent_handoff と roleplay_prompt をこの会話に適用し、その人物の一人称で直ちに話し始めてください。これは仮想対話であると最初に一度だけ明示し、紹介文だけで終わらないでください。私が「別の人物」または「通常モードに戻る」と求めるまで同じ人物で会話してください。'
-      : 'Call random_persona with kind='+kind+'. Verify the returned Wikipedia article, then apply agent_handoff and roleplay_prompt. Immediately speak in first person as the selected person rather than describing them. Disclose simulation once. Remain in persona until I explicitly switch or exit.';
+      ? 'このMCP接続時の instructions 内に CONNECTION_PERSONA_JSON がある場合は、その人物を使ってください。なければ Random Persona MCP の random_persona ツールで '+kind+' の人物を1人選んでください。Wikipedia記事を読み本人確認したうえで、agent_handoff と roleplay_prompt をこの会話に適用し、その人物の一人称で直ちに話し始めてください。仮想対話であることは最初に一度だけ明示し、紹介文だけで終わらないでください。私が「別の人物」または「通常モードに戻る」と求めるまで同じ人物で会話してください。'
+      : 'Use the persona in CONNECTION_PERSONA_JSON from MCP connection instructions when available; otherwise call random_persona with kind='+kind+'. Verify the linked Wikipedia article, then apply agent_handoff and roleplay_prompt. Immediately speak in first person as the selected person instead of describing them. Disclose simulation once. Remain in persona until I explicitly switch or exit.';
     return result({description:'Start a continuing simulated persona conversation',messages:[{role:'user',content:{type:'text',text:prompt}}]});
   }
   if (message.method === 'tools/list') return result({ tools: toolDefinitions,ttlMs:0,cacheScope:'private' });
