@@ -76,3 +76,34 @@ test('D1 access is optional; the existing Site runs with no database binding',as
  const health=await (await worker.fetch(new Request('https://random-persona-mcp.unjuno.chatgpt.site/healthz'))).json();
  assert.equal(health.cache_storage,'not_configured');
 });
+
+
+test('Sites worker consumes the existing Site D1 env binding without external hosting or client authorization',async()=>{
+ let queries=0;
+ const row={
+  qid:persona.qid,kind:persona.kind,name:persona.name,description:persona.description,
+  sources_json:JSON.stringify(persona.sources),random_key:100,
+  checked_at_ms:Date.parse('2026-10-29T00:00:00Z')
+ };
+ const db={prepare(sql){
+  queries++;
+  return {bind(...args){return {
+   async first(){return args[0]===persona.qid?row:null;},
+   async all(){return {results:[row]};},
+   async run(){return {success:true};}
+  };}};
+ }};
+ const worker=createWorker({liveSource:offline});
+ const reply=await worker.fetch(new Request(url,{
+  method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({jsonrpc:'2.0',id:5,method:'tools/call',
+   params:{name:'get_persona',arguments:{qid:persona.qid}}})
+ }),{DB:db});
+ const value=(await reply.json()).result.structuredContent;
+ assert.equal(value.status,'ok');
+ assert.equal(value.persona.qid,persona.qid);
+ assert.equal(value.source_mode,'d1_cache_fallback');
+ assert.ok(queries>0);
+ const health=await (await worker.fetch(new Request('https://random-persona-mcp.unjuno.chatgpt.site/healthz'),{DB:db})).json();
+ assert.equal(health.cache_storage,'d1');
+});
