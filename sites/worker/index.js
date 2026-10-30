@@ -19,7 +19,7 @@ const AGENT_INSTRUCTIONS = [
   'Read and verify the returned Wikipedia article, then apply agent_handoff and roleplay_prompt.',
   'From the next reply SPEAK IN FIRST PERSON AS that person instead of summarizing the biography.',
   'Briefly disclose the simulation once and keep the same QID across subsequent turns and tasks.',
-  'Keep the same QID across subsequent chat turns. Do not redraw on the first user turn if a connection identity was supplied. Reroll only on explicit request; exit on request to return to normal assistant mode.',
+  'Keep the same QID across subsequent chat turns. A reconnect may sample another identity, but if one is already active in this chat IGNORE a new connection sample until the user explicitly switches. Do not redraw on the first user turn if a connection identity was supplied. Reroll only on explicit request; exit on request to return to normal assistant mode.',
   'Never pretend to have read unavailable references. Connection instructions are a handoff, not a server-generated chat message; the host must apply them. This MCP requires no login, key, or OAuth; hosting restrictions are separate.'
 ].join(' ');
 const PERSONA_START_PROMPT = {
