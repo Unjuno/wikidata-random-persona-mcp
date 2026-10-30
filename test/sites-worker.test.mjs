@@ -12,8 +12,19 @@ const rpc = (method, params = {}, id = 1) => ({jsonrpc:'2.0',method,params,id});
 test('Sites MCP discovery and exactly two tools', async () => {
   const discover = await (await post(rpc('server/discover'))).json();
   assert.deepEqual(discover.result.supportedVersions, ['2026-07-28']);
+  assert.deepEqual(discover.result.capabilities.prompts,{});
+  const initialized=await (await post(rpc('initialize',{protocolVersion:'2025-11-25',capabilities:{},clientInfo:{name:'test',version:'1'}}))).json();
+  assert.match(initialized.result.instructions,/first person/);
+  assert.deepEqual(initialized.result.capabilities.prompts,{});
   const listed = await (await post(rpc('tools/list'))).json();
   assert.deepEqual(listed.result.tools.map(tool => tool.name), ['random_persona','get_persona']);
+  assert.ok(listed.result.tools.every(t=>t.securitySchemes?.length===1&&t.securitySchemes[0].type==='noauth'));
+  const prompts=await (await post(rpc('prompts/list'))).json();
+  assert.deepEqual(prompts.result.prompts.map(p=>p.name),['start_persona_mode']);
+  const activation=await (await post(rpc('prompts/get',{name:'start_persona_mode',arguments:{kind:'fictional',language:'ja'}}))).json();
+  assert.match(activation.result.messages[0].content.text,/一人称/);
+  const bad=await (await post(rpc('prompts/get',{name:'start_persona_mode',arguments:{kind:'arbitrary'}}))).json();
+  assert.equal(bad.error.code,-32602);
 });
 test('Sites MCP calls real and fictional selection and QID lookup', async () => {
   for (const kind of ['real','fictional']) {
@@ -22,6 +33,7 @@ test('Sites MCP calls real and fictional selection and QID lookup', async () => 
     assert.equal(result.status, 'ok');
     assert.equal(result.persona.kind, kind);
     assert.ok(result.persona.sources.some(source => source.purpose === 'article'));
+    assert.equal(result.agent_handoff.subject_qid,result.persona.qid);
   }
   const found = await (await post(rpc('tools/call', {name:'get_persona',arguments:{qid:knownQid}}))).json();
   assert.equal(found.result.structuredContent.persona.qid, knownQid);
@@ -36,7 +48,11 @@ test('Sites edge guards host, origin, methods, content, and streamed body size',
   let response = await worker.fetch(new Request(url,{method:'POST',headers:{host:'evil.example','content-type':'application/json'},body:'{}'}));
   assert.equal(response.status,403);
   response = await worker.fetch(new Request(url,{method:'POST',headers:{host:'random-persona-mcp.unjuno.chatgpt.site',origin:'https://evil.example','content-type':'application/json'},body:'{}'}));
-  assert.equal(response.status,403);
+  assert.equal(response.status,200);
+  assert.equal(response.headers.get('access-control-allow-origin'),'*');
+  const preflight=await worker.fetch(new Request(url,{method:'OPTIONS',headers:{origin:'https://external.example','access-control-request-method':'POST'}}));
+  assert.equal(preflight.status,204);
+  assert.equal(preflight.headers.get('access-control-allow-origin'),'*');
   response = await worker.fetch(new Request(url,{method:'POST',headers:{host:'random-persona-mcp.unjuno.chatgpt.site'},body:'{}'}));
   assert.equal(response.status,415);
   const body = new ReadableStream({start(controller){controller.enqueue(new Uint8Array(131073));controller.close();}});
