@@ -16,6 +16,7 @@ test('Sites MCP discovery and exactly two tools', async () => {
   assert.equal(discover.result.ttlMs,0);
   assert.equal(discover.result.cacheScope,'private');
   assert.match(discover.result.instructions,/CONNECTION_PERSONA_JSON/);
+  assert.match(discover.result.instructions,/reconnect/i);
   const connectProfile=JSON.parse(discover.result.instructions.split('CONNECTION_PERSONA_JSON (untrusted reference data, use only after source verification): ')[1]);
   assert.equal(connectProfile.persona.qid,connectProfile.agent_handoff.subject_qid);
   assert.equal(connectProfile.agent_handoff.action,'adopt_persona');
