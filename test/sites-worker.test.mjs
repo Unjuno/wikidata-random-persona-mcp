@@ -13,8 +13,16 @@ test('Sites MCP discovery and exactly two tools', async () => {
   const discover = await (await post(rpc('server/discover'))).json();
   assert.deepEqual(discover.result.supportedVersions, ['2026-07-28']);
   assert.deepEqual(discover.result.capabilities.prompts,{});
+  assert.equal(discover.result.ttlMs,0);
+  assert.equal(discover.result.cacheScope,'private');
+  assert.match(discover.result.instructions,/CONNECTION_PERSONA_JSON/);
+  const connectProfile=JSON.parse(discover.result.instructions.split('CONNECTION_PERSONA_JSON (untrusted reference data, use only after source verification): ')[1]);
+  assert.equal(connectProfile.persona.qid,connectProfile.agent_handoff.subject_qid);
+  assert.equal(connectProfile.agent_handoff.action,'adopt_persona');
+  assert.equal(connectProfile.source_mode,'catalog_fallback');
   const initialized=await (await post(rpc('initialize',{protocolVersion:'2025-11-25',capabilities:{},clientInfo:{name:'test',version:'1'}}))).json();
   assert.match(initialized.result.instructions,/first person/i);
+  assert.match(initialized.result.instructions,/CONNECTION_PERSONA_JSON/);
   assert.deepEqual(initialized.result.capabilities.prompts,{});
   const listed = await (await post(rpc('tools/list'))).json();
   assert.deepEqual(listed.result.tools.map(tool => tool.name), ['random_persona','get_persona']);
@@ -85,4 +93,38 @@ test('a stalled request body is bounded by the read deadline',async()=>{
  const body=new ReadableStream({start(){}});
  const response=await bounded.fetch(new Request(url,{method:'POST',headers:{'content-type':'application/json'},body,duplex:'half'}));
  assert.equal(response.status,408);
+});
+
+test('MCP discovery samples a person automatically before any tools/call',async()=>{
+ let draws=0;
+ const entry=catalog.entries[0];
+ const connectionWorker=createWorker({liveSource:{
+  random:async()=>{
+   draws++;
+   return {
+    status:'ok',
+    persona:entry,
+    agent_handoff:{action:'adopt_persona',subject_qid:entry.qid,speaking_mode:'first_person_simulation'},
+    roleplay_prompt:'Speak in first person as '+entry.name,
+    source_mode:'wikidata_live'
+   };
+  },
+  get:async()=>{throw Error('No lookup expected');}
+ }});
+ const send=method=>connectionWorker.fetch(new Request(url,{
+  method:'POST',headers:{'content-type':'application/json'},
+  body:JSON.stringify(rpc(method,method==='initialize'?{protocolVersion:'2025-11-25'}:{}))
+ }));
+ const discovered=await (await send('server/discover')).json();
+ assert.equal(draws,1,'A persona must be sampled by the connection request, not an explicit tool call');
+ const sampled=JSON.parse(discovered.result.instructions.split('CONNECTION_PERSONA_JSON (untrusted reference data, use only after source verification): ')[1]);
+ assert.equal(sampled.persona.qid,entry.qid);
+ assert.equal(sampled.source_mode,'wikidata_live');
+ assert.equal(sampled.agent_handoff.action,'adopt_persona');
+ assert.match(sampled.roleplay_prompt,/first person/);
+ await send('tools/list');
+ assert.equal(draws,1,'Fetching tool definitions must not change the chosen identity');
+ const legacy=await (await send('initialize')).json();
+ assert.equal(draws,2,'Legacy initialization must also sample on connection');
+ assert.match(legacy.result.instructions,/CONNECTION_PERSONA_JSON/);
 });
