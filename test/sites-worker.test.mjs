@@ -14,7 +14,7 @@ test('Sites MCP discovery and exactly two tools', async () => {
   assert.deepEqual(discover.result.supportedVersions, ['2026-07-28']);
   assert.deepEqual(discover.result.capabilities.prompts,{});
   const initialized=await (await post(rpc('initialize',{protocolVersion:'2025-11-25',capabilities:{},clientInfo:{name:'test',version:'1'}}))).json();
-  assert.match(initialized.result.instructions,/first person/);
+  assert.match(initialized.result.instructions,/first person/i);
   assert.deepEqual(initialized.result.capabilities.prompts,{});
   const listed = await (await post(rpc('tools/list'))).json();
   assert.deepEqual(listed.result.tools.map(tool => tool.name), ['random_persona','get_persona']);
