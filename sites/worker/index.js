@@ -191,7 +191,7 @@ export async function runSiteCollection(env,{
   return {status:'not_configured',added:0};
  const ingestor=createProgressiveIngestor({
   db:env.DB,source,
-  cache:cache??createD1PersonaCache(env.DB),
+  cache:cache??createD1PersonaCache(env.DB,{enforceStorageLimit:true}),
   blockedQids
  });
  return ingestor.runOnce({batches});
@@ -200,7 +200,7 @@ export async function runSiteCollection(env,{
 export function createWorker({indexSnapshot=personaIndex,liveSource=createLiveWikidata({index:indexSnapshot}),cacheSource=null,scheduledCollector=null,now=()=>Date.now(),maxRequestsPerMinute=120,requestTimeoutMs=5000}={}) {
 let windowStart=0,requests=0;
 return { async fetch(request, env) {
-  const cache=cacheSource ?? (env?.DB?.prepare?createD1PersonaCache(env.DB):null);
+  const cache=cacheSource ?? (env?.DB?.prepare?createD1PersonaCache(env.DB,{enforceStorageLimit:true}):null);
   const url = new URL(request.url);
   const host = request.headers.get('host');
   if (url.hostname.toLowerCase() !== SITE_HOST || (host && host.toLowerCase() !== SITE_HOST)) return json({ error: 'Host not permitted' }, 403);

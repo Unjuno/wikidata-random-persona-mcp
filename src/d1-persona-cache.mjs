@@ -6,6 +6,8 @@ import {validateCatalog,getPersona,isQid,secureRandomIndex} from './core.mjs';
 const MAX_RANDOM_KEY=4294967295;
 const LOOKAHEAD=32;
 const SIX_HOURS_MS=6*60*60*1000;
+const DEFAULT_SOFT_LIMIT_BYTES=8_000_000_000;
+const CAPACITY_MARGIN_BYTES=1_000_000;
 
 function validRecord(value){return value!==null&&typeof value==='object'&&!Array.isArray(value);}
 function isStoredRow(row){
@@ -39,9 +41,12 @@ function validateParams({kind='both',language='ja',exclude_qids=[]}={}){
   throw Error('Invalid cached persona selection');
  return {kind,language,exclude_qids};
 }
-export function createD1PersonaCache(db,{randomIndex=secureRandomIndex,now=()=>Date.now()}={}){
+export function createD1PersonaCache(db,{randomIndex=secureRandomIndex,now=()=>Date.now(),enforceStorageLimit=false,softLimitBytes=DEFAULT_SOFT_LIMIT_BYTES}={}){
  if(!db||typeof db.prepare!=='function'||typeof randomIndex!=='function'||typeof now!=='function')
   throw Error('Sites D1 DB binding required');
+ if(typeof enforceStorageLimit!=='boolean'||!Number.isSafeInteger(softLimitBytes)||
+    softLimitBytes<=CAPACITY_MARGIN_BYTES||softLimitBytes>10_000_000_000)
+  throw Error('Invalid Sites D1 capacity options');
  const pick=size=>{
   const n=randomIndex(size);
   if(!Number.isSafeInteger(n)||n<0||n>=size)throw Error('Invalid cached random index');
@@ -99,6 +104,17 @@ export function createD1PersonaCache(db,{randomIndex=secureRandomIndex,now=()=>D
   validateCatalog({version:'d1-prefetch-cache',entries:[entry]});
   const timestamp=now();
   if(!Number.isSafeInteger(timestamp)||timestamp<=0)throw Error('Invalid cache timestamp');
+  if(enforceStorageLimit){
+   // D1 returns the total database byte size as meta.size_after.
+   // Without a trustworthy size reading, refuse writes rather than overrunning quota.
+   let size;
+   try{
+    const probe=await db.prepare('SELECT 1 AS capacity_probe').all();
+    size=probe?.meta?.size_after;
+   }catch{return false;}
+   if(!Number.isSafeInteger(size)||size<0||
+      size+CAPACITY_MARGIN_BYTES>=softLimitBytes)return false;
+  }
   const key=pick(MAX_RANDOM_KEY);
   const sql="INSERT INTO persona_cache (qid, kind, name, description, sources_json, random_key, checked_at_ms) "+
    "VALUES (?, ?, ?, ?, ?, ?, ?) "+
