@@ -131,3 +131,24 @@ test('oversized candidate lists cannot amplify the entity metadata batch',async(
  assert.match(f.calls[0].url.searchParams.get('query'),/LIMIT 4 OFFSET/);
  assert.equal(f.calls[1].url.searchParams.get('ids').split('|').length,4);
 });
+
+
+test('read-only entity lookup tolerates modest replica lag while retaining a maxlag limit',async()=>{
+ const observed=[];
+ const source=createLiveWikidata({
+  fetchImpl:async url=>{
+   const lag=Number(new URL(url).searchParams.get('maxlag'));
+   observed.push(lag);
+   if(lag<8)return Response.json({error:{code:'maxlag',info:'Query replica lagged 7.3 seconds'}});
+   return Response.json({entities:{Q42:record('Q42','Q5')}});
+  }
+ });
+ const found=await source.get({qid:'Q42'});
+ assert.equal(found.status,'ok');
+ assert.equal(found.persona.qid,'Q42');
+ assert.deepEqual(observed,[15]); // Bounded tolerance, no maxlag disabling.
+});
+test('Wikidata read-side maxlag threshold must be bounded and explicit',()=>{
+ assert.throws(()=>createLiveWikidata({maxlagSeconds:0}),/maxlag/i);
+ assert.throws(()=>createLiveWikidata({maxlagSeconds:1000}),/maxlag/i);
+});
