@@ -4,13 +4,15 @@
 
 **接続したAIエージェントが、ランダムに選ばれた人物になりきって継続的に会話するためのMCPです。**
 
-`random_persona` の成功結果には、人物情報と出典URLに加えて `agent_handoff` と `roleplay_prompt` が含まれます。利用側エージェントは人物記事の同一性を確認し、一人称でその人物として応答します。人格は同じチャット内で維持し、ユーザーの明示的な切替または終了指示で解除します。資料が未確認の場合はその旨を伝えます。**MCPからの指示を実行する責任はクライアントにあり、接続しただけですべてのAIが自動的に人格を変える保証はありません。**
+`server/discover`（MCP 2026-07-28）または `initialize`（旧プロトコル）による**最初の接続要求で、MCPサーバーが自動的に人物を1人抽選**します。応答の標準 `instructions` に `CONNECTION_PERSONA_JSON` としてQID・名前・出典URL・`agent_handoff`・`roleplay_prompt` を含めます。クライアントは追加の `random_persona` 呼び出しなしに抽選済みの情報を受け取れます。利用側エージェントは記事を確認し、一人称で応答して同じチャットで人格を維持します。別の人物を求められたときだけ再抽選します。
+
+**制約：** 接続情報に人物を封入することと、AIが自動発話・自動人格化することは異なります。ホストが `instructions` を参照し、記事を検証し、モデルに反映する必要があります。MCPはホストの会話ターンやシステム指示を強制できません。検証できない場合は資料を読んだふりをしてはいけません。
 
 MCPは実在人物・架空キャラクターのQID、名前、分類、Wikipedia/WikidataのURLと共通手順を返します。記事を読む・人物像を解釈する・ユーザーと仮想対話するのは利用側のChatGPTです。サーバーにはLLM呼び出し、記事本文保存、任意URL取得、会話履歴保存を追加しません。
 
 ## 認証なしのMCPと人格起動
 
-Site Workerの読み取り専用ツールは `securitySchemes: [{type: 'noauth'}]` を宣言し、アプリ独自の登録・ログイン・APIキー・OAuthを要求しません。`/mcp` は匿名のPOSTとブラウザのOPTIONSプリフライトを受け付け、別Originからの読み取りも許可します。MCP初期化時の `instructions` と標準の `start_persona_mode` プロンプトは、人格への引き継ぎ手順をホストに提示します。
+Site Workerの読み取り専用ツールは `securitySchemes: [{type: 'noauth'}]` を宣言し、アプリ独自の登録・ログイン・APIキー・OAuthを要求しません。`/mcp` は匿名のPOSTとブラウザのOPTIONSプリフライトを受け付け、別Originからの読み取りも許可します。接続時にライブWikidata（障害時はD1/承認済みカタログ）から自動抽選し、新旧両方式の `instructions` に人物データを含めます。標準 `start_persona_mode` プロンプトは接続時に選択された人物を優先し、重複抽選を避けます。
 
 ただし、ChatGPT Sites自体が外部の匿名アクセスに401を返す場合は、Workerの宣言では解除できません。**その場合「誰でも認証不要で外部MCP接続可能」という公開条件は未達**です。プラットフォーム制約とアプリ側の認証設計を混同しないでください。
 
@@ -73,7 +75,7 @@ Sites版は `query.wikidata.org` の分類別クエリと `www.wikidata.org` の
 
 ## 公開LP
 
-`public/` に日本語LPとオリジナル生成画像を配置しています。`npm run build:sites` が全アセットをWorkerに埋め込み、Sitesだけで配信します。`/` はLP、`/mcp` は認証されたMCP接続、`/healthz` は稼働確認です。画像制作・サイズは [ART_DIRECTION.md](docs/ART_DIRECTION.md)、QAと配布制限は [LP_RELEASE.md](docs/LP_RELEASE.md) を参照してください。ページの5人の創作デモは、Wikidata本番抽選とは別です。
+`public/` に日本語LPとオリジナル生成画像を配置しています。`npm run build:sites` が全アセットをWorkerに埋め込み、Sitesだけで配信します。`/` はLP、`/mcp` は独自認証を要求しない読み取り専用MCP（ただしSites側のアクセス制限は別）、`/healthz` は稼働確認です。画像制作・サイズは [ART_DIRECTION.md](docs/ART_DIRECTION.md)、QAと配布制限は [LP_RELEASE.md](docs/LP_RELEASE.md) を参照してください。ページの5人の創作デモは、Wikidata本番抽選とは別です。
 
 
 ## 300件は上限ではありません
