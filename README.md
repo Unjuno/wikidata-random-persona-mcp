@@ -86,3 +86,12 @@ The landing page, generated artwork and MCP remain at https://random-persona-mcp
 OpenAI documents a 10GB per-Site limit for the D1 database. A new optional D1 adapter supports verified Wikidata QID/name/class/article-link metadata only, with **live Wikidata → D1 persisted references → the bundled 300-item emergency catalog** precedence. A successful live draw opportunistically refreshes D1. Fallback responses report `d1_cache_fallback` and `cache_checked_at`, not a claim of live retrieval.
 
 **No D1 binding is provisioned by a GitHub commit.** Work/Sites must add a D1 binding named `DB` to the existing ChatGPT Site, run `migrations/0001_persona_cache.sql`, populate it through an owner-controlled storage workflow, and republish. If no binding exists, all existing behavior continues and health reports `cache_storage: not_configured`. Use a monitored 8GB operating ceiling rather than filling the 10GB database to capacity. Do not expose any anonymous database write endpoint. See [D1 cache operations](docs/D1_CACHE_OPERATIONS.md).
+
+
+## Owner-controlled progressive Wikidata collection
+
+A bounded, private, append-only Wikidata ingestion runner is implemented for the existing ChatGPT Site. `createProgressiveIngestor` discovers up to 4 verified personas per small Wikimedia batch and adds them by QID to Site D1, without deleting aged items. Runtime `scheduled()` plus exported `runSiteCollection(env)` are available **only if the Sites scheduling environment actually invokes them**. This is not a publicly callable MCP tool or route.
+
+Writing automatically pauses around an 8GB soft ceiling (D1 maximum: 10GB), using D1 query `meta.size_after`; if current size cannot be verified, it declines to write. The consumer-facing `/mcp` continues to return references and roleplay instructions, not database mutation controls.
+
+**Activation remains separate:** provision the existing Site's D1 binding, execute migration, connect a Site Automation, and verify persisted growth. GitHub alone cannot activate or schedule Site storage. See [progressive ingestion](docs/PROGRESSIVE_INGESTION.md).

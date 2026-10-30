@@ -49,3 +49,12 @@ The product owner chose to progressively collect Wikidata persona metadata in th
 New adapter `src/d1-persona-cache.mjs` is optional until Work/Sites binds `DB` and applies `migrations/0001_persona_cache.sql`. Preserve the exact order: live Wikidata → validated D1 cache → reviewed bundled catalog. Cache records must contain only QID, kind, name, short description, allowlisted Wikipedia/Wikidata URLs and checked timestamp; no article prose, user chats or LLM calls. Maintain source modes and never identify a stale/uncertain cached identity as newly live verified.
 
 No public anonymous ingestion API or user authentication. Data seeding/review/import must be owner-controlled through Sites storage management. No Vercel, Railway or new ChatGPT Site. Never claim D1 is active before the *deployed* /healthz reports `cache_storage=d1` and a real cache-fallback tool call passes.
+
+
+## Durable progressive ingestion — owner instruction
+
+The owner wants the persona cache to grow continuously, not to expire old identities. Never delete a cached QID only because its last verification is 90+ days old. The Site-local D1 table has a QID primary key, and repeated discoveries may refresh metadata without duplicating identity records. Keep `cache_checked_at` for transparency.
+
+The private `createProgressiveIngestor` and Site Worker `runSiteCollection`/`scheduled` must never be callable through `/mcp` or a public unauthenticated route. Site Automations must be explicitly linked to the **existing** Site by its owner, with the D1 `DB` binding available in the scheduled environment. Do not silently start a GitHub Actions cron, create new hosting, or claim scheduled collection is live from source-code tests.
+
+Use D1's `meta.size_after` for authoritative byte accounting when available and stop writes if size is unknown or approaches the configured 8GB soft ceiling. Do not insert Wikimedia records that failed structured validation or came from a non-live fallback. See docs/PROGRESSIVE_INGESTION.md.

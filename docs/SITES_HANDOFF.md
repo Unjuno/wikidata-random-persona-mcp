@@ -67,3 +67,10 @@ Start by revalidating and importing the reviewed fallback QIDs into D1, then pro
 Republish the same Site from a green GitHub commit. Check `/healthz.cache_storage=d1`, then simulate Wikidata unavailability and confirm `random_persona.source_mode=d1_cache_fallback`, correct QID and `cache_checked_at`. Verify `get_persona` for a cached QID outside the 300-record embedded catalog and ensure unauthorized cache-write routes do not exist. If D1 provisioning is unsupported on this account, report it and leave the old live → 300 fallback intact.
 
 Reference: [D1_CACHE_OPERATIONS.md](D1_CACHE_OPERATIONS.md).
+
+
+## Link the progressive Wikidata collection to this existing Site
+
+After D1 provisioning on the existing Site, configure a Site Automation owned by the same owner. Run `runSiteCollection(env,{batches:8})` through a privileged scheduled execution context with Site `DB` available, and do not create a public import route. Begin with one cloud run per day at 03:00 Asia/Tokyo, then assess safe cadence using the task's `added`, `known`, `source_unavailable` and `storage_bytes` outputs.
+
+Strict acceptance: Site `/healthz.cache_storage=d1`, verified D1 row count increases over at least two scheduled runs without duplicates, `source_mode=d1_cache_fallback` on controlled Wikidata outage, 8GB soft stopping and no new Site or external host. Scheduler support is account-specific, and a deployed Worker `scheduled` method alone does not prove a Site Automation was linked. Full instructions: [PROGRESSIVE_INGESTION.md](PROGRESSIVE_INGESTION.md).

@@ -90,3 +90,12 @@ SitesのD1データベースはサイトあたり最大10GBです。これを使
 重要：**このGitHub変更だけでは、D1はまだ作成・接続されません。** 既存ChatGPT SiteをWork/Sitesで開き、D1を `DB` という名前で接続し、`migrations/0001_persona_cache.sql` を適用して、実データを投入した後に再公開してください。実際の `/healthz.cache_storage` が `d1` と表示されるまで有効化済みと記載しないでください。
 
 D1を初期化する際は、承認済みの300件から始め、Wikidata APIで再検証した人物をバッチ単位で追加してください。大規模蓄積はGitHub Actions等で検証候補を段階的に作成し、Workが安全な管理経路でD1に反映します。インポート用の認証なし公開書き込みエンドポイントは作りません。操作と前提条件は [D1_CACHE_OPERATIONS.md](docs/D1_CACHE_OPERATIONS.md) を参照してください。
+
+
+## 継続追加（人物データを消さずに増やす）
+
+既存ChatGPT SiteのD1に、Wikidataで確認した実在人物・架空キャラクターを**定期的に追加**する収集処理を用意しました。QIDを主キーにして重複を排除し、古い人物は経過日数だけを理由には削除しません。必要に応じて名前やWikipedia参照先を再検証して更新します。
+
+収集はSite管理者が設定するSite Automationsなどの**非公開の定期ジョブ**からだけ実行し、公開MCPにはデータ書き込みツールも認証不要の追加APIも作りません。1回あたり1〜16バッチ（1バッチ最大4件）の上限、Wikidataのレート制限尊重、D1使用量8GBの運用上限、ストレージサイズ確認ができなければ書き込まない処理を実装しました。
+
+ただし、**GitHubのコードはSiteのD1を自動作成せず、スケジュールも自動有効化しません**。既存SiteでD1をDBとしてバインドし、Site Automationsを作成・確認してから運用を開始してください。詳細は [PROGRESSIVE_INGESTION.md](docs/PROGRESSIVE_INGESTION.md) を参照してください。

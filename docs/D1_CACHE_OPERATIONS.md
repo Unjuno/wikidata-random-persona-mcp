@@ -48,3 +48,12 @@ Verify both random and QID lookup against the **actual deployed Site**, not just
 ## State at creation
 
 **Code and migration only. D1 has not been provisioned, data has not been bulk imported and continuous scheduled ingestion has not been enabled.** GitHub CI does not imply any of those actions were carried out on the existing Site.
+
+
+## Progressive Site Automation ingestion
+
+A new bounded private collector `src/progressive-ingestion.mjs` is invoked through `runSiteCollection(env,{source,batches})` or the existing Site Worker's optional `scheduled` event handler. Its source `discoverBatch` makes a **single class-scoped SPARQL query and one metadata batch request** for up to four verified people. A Site schedule can run multiple bounded batches; collection never requires an anonymous HTTP writer.
+
+For unattended work, first provision D1 `DB`, apply the existing migration, attach the schedule to the exact Site in Sites > Automations and verify the cloud task can see the database. The owner's schedule must explicitly be confirmed; no schedule exists merely because Worker source exports a `scheduled` handler. Start with a conservative 8 batches per day and review upstream 429/maxlag outcomes before increasing cadence.
+
+Do not delete stale identities just because their cache date is old. The collector upserts by QID, validates all article URLs, and stops writing at the 8GB soft budget with a 1MB safety margin. Query response `meta.size_after` measures database bytes. An absent `size_after` stops ingestion rather than treating storage as infinite. Read [PROGRESSIVE_INGESTION.md](PROGRESSIVE_INGESTION.md).
