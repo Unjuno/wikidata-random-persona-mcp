@@ -69,6 +69,21 @@ persisted; an already-active host **must ignore** that candidate until a
 user-requested switch. A host that doesn't implement the FSM cannot honestly
 claim to provide persistent persona mode.
 
+## 2.1 Service dependency boundary
+
+`src/persona-service.mjs` now owns acquisition policy, independently of
+JSON-RPC and HTTP: `live Wikidata → optional D1 → reviewed catalog`. The
+Worker injects `liveSource`, `cache`, and `store` per request. Selection,
+lookups, source labels, argument checks and sanitized upstream diagnostics
+are tested in `test/persona-service.test.mjs`.
+
+A successful live selection **must not preselect** from the fallback catalog,
+which would waste work, consume random entropy and blur provenance.
+A definitively invalid or missing QID cannot be silently replaced with
+a different identity. On upstream failure, a cached QID is admitted only
+when it matches the requested QID. D1 writes are best-effort and never
+block a valid live response.
+
 ## 3. Connection protocol FSM
 
 ```mermaid
