@@ -31,7 +31,7 @@ export function upstreamFailureCategory(error){
 }
 export function createPersonaService({store,liveSource,cache=null,blockedQids=[]}={}){
  if(!store||typeof store.random!=='function'||typeof store.get!=='function'||
-    !liveSource||typeof liveSource.random!=='function'||typeof liveSource.get!=='function'||
+    !liveSource||typeof liveSource!=='object'||
     !Array.isArray(blockedQids)||blockedQids.some(x=>!isQid(x)))
   throw TypeError('Invalid persona service dependencies');
  async function cacheLive(live){
