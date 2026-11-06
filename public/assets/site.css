@@ -7,3 +7,18 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.button:hover{transform:none}}
 
 .faq>.section-heading{display:block}.faq .subtle{font-size:11px;color:var(--muted);display:block;margin-top:18px}
+
+/* Reference-first preview: links and statuses are genuine MCP metadata, never
+   the character's likeness or a fabricated dialogue. */
+[hidden]{display:none!important}
+.persona-source-link{display:inline-block;margin-top:12px;padding:8px 11px;border:1px solid var(--cyan);border-radius:6px;background:#102438e8;color:#d6f8ff;font-size:11px;line-height:1.5;letter-spacing:.02em;transition:background .2s}
+.persona-source-link:hover,.persona-source-link:focus-visible{background:#234455}
+.card-caption .persona-qid{display:block;margin-top:8px;color:#f1d29a;font-family:ui-monospace,SFMono-Regular,monospace;letter-spacing:.05em;font-size:10px}
+.card-caption h3{overflow-wrap:anywhere;line-height:1.4}
+.card-caption p{font-size:11px;color:#d7e1ef;line-height:1.65;overflow-wrap:anywhere}
+.draw-status{width:min(400px,94%);line-height:1.5;font-size:11px;min-height:40px;bottom:0;padding:7px 12px;background:#090e20df;border-radius:9px;z-index:3}
+#encounter-stage[data-preview-state="access_denied"] .draw-status,
+#encounter-stage[data-preview-state="rate_limited"] .draw-status,
+#encounter-stage[data-preview-state="error"] .draw-status{color:#fff3d4;border:1px solid #e9bd77aa}
+#encounter-stage[data-preview-state="reference_ready"] .persona-card{border-color:var(--cyan);box-shadow:0 24px 65px #0009,0 0 0 2px #9de3ee55}
+@media(max-width:640px){.draw-status{max-width:320px;font-size:11px}.persona-source-link{font-size:11px;padding:9px 12px}}
