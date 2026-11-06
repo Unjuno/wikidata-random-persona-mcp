@@ -23,7 +23,7 @@ export function transitionPreview(state,event){
  if(state.phase!=='loading')throw new Error('Preview completion requires loading phase');
  if(event.type==='READY'){
   if(!event.persona||!validQid(event.persona.qid)||!event.persona.name||
-    !event.persona.article_url)throw new TypeError('Invalid reference');
+    !validArticleUrl(event.persona.article_url))throw new TypeError('Invalid reference');
   return output('reference_ready',event.persona);
  }
  if(event.type==='ACCESS_DENIED')return output('access_denied',null,'プラットフォーム側でMCPへのアクセスが制限されています。');
