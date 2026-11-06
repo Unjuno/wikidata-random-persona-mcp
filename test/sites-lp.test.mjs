@@ -21,7 +21,21 @@ test('LP has Japanese copy, accessible controls, SEO and no missing references',
   assert.ok(bytes.length>0&&bytes.length<400000,path+' must be nonempty');
   if(path.endsWith('.webp')){assert.equal(new TextDecoder().decode(bytes.slice(0,4)),'RIFF');assert.equal(new TextDecoder().decode(bytes.slice(8,12)),'WEBP');}
  }
- assert.match(html,/創作した5人/);assert.match(html,/一様抽選ではありません/);
+ assert.match(html,/MCP実データのプレビュー/);
+ assert.match(html,/MCPで実際に人物を抽選/);
+ assert.match(html,/id="persona-source"/);
+ assert.match(html,/type="module" src="\/assets\/site.js"/);
+ assert.doesNotMatch(html,/創作した5人/);
+ assert.match(html,/一様抽選ではありません/);
+ const previewAsset=await get('/assets/preview-state.js');
+ assert.equal(previewAsset.status,200);
+ assert.match(await previewAsset.text(),/transitionPreview/);
+ const appAsset=await get('/assets/site.js');
+ assert.equal(appAsset.status,200);
+ const app=await appAsset.text();
+ assert.match(app,/method:'tools\/call'/);
+ assert.match(app,/readPersonaReference/);
+ assert.doesNotMatch(app,/demoPeople/);
  assert.match(html,/300件は.*上限ではありません/);
 });
 test('static caching, HEAD, routing and security remain separate from JSON-RPC',async()=>{
