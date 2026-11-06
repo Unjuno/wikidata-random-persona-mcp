@@ -45,6 +45,11 @@ test('browser preview rejects malformed and malicious source links',()=>{
   'https://ja.wikipedia.org.evil.example/wiki/X',
   'https://ja.wikipedia.org/wiki/X?redirect=https://evil.example',
   'https://ja.wikipedia.org/wiki/X%2fY',
+  'https://en.wikipedia.org/wiki/Special:RecentChanges',
+  'https://en.wikipedia.org/wiki/Category:Novelists',
+  'https://ja.wikipedia.org/wiki/特別:Random',
+  'https://ja.wikipedia.org/wiki/%E7%89%B9%E5%88%A5%3ARandom',
+  'https://en.wikipedia.org/wiki/%20',
   'https://ja.wikipedia.org/',
   'javascript:alert(1)'
  ];

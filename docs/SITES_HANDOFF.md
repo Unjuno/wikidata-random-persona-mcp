@@ -4,6 +4,59 @@
 
 > https://github.com/Unjuno/wikidata-random-persona-mcp を開き、AGENTS.md、README.ja.md、docs/ARCHITECTURE.md、docs/CLIENT_WORKFLOW.md、docs/READINESS.mdを読んでください。既存Site https://random-persona-mcp.unjuno.chatgpt.site を更新し、sites/worker/index.js をSitesのWorker環境へビルドしてください。別Siteを新規作成しないでください。公開するツールはrandom_personaとget_personaだけです。data/catalog.jsonとdata/blocked-qids.jsonを同時に読み、実際のSiteホスト名をallowedHostsへ設定してください。Node常駐サーバー、任意URL取得、LLM呼び出し、Wikipedia本文保存は追加しません。docs/CLIENT_WORKFLOW.mdを利用側の共通ワークフローとして組み込みます。まず非公開でnpm ci、npm run check、npm run catalog:validate、npm testを実行し、Sites上のMCP接続と資料取得から仮想対話開始までを確認してください。所有者の公開・プラグイン接続・第三者利用は別々に検証し、未確認の段階を完了扱いにしないでください。
 
+## Explicit production synchronization check (2026-11-07)
+
+The Site is **not automatically updated by GitHub merges**. An independent
+public fetch on 2026-11-07 still returned the old five-fictional-card landing
+page and the health fingerprint
+`07b8ce202ca726bf2ff4c15a60a8613f14b5b04922e755307811e95737cc8f7d`,
+while the repository main already contained the real-MCP preview and explicit
+persona state machine. This is concrete evidence of **stale live deployment**.
+
+Update **the existing** Site project
+`appgprj_6ae19a38eb4c819192ec364286d5b1af` in Sites/Work only,
+preserving its domain and current audience. Sync latest reviewed main source;
+run:
+
+```sh
+npm ci --ignore-scripts --no-audit --no-fund
+npm run check
+npm run catalog:validate
+npm test
+npm run build:sites
+```
+
+Inspect `dist/server/index.js`, `dist/server/site-assets.mjs`, and
+`dist/.openai/hosting.json`; apply to the **same** Site, save a version,
+review preview, and publish. Do not create a new Site, new D1 database, or
+separate host. GitHub's `.openai/hosting.json` project_id declaration alone
+does not update live Sites.
+
+Immediately after publication, run:
+
+```sh
+npm run verify:site
+```
+
+The verifier checks: (1) the live `/healthz.release_fingerprint` matches the
+local deterministic build; (2) the public HTML includes
+`data-preview-implementation="real-mcp-v1"`; and (3) an anonymous, credential-free
+JSON-RPC `ping` to the exact published `/mcp` URL actually works. The command
+exits nonzero when the deployed bits are stale, access is blocked, or either
+probe is unavailable. It never mutates the Site or requests credentials.
+
+**Separately test**: modern and legacy MCP connection-time candidate selection;
+the latest `agent_handoff.state_machine` fields; 5 chat turns with the same QID;
+explicit switching and exit; a second user's plugin installation and permission.
+An anonymous ping does **not** prove another ChatGPT user can install the plugin
+or that the host auto-adopts a persona.
+
+Current ChatGPT Sites documentation distinguishes Site publishing from plugin
+sharing and says personal/Pro Site-hosted plugins cannot currently be shared
+directly with other users. An HTTP 401 at the Sites gateway is **not** remedied
+by `noauth` tool declarations or browser CORS. Do not bypass gateway controls
+or claim universal public access without third-party verification.
+
 ## Runtime seam
 
 The Sites-specific production entry is `sites/worker/index.js`. Build it with `npm run build:sites`; the generated artifact places its Worker entry at `dist/server/index.js` and declares `capabilities: ["mcp"]` in `.openai/hosting.json`. This adapter speaks the Sites MCP protocol (`server/discover`, `tools/list`, `tools/call`) and reuses `src/core.mjs`, `src/catalog-store.mjs`, `data/catalog.json`, and `data/blocked-qids.json`. It does not run the Node HTTP adapter. It makes bounded requests only to the Wikidata structured-data endpoints `query.wikidata.org/sparql` and `www.wikidata.org/w/api.php`. The Site must be allowed to reach these hosts; the Node adapter remains a separate catalog-only implementation. The target hostname is deliberately exact in the Worker and must be updated in source and tests if the Site slug changes.

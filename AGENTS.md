@@ -14,6 +14,19 @@ The source of truth for state transitions is `src/persona-state.mjs` (pure consu
 
 The public LP uses `public/assets/site.js` and `public/assets/preview-state.js` to call the actual read-only `/mcp` endpoint and show a sourced identity or a specific failure state. Never restore the five invented-person card lottery as a substitute for real results. A browser preview is not proof of ChatGPT roleplay. Preserve noauth at the application layer without bypassing Sites platform 401s. Review `test/persona-state.test.mjs`, `test/preview-state.test.mjs`, and `test/sites-preview-interaction.test.mjs` before changing these flows.
 
+## Release evidence required (2026-11-07)
+
+Never equate a successful GitHub Actions run or updated `main` with a
+published ChatGPT Site. The public Site was externally observed still serving
+the old fictional-card LP and release fingerprint
+`07b8ce202ca726bf2ff4c15a60a8613f14b5b04922e755307811e95737cc8f7d`
+after the main branch had newer code. To finish a release, update and republish
+the **existing** Site only, then run `npm run verify:site` from a network-enabled
+owner Work/Codex environment, inspect separate deployment/anonymous-access
+results, and perform host persona and third-party distribution tests. Do not
+mask a Sites platform 401, create a second host, add authentication, or call
+the task done with only CI evidence.
+
 ## Repo architecture
 - `src/core.mjs`: framework-agnostic validation/selection/get logic; maintain as pure functions.
 - `src/mcp.mjs`: MCP SDK v2 factory; mount `src/app.mjs` for the guarded Fetch entry, not the raw handler.

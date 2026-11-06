@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createWorker} from '../dist/server/index.js';
+import {PREVIEW_MARKER} from '../src/site-release-check.mjs';
 const worker=createWorker();
 const base='https://random-persona-mcp.unjuno.chatgpt.site';
 const get=(path,opts)=>worker.fetch(new Request(base+path,opts));
@@ -22,6 +23,7 @@ test('LP has Japanese copy, accessible controls, SEO and no missing references',
   if(path.endsWith('.webp')){assert.equal(new TextDecoder().decode(bytes.slice(0,4)),'RIFF');assert.equal(new TextDecoder().decode(bytes.slice(8,12)),'WEBP');}
  }
  assert.match(html,/MCP実データのプレビュー/);
+ assert.ok(html.includes(PREVIEW_MARKER),'public LP must expose verifiable implementation marker');
  assert.match(html,/MCPで実際に人物を抽選/);
  assert.match(html,/id="persona-source"/);
  assert.match(html,/type="module" src="\/assets\/site.js"/);

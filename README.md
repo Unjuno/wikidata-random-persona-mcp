@@ -4,6 +4,17 @@
 
 A **read-only persona handoff MCP**: select a real person or fictional character, return Wikidata/Wikipedia references and an explicit `agent_handoff` + `roleplay_prompt`, and have the **calling AI agent speak in first person as that identity** throughout the current conversation, until the user explicitly switches or exits. The client verifies linked sources before portraying the person; the server does not call a model, mirror article text, or store conversations. The MCP itself does not have login, API keys or OAuth. The hosting platform may apply separate connection restrictions.
 
+## Verify the real published Site
+
+GitHub CI does not update an existing ChatGPT Site. After syncing and
+republishing the **same** Site, run `npm run verify:site`. It builds the Site
+artifact, compares the published `/healthz.release_fingerprint` and HTML
+implementation marker with local output, and performs a credential-free MCP
+JSON-RPC `ping`. Stale publication and HTTP 401 are **distinct** failures.
+This does not prove that a ChatGPT host adopted or maintained the persona.
+See [Sites handoff](docs/SITES_HANDOFF.md) and
+[explicit state machines](docs/STATE_MACHINES.md).
+
 ## Persona activation and host responsibility
 
 The conversational flow is specified by a pure reducer in `src/persona-state.mjs`. Its successful selection state is `awaiting_verification`, not `active`. Only the host that actually read and checked Wikipedia may move to `active`. An explicit switch keeps the prior verified QID until the replacement is verified; an exit clears it. Reconnect does not switch the active identity. See [STATE_MACHINES.md](docs/STATE_MACHINES.md) for transition diagrams and tests.

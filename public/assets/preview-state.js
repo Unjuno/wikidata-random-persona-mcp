@@ -60,10 +60,14 @@ export function readPersonaReference(rpc){
 function validArticleUrl(raw){
  try{
   const url=new URL(raw);
-  return url.protocol==='https:'&&url.username===''&&url.password===''&&
-   url.port===''&&url.search===''&&url.hash===''&&
-   ['ja.wikipedia.org','en.wikipedia.org'].includes(url.hostname)&&
-   url.pathname.startsWith('/wiki/')&&url.pathname.length>6&&
-   !/%2f|%5c|%00/i.test(url.pathname);
+  if(url.protocol!=='https:'||url.username||url.password||url.port||
+     url.search||url.hash||
+     !['ja.wikipedia.org','en.wikipedia.org'].includes(url.hostname)||
+     !url.pathname.startsWith('/wiki/')||
+     /%2f|%5c|%00/i.test(url.pathname))return false;
+  const title=decodeURIComponent(url.pathname.slice(6));
+  if(!title.trim()||/[\\\u0000-\u001f\u007f]/.test(title))return false;
+  if(/^(?:Special|Category|Template|Help|File|Image|Wikipedia|Portal|Draft|Module|Talk|User|特別|カテゴリ|カテゴリー|ファイル|画像|テンプレート|利用者|ノート)[:：]/i.test(title))return false;
+  return !title.split('/').some(part=>part==='.'||part==='..');
  }catch{return false;}
 }
