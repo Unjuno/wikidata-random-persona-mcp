@@ -7,6 +7,7 @@
  * edge-worker global or an anonymous server database.
  */
 const QID = /^Q[1-9][0-9]{0,11}$/;
+const validQid = value => typeof value === 'string' && QID.exec(value)?.[0] === value;
 export const PERSONA_FLOW_VERSION = 1;
 export const PHASES = Object.freeze([
   'idle', 'selecting', 'awaiting_verification', 'active', 'switching',
@@ -23,8 +24,8 @@ export function initialPersonaState() {
 function validState(state) {
   return state && typeof state === 'object' &&
     PHASES.includes(state.phase) &&
-    (state.active_qid === null || QID.test(state.active_qid)) &&
-    (state.candidate_qid === null || QID.test(state.candidate_qid)) &&
+    (state.active_qid === null || validQid(state.active_qid)) &&
+    (state.candidate_qid === null || validQid(state.candidate_qid)) &&
     (state.failure === null || ['selection_failed','source_unverified'].includes(state.failure));
 }
 function emit(phase, active_qid, candidate_qid, failure = null) {
@@ -51,7 +52,7 @@ export function transitionPersona(state, event) {
       return state;
     case 'SELECTED':
       if (phase !== 'selecting' && phase !== 'switching') return illegal(state,event);
-      if (typeof event.qid !== 'string' || !QID.test(event.qid))
+      if (typeof event.qid !== 'string' || !validQid(event.qid))
         throw new TypeError('SELECTED requires a valid QID');
       if (phase === 'switching' && event.qid === active_qid)
         throw new Error('A persona switch must not repeat the active QID');
@@ -85,7 +86,7 @@ export function transitionPersona(state, event) {
 }
 /** Pre-verified facts are never misrepresented as an active conversation. */
 export function createAgentHandoff(qid,name) {
-  if (typeof qid !== 'string' || !QID.test(qid) || typeof name !== 'string' || !name.trim())
+  if (typeof qid !== 'string' || !validQid(qid) || typeof name !== 'string' || !name.trim())
     throw new TypeError('Valid persona identity required');
   const selecting = transitionPersona(initialPersonaState(),{type:'CONNECT'});
   const pending = transitionPersona(selecting,{type:'SELECTED',qid});
