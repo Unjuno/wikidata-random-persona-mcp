@@ -5,6 +5,7 @@ export const PREVIEW_STATES=Object.freeze([
  'idle','loading','reference_ready','access_denied','rate_limited','empty','error'
 ]);
 const QID=/^Q[1-9][0-9]{0,11}$/;
+const validQid=value=>typeof value==='string'&&QID.exec(value)?.[0]===value;
 export function initialPreviewState(){
  return Object.freeze({phase:'idle',persona:null,message:''});
 }
@@ -21,7 +22,7 @@ export function transitionPreview(state,event){
  }
  if(state.phase!=='loading')throw new Error('Preview completion requires loading phase');
  if(event.type==='READY'){
-  if(!event.persona||!QID.test(event.persona.qid)||!event.persona.name||
+  if(!event.persona||!validQid(event.persona.qid)||!event.persona.name||
     !event.persona.article_url)throw new TypeError('Invalid reference');
   return output('reference_ready',event.persona);
  }
@@ -40,7 +41,7 @@ export function readPersonaReference(rpc){
   throw Error('Invalid MCP persona response');
  }
  const p=data.persona;
- if(!p||typeof p.qid!=='string'||!QID.test(p.qid)||
+ if(!p||typeof p.qid!=='string'||!validQid(p.qid)||
     typeof p.name!=='string'||!p.name.trim()||p.name.length>160||
     !['real','fictional'].includes(p.kind)||!Array.isArray(p.sources))
   throw Error('Invalid persona fields');
