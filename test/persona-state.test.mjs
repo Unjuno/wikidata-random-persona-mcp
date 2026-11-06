@@ -80,3 +80,29 @@ test('agent handoff exposes verification-pending state, not a false claim of act
  assert.equal(h.requires_client_execution,true);
  assert.throws(()=>createAgentHandoff('Q0','invalid'),/Valid persona identity/);
 });
+
+test('deterministic transition fuzz preserves identity, verification and exit invariants',()=>{
+ let seed=0x5eed2026;
+ function random(n){seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return (seed>>>0)%n;}
+ const types=['CONNECT','SELECTED','SELECTION_FAILED','VERIFIED','REJECTED',
+   'SWITCH','RETRY','RECONNECT','MESSAGE','EXIT'];
+ for(let trial=0;trial<200;trial++){
+  let state=initialPersonaState();
+  for(let i=0;i<75;i++){
+   const prev=state;
+   const event={type:types[random(types.length)],qid:['Q1','Q42','Q99','Q0'][random(4)]};
+   try{state=transitionPersona(state,event);}
+   catch{assert.deepEqual(state,prev);continue;}
+   assert.equal(Object.isFrozen(state),true);
+   if(state.phase==='active')assert.match(state.active_qid,/^Q[1-9][0-9]*$/);
+   if(state.phase==='awaiting_verification')assert.match(state.candidate_qid,/^Q[1-9][0-9]*$/);
+   if(event.type==='RECONNECT'||(event.type==='CONNECT'&&prev.phase==='active'))
+    assert.strictEqual(state,prev);
+   if(event.type==='EXIT')assert.deepEqual(state,{
+    phase:'exited',active_qid:null,candidate_qid:null,failure:null
+   });
+   if(prev.phase==='active'&&event.type==='MESSAGE')
+    assert.equal(state.active_qid,prev.active_qid);
+  }
+ }
+});
