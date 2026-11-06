@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Random Persona — ランダムキャラクター | 次に出会うのは、誰だろう。</title>
-  <meta name="description" content="歴史上の人物からフィクションのキャラクターまで。Wikidataから見つけた思いがけない相手と、ChatGPTで資料に基づく仮想対話を楽しもう。">
+  <title>Random Persona MCP — AIがランダムな人物として会話するためのMCP</title>
+  <meta name="description" content="Random Persona MCPは接続時に人物を抽選し、Wikidataの出典と人格引き継ぎ情報をAIへ渡します。ブラウザでは実際のMCP参照取得を試せます。">
   <meta name="theme-color" content="#090e20">
   <link rel="canonical" href="https://random-persona-mcp.unjuno.chatgpt.site/">
   <meta property="og:type" content="website"><meta property="og:locale" content="ja_JP"><meta property="og:title" content="Random Persona — 次に出会うのは、誰だろう。">
@@ -11,7 +11,7 @@
   <meta property="og:url" content="https://random-persona-mcp.unjuno.chatgpt.site/"><meta property="og:image" content="https://random-persona-mcp.unjuno.chatgpt.site/assets/hero-desktop-1600.webp">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/site.css"><script src="/assets/site.js" defer></script>
+  <link rel="stylesheet" href="/assets/site.css"><script type="module" src="/assets/site.js"></script>
   <link rel="preload" as="image" href="/assets/hero-mobile-768.webp" imagesrcset="/assets/hero-mobile-480.webp 480w, /assets/hero-mobile-768.webp 768w" imagesizes="100vw" media="(max-width: 640px)">
 </head>
 <body>
@@ -19,7 +19,7 @@
 <header class="header">
   <a class="brand" href="/" aria-label="Random Persona ホーム"><img src="/assets/mark.svg" width="32" height="32" alt=""><span>Random Persona<small>ランダムキャラクター</small></span></a>
   <nav aria-label="メインナビゲーション"><a href="#worlds">出会う世界</a><a href="#how">使い方</a><a href="#faq">FAQ</a></nav>
-  <a class="header-cta" href="#experience">出会いを体験 <span aria-hidden="true">↗</span></a>
+  <a class="header-cta" href="#experience">実際の抽選を試す <span aria-hidden="true">↗</span></a>
 </header>
 <main id="main">
 <section class="hero" aria-labelledby="hero-title">
@@ -32,7 +32,7 @@
     <p class="eyebrow"><span class="spark" aria-hidden="true">✦</span> A CHANCE ENCOUNTER, A NEW WORLD.</p>
     <h1 id="hero-title">次に、あなたのAIは<br><em>誰になる？</em></h1>
     <p class="hero-sub">歴史上の人物からフィクションのキャラクターまで。<br class="desktop-br">MCPがランダムに人物を選び、<br class="desktop-br">接続したAIがその人物になりきって会話を続けます。</p>
-    <div class="hero-actions"><a class="button primary" href="#experience">偶然の出会いを体験する <span aria-hidden="true">↗</span></a><a class="text-link" href="#how">使い方を見る <span aria-hidden="true">↓</span></a></div>
+    <div class="hero-actions"><a class="button primary" href="#experience">MCPの参照取得を試す <span aria-hidden="true">↗</span></a><a class="text-link" href="#how">使い方を見る <span aria-hidden="true">↓</span></a></div>
     <p class="hero-meta">長い人格設定プロンプトは、いりません。</p>
   </div>
   <div class="hero-bottom"><span>HISTORY · FICTION · FANTASY · SCI-FI</span><a href="#experience" aria-label="体験セクションへスクロール">SCROLL TO DISCOVER <span aria-hidden="true">↓</span></a></div>
@@ -40,22 +40,22 @@
 <div class="art-note wrap">ビジュアルはAIで制作したオリジナルのイメージです。実在の人物の肖像や、抽選されるキャラクターを示すものではありません。</div>
 <section class="experience wrap section" id="experience" aria-labelledby="experience-title">
   <div class="experience-copy">
-    <p class="eyebrow gold">01 / RANDOM CHARACTER EXPERIENCE</p>
-    <h2 id="experience-title">選ばないからこそ、<br>出会える世界がある。</h2>
-    <p class="body-copy">あなたの知らない時代、まだ触れたことのない物語。<br>一枚のカードが、新しい世界への入口になる。</p>
-    <div class="demo-label"><span aria-hidden="true">◇</span> 世界観を楽しむカードデモ</div>
-    <p class="small-copy">ここで登場するのは、サイトのために創作した5人のイメージ人物です。Wikidataからの本番抽選と仮想対話は、対応プラグインを接続したChatGPTで行います。</p>
-    <button id="draw" class="button primary" type="button">カードをひらく <span aria-hidden="true">↗</span></button>
-    <noscript><p>このデモはJavaScriptを有効にすると利用できます。使い方と参照先はそのまま閲覧できます。</p></noscript>
+    <p class="eyebrow gold">01 / LIVE MCP REFERENCE PREVIEW</p>
+    <h2 id="experience-title">Wikidataの人物情報を、<br>その場で取得。</h2>
+    <p class="body-copy">ここでは実際のMCPツールで人物の参照情報を取得します。<br>人物へのなりきり会話は、接続したAIエージェントが行います。</p>
+    <div class="demo-label"><span aria-hidden="true">◇</span> MCP実データのプレビュー · 会話の実演ではありません</div>
+    <p class="small-copy">この抽選は固定カードの演出ではなく、読み取り専用のMCPに問い合わせます。Site側のアクセス制御により応答が拒否される場合は、理由を明示します。人物の公式の発言や肖像は表示しません。</p>
+    <button id="draw" class="button primary" type="button">MCPで実際に人物を抽選</button>
+    <noscript><p>ブラウザ上の人物参照プレビューにはJavaScriptが必要です。プラグインの使い方はこのページで確認できます。</p></noscript>
   </div>
   <div class="encounter-stage" id="encounter-stage">
     <div class="orbit orbit-one" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
     <div class="ghost-card ghost-left" aria-hidden="true"></div><div class="ghost-card ghost-right" aria-hidden="true"></div>
     <div class="persona-card" id="persona-card">
-      <img id="demo-art" src="/assets/card-back-480.webp" alt="金の軌道とシアンのポータルが描かれた人物カードの裏面" width="480" height="720" loading="lazy" decoding="async">
-      <div class="card-caption"><span id="demo-kind">UNKNOWN WORLD</span><h3 id="demo-name">まだ見ぬ、誰か。</h3><p id="demo-line">その一枚の向こうへ。</p></div>
+      <img id="demo-art" src="/assets/card-back-480.webp" alt="抽選人物の肖像ではない、ポータルを描いた装飾カード" width="480" height="720" loading="lazy" decoding="async">
+      <div class="card-caption"><span id="demo-kind">WIKIDATA REFERENCES</span><h3 id="demo-name">まだ見ぬ、誰か。</h3><p id="demo-line">MCPから参照情報を取得します。</p><a id="persona-source" class="persona-source-link" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer" hidden>Wikipediaで出典を確認 ↗</a><span id="persona-qid" class="persona-qid" hidden></span></div>
     </div>
-    <div class="draw-status" id="draw-status" role="status" aria-live="polite">5つの世界から、ひとつの出会い。</div>
+    <div class="draw-status" id="draw-status" role="status" aria-live="polite">MCPを呼び出すと、実際の人物参照が表示されます。</div>
   </div>
 </section>
 <section class="worlds section" id="worlds" aria-labelledby="worlds-title">
@@ -82,8 +82,8 @@
 </section>
 <section class="trust section" id="trust" aria-labelledby="trust-title"><div class="wrap trust-grid"><div><p class="eyebrow gold">04 / GROUNDED IN SOURCES</p><h2 id="trust-title">出会いには、<br>確かな手がかりを。</h2><p class="body-copy">想像を楽しむために、<br>情報の出どころと、創作の境界を大切に。</p></div><dl class="trust-list"><div><dt>公開された知識を、入口に。</dt><dd>人物の識別と分類にはWikidataを使用。日本語のWikipediaを優先し、必要に応じて英語の記事を案内します。記事を読むのは利用側のChatGPTです。</dd></div><div><dt>本人の発言でも、公式の物語でもありません。</dt><dd>会話はAIによるシミュレーションです。実在人物の確認できる事実と解釈、架空キャラクターの原作設定と創作的な補完を区別します。資料を読めない場合は、そのことを伝えます。</dd></div><div><dt>ランダム性と、情報の鮮度を正直に。</dt><dd>分類別の限定範囲から候補を選ぶため、Wikidata全件に対する一様抽選ではありません。通信障害などで承認済みカタログを使った場合は、代替取得であることを返却結果に明示します。</dd></div></dl></div></section>
 <section class="faq section wrap" id="faq" aria-labelledby="faq-title"><div class="section-heading"><div><p class="eyebrow gold">05 / GOOD TO KNOW</p><h2 id="faq-title">よくある質問</h2></div><span class="subtle">出会う、その前に。</span></div>
-  <div class="faq-items"><details><summary>誰と会話するか、こちらで指定する必要はありますか？</summary><p>必要ありません。「ランダムな人物と話したい」と伝えるだけで抽選を始めます。実在人物だけ、架空キャラクターだけを希望することもできます。同じ会話では人物像を維持し、「別の人物」で再抽選します。</p></details>
-  <details><summary>ページのカードデモと、ChatGPTの抽選は同じですか？</summary><p>異なります。ページのデモは、5人のオリジナル創作人物でカードをめくる体験を紹介しています。ChatGPTのMCPツールはWikidataへ実際に問い合わせ、対象となる人物の情報とWikipediaへのリンクを返します。</p></details>
+  <div class="faq-items"><details><summary>誰と会話するか、こちらで指定する必要はありますか？</summary><p>必要ありません。対応クライアントにはMCP接続時に抽選した人物情報が渡されます。ただし、クライアント側で人格を採用する対応が必要です。「別の人物」の指示で再抽選できます。</p></details>
+  <details><summary>ブラウザのプレビューとChatGPTでの人格化は同じですか？</summary><p>異なります。ブラウザのボタンは実際のMCPを呼び出して人物のQIDと出典を表示します。人格の維持や一人称での対話は、接続したAIエージェント側の機能です。Sites側のアクセス制限がある場合は、プレビューも失敗します。</p></details>
   <details><summary>300人しか抽選されないのですか？</summary><p>いいえ。300件はWikidataへの接続障害に備えて保存した代替用カタログの件数であり、通常の抽選対象の上限ではありません。通常はWikidataから候補と人物情報を取得します。全件ダンプ由来の大規模QID索引は、走査・承認・サイト更新が完了した場合に使用する方式です。</p></details>
   <details><summary>Wikidataのすべての人物が、同じ確率で選ばれますか？</summary><p>いいえ。現在は一部の直接分類と限定された検索範囲から抽選します。対象外の分類、日本語・英語の記事がない項目などは含まれません。実在・架空の混合指定でも、全人物に対する統計的な一様抽選ではありません。</p></details>
   <details><summary>本当に本人や公式キャラクターと話せますか？</summary><p>いいえ。公開資料を参考にAIが行う仮想対話です。実在人物が実際に発言した言葉とは限らず、架空キャラクターの公式設定や権利者の見解を表すものでもありません。</p></details>
