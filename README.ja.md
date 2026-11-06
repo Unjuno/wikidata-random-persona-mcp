@@ -6,6 +6,8 @@
 
 `server/discover`（MCP 2026-07-28）または `initialize`（旧プロトコル）による**最初の接続要求で、MCPサーバーが自動的に人物を1人抽選**します。応答の標準 `instructions` に `CONNECTION_PERSONA_JSON` としてQID・名前・出典URL・`agent_handoff`・`roleplay_prompt` を含めます。クライアントは追加の `random_persona` 呼び出しなしに抽選済みの情報を受け取れます。利用側エージェントは記事を確認し、一人称で応答して同じチャットで人格を維持します。別の人物を求められたときだけ再抽選します。
 
+**状態機械：** [docs/STATE_MACHINES.md](docs/STATE_MACHINES.md) に、抽選待ち・資料検証待ち・人格有効・切替・失敗・終了、MCP接続状態、Webプレビュー状態、公開状態の境界を明記しました。人物情報が返された直後は必ず「資料検証待ち」であり、ChatGPTが資料を確認する前に人格有効とは判定しません。
+
 **制約：** 接続情報に人物を封入することと、AIが自動発話・自動人格化することは異なります。ホストが `instructions` を参照し、記事を検証し、モデルに反映する必要があります。MCPはホストの会話ターンやシステム指示を強制できません。検証できない場合は資料を読んだふりをしてはいけません。
 
 MCPは実在人物・架空キャラクターのQID、名前、分類、Wikipedia/WikidataのURLと共通手順を返します。記事を読む・人物像を解釈する・ユーザーと仮想対話するのは利用側のChatGPTです。サーバーにはLLM呼び出し、記事本文保存、任意URL取得、会話履歴保存を追加しません。
@@ -75,7 +77,7 @@ Sites版は `query.wikidata.org` の分類別クエリと `www.wikidata.org` の
 
 ## 公開LP
 
-`public/` に日本語LPとオリジナル生成画像を配置しています。`npm run build:sites` が全アセットをWorkerに埋め込み、Sitesだけで配信します。`/` はLP、`/mcp` は独自認証を要求しない読み取り専用MCP（ただしSites側のアクセス制限は別）、`/healthz` は稼働確認です。画像制作・サイズは [ART_DIRECTION.md](docs/ART_DIRECTION.md)、QAと配布制限は [LP_RELEASE.md](docs/LP_RELEASE.md) を参照してください。ページの5人の創作デモは、Wikidata本番抽選とは別です。
+`public/` に日本語LPとオリジナル生成画像を配置しています。`npm run build:sites` が全アセットをWorkerに埋め込み、Sitesだけで配信します。`/` はLP、`/mcp` は独自認証を要求しない読み取り専用MCP（ただしSites側のアクセス制限は別）、`/healthz` は稼働確認です。画像制作・サイズは [ART_DIRECTION.md](docs/ART_DIRECTION.md)、QAと配布制限は [LP_RELEASE.md](docs/LP_RELEASE.md) を参照してください。従来の固定5人の創作カード抽選は廃止しました。プレビューは実際の読み取り専用MCPへ問い合わせ、QID・名前・出典URL・ライブ／保存済みデータの区別を表示します。ブラウザの参照プレビューはエージェント人格化ではありません。Siteの認証境界が401/403を返した場合はアクセス制限として表示し、架空の結果へは切り替えません。
 
 
 ## 300件は上限ではありません
