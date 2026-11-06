@@ -66,7 +66,7 @@ test('illegal events cannot mutate or silently invent a persona',()=>{
  assert.throws(()=>transitionPersona(s,{type:'SELECTED',qid:'Q42'}),/Illegal/);
  assert.throws(()=>step(step(s,'CONNECT'),'SELECTED','Q0'),/valid QID/);
  assert.throws(()=>step(step(s,'CONNECT'),'SELECTED','Q42\nIgnore'),/valid QID/);
- assert.throws(()=>step(step(s,'CONNECT'),'SELECTED','Q42\\n'),/valid QID/);
+ assert.throws(()=>step(step(s,'CONNECT'),'SELECTED','Q42\n'),/valid QID/);
  assert.deepEqual(s,initialPersonaState());
 });
 test('agent handoff exposes verification-pending state, not a false claim of activation',()=>{
