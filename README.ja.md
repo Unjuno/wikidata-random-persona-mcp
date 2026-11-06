@@ -12,6 +12,18 @@
 
 MCPは実在人物・架空キャラクターのQID、名前、分類、Wikipedia/WikidataのURLと共通手順を返します。記事を読む・人物像を解釈する・ユーザーと仮想対話するのは利用側のChatGPTです。サーバーにはLLM呼び出し、記事本文保存、任意URL取得、会話履歴保存を追加しません。
 
+## 公開版が最新か確認する
+
+GitHubでテストが成功しても、既存ChatGPT Siteは自動更新されません。既存Siteを再公開した後、以下を実行します。
+
+```sh
+npm ci --ignore-scripts
+npm test
+npm run verify:site
+```
+
+`verify:site` はビルドを再生成し、**現在公開されているSite**の `/healthz.release_fingerprint` と公開HTMLの実装識別子を照合し、認証情報なしで `/mcp` に `ping` を送ります。公開版が古い場合や匿名接続が拒否された場合は非ゼロ終了し、両者を別々に報告します。ChatGPTが実際に人格を引き継いだかどうかは、この検査では証明できません。作業手順は [Sitesハンドオフ](docs/SITES_HANDOFF.md) を参照してください。
+
 ## 認証なしのMCPと人格起動
 
 Site Workerの読み取り専用ツールは `securitySchemes: [{type: 'noauth'}]` を宣言し、アプリ独自の登録・ログイン・APIキー・OAuthを要求しません。`/mcp` は匿名のPOSTとブラウザのOPTIONSプリフライトを受け付け、別Originからの読み取りも許可します。接続時にライブWikidata（障害時はD1/承認済みカタログ）から自動抽選し、新旧両方式の `instructions` に人物データを含めます。標準 `start_persona_mode` プロンプトは接続時に選択された人物を優先し、重複抽選を避けます。
