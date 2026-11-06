@@ -17,6 +17,7 @@ test('browser preview has explicit legal transitions and never claims to be an a
  assert.equal(loading.phase,'loading');
  assert.strictEqual(step(loading,'REQUEST'),loading);
  assert.throws(()=>step(idle,'READY',{qid:'Q42',name:'x',article_url:source}),/requires loading/);
+ assert.throws(()=>step(loading,'READY',{qid:'Q42',name:'x',article_url:'https://evil.example/wiki/X'}),/Invalid reference/);
  const ref=readPersonaReference(response(persona));
  const ready=step(loading,'READY',ref);
  assert.equal(ready.phase,'reference_ready');
