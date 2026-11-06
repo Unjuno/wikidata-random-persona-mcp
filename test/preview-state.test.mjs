@@ -49,7 +49,7 @@ test('browser preview rejects malformed and malicious source links',()=>{
  ];
  for(const url of bad)assert.throws(()=>readPersonaReference(response({...persona,sources:[{purpose:'article',url}]})),/safe article link/,url);
  assert.throws(()=>readPersonaReference(response({...persona,qid:'Q0'})),/Invalid persona fields/);
- assert.throws(()=>readPersonaReference(response({...persona,qid:'Q42\\n'})),/Invalid persona fields/);
+ assert.throws(()=>readPersonaReference(response({...persona,qid:'Q42\n'})),/Invalid persona fields/);
  assert.throws(()=>readPersonaReference(response({...persona,kind:'unknown'})),/Invalid persona fields/);
  assert.throws(()=>readPersonaReference({result:{isError:true}}),/error/);
  assert.throws(()=>readPersonaReference({error:{code:-32600}}),/error/);
