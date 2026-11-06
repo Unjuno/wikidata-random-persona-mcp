@@ -31,3 +31,24 @@ Published assets (all 18 files under /assets/) were fetched and byte-compared wi
 ## Corrected 300 count
 
 The FAQ explicitly says 300 is only the outage fallback. An updated deployment's `/healthz` separates `fallback_catalog.entries` from `sampling_method` and has no unqualified `entries` field. The QID-only full-dump reservoir pathway must not be advertised as deployed until a real complete index has been reviewed, installed, and the Site republished.
+
+
+## 2026-11-06 design/UX change (not yet published to Site)
+
+The old five fictional card draw is **removed** from the source LP. The
+existing artwork is used only as decorative illustration. The browser
+button now calls the real read-only MCP `tools/call random_persona` on
+the same Site and renders its returned QID/name/kind/article link and
+`source_mode`. The UI is explicitly a reference preview and not a
+character-chat implementation. It never fabricates results when MCP
+access is blocked, returns HTTP 429, times out or yields no eligible match.
+A source URL must pass HTTPS Wikipedia host checks before becoming clickable;
+all labels are added with `textContent`. The experience is modelled as a
+deterministic state machine in `public/assets/preview-state.js` and has
+source/interaction tests.
+
+**Evidence limit:** Node tests check assets, protocol, preview outcomes and
+simulated DOM events. They do not validate visual layout on actual mobile
+hardware, a published Site, third-party login status or persona adoption
+in a live ChatGPT host. Capture new desktop/mobile screenshots and repeat
+the actual plugin/browser checks after owner republishes the existing Site.

@@ -8,6 +8,12 @@ The product requirement is zero-extra-command startup: when a user connects/enab
 
 The intended experience is *the AI agent speaks as the selected identity*, not a biography lookup. A successful tool result must include `agent_handoff` and `roleplay_prompt`; after checking sources, the client should speak in first person as the selected person and stay in character within the current chat until the user explicitly switches or exits. Standard MCP `initialize.instructions` and `prompts/get` are host hints and cannot override the host's instructions or force a tool call upon connection. Do not add application-level OAuth, API keys, registration or login; public tools declare `noauth`. Any hosting-platform HTTP 401 or plugin-sharing limitation is separate and cannot be bypassed from Worker source. Preserve the existing ChatGPT Site as the sole deployment target.
 
+## Explicit state machines and reference-first browser UX (2026-11-06)
+
+The source of truth for state transitions is `src/persona-state.mjs` (pure consumer-facing reducer), with architecture and acceptance gates in `docs/STATE_MACHINES.md`. Selection is not proof of source verification: the handoff starts in `awaiting_verification`; only a cooperating client can verify an article and activate the persona. Keep a verified active QID across transport reconnects and rollback on switch failure. Do not store chats or verification flags in shared Site Worker globals or in anonymous D1 rows.
+
+The public LP uses `public/assets/site.js` and `public/assets/preview-state.js` to call the actual read-only `/mcp` endpoint and show a sourced identity or a specific failure state. Never restore the five invented-person card lottery as a substitute for real results. A browser preview is not proof of ChatGPT roleplay. Preserve noauth at the application layer without bypassing Sites platform 401s. Review `test/persona-state.test.mjs`, `test/preview-state.test.mjs`, and `test/sites-preview-interaction.test.mjs` before changing these flows.
+
 ## Repo architecture
 - `src/core.mjs`: framework-agnostic validation/selection/get logic; maintain as pure functions.
 - `src/mcp.mjs`: MCP SDK v2 factory; mount `src/app.mjs` for the guarded Fetch entry, not the raw handler.

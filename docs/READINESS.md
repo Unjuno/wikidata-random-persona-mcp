@@ -1,15 +1,15 @@
 # Readiness and remaining gates
 
-Updated 2026-10-28. This is a deployed LP and working owner-connected live MCP; unrestricted third-party plugin distribution is not verified, so full public-product completion is not claimed.
+Historical deployment evidence updated through 2026-10-28; source redesign dated 2026-11-06. Previously published Site and current GitHub source must not be conflated. Unrestricted third-party plugin distribution remains unverified.
 
 ## Implemented and checked
 
 - Existing Site only: https://random-persona-mcp.unjuno.chatgpt.site, with `/mcp` and `/healthz` preserved.
-- Japanese discovery LP, eight original generated illustrations, separate mobile hero, responsive WebP assets, accessible card demo, FAQ, source/rights disclosures. Local demo figures are explicitly original fiction, separate from Wikidata draws.
+- Historical LP had original art and a five-card fictional demo. **New source** retains original art but replaces that demo with a real MCP metadata preview. New UI has distinct loading/success/access-denied/rate-limit/no-match/error states, a validated Wikipedia article link, and transparent source provenance. It has not been verified visually on the deployed Site.
 - Sites Worker requests live Wikidata P31 search and entity metadata; any eligible QID can be retrieved, including Q7259 outside the 300-entry fallback. No server LLM, article-body store, conversation store or arbitrary URL fetch.
 - Exact Host/Origin checks; Sites MCP authentication; 128 KiB / 5-second request-body limit; 2 MiB / 10-second upstream limit; manual non-following redirects compatible with Cloudflare Workers. Per-isolate 120 MCP requests/minute, 60 upstream requests/minute and four concurrent upstream operations. These are not distributed global quotas.
 - Only random_persona and get_persona; official SDK Client 2.4 verifies legacy initialize and modern discovery over real local HTTP. JSON-RPC batches are rejected, notifications never execute tools. Modern result envelopes include resultType and list cache metadata.
-- The latest local suite has 116 unit, asset, security and official-client tests. CI runs syntax, catalog validation and tests on Node 22/24. Verify the latest commit's Actions result; historical green runs do not certify later code.
+- Automated unit/asset/security and official-client tests run on Node 22/24. Check the exact latest Actions run for the current count and result; historical test totals are not the current suite.
 
 ## Production evidence
 
@@ -71,3 +71,31 @@ GitHub now includes a private bounded multi-person collector, a Site Worker `sch
 **Not proven:** An MCP connection does not itself start an LLM inference turn, make the host browse Wikipedia, or force ChatGPT to adopt the persona. The final experience requires a compatible host that reads the connection `instructions` and implements persistent roleplay. Also the GitHub commit does **not** publish the Worker to the existing ChatGPT Site. Confirm a new runtime `server/discover` response from the Site after publishing, then run a clean ChatGPT client session and a third-party no-auth access test. The deployed plugin previously returned a persona without `agent_handoff`; do not treat branch CI as evidence it was redeployed.
 
 **Access:** This Worker requests no app-owned login/API key/OAuth, advertises both public tools as `noauth` and allows CORS preflight on the read-only `/mcp` route. Platform-managed ChatGPT Sites access restrictions may still return HTTP 401 before this code runs. Never claim unrestricted public anonymous availability without an external-client acceptance result. No new Site or external host is authorized.
+
+
+## 2026-11-06 source refactor: state machines and honest UI
+
+The core conversation contract is now a pure reducer in
+`src/persona-state.mjs`. A successful selection produces a
+`state_machine.phase=awaiting_verification` handoff, not a claim that
+the host read the article or changed its behavior. Legal transitions cover
+connect, source verification, active QID, explicit switch, rollback,
+reconnect, retry and exit. Tests verify invalid transitions, mismatch and
+invariant preservation. See `docs/STATE_MACHINES.md`.
+
+`src/persona-service.mjs` now separates Wikidata/D1/catalog decisions
+from the transport Worker, avoids drawing a fallback before successful
+live requests, and validates inputs before calling upstream sources.
+Unit tests cover source precedence, metadata, malformed requests and
+mismatched QIDs.
+
+The public LP's five fictional persona cards are replaced in **GitHub source**
+with a read-only live MCP reference preview and honest access failure
+states; the illustration is not a literal portrait of any selected QID.
+Node's mock-browser test verifies real protocol requests and response UI,
+not actual published desktop/mobile rendering.
+
+The full-product release remains **UNCERTAIN/NOT DEPLOYED** until the
+existing Site is synced, republished and checked with live ChatGPT,
+a fresh user and a second account. No changes to platform access rules,
+D1 provisioning or third-party plugin permissions have been made.

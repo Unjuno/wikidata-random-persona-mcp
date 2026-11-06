@@ -1,7 +1,15 @@
-# Architecture — URL-first MCP v0.2
+# Architecture — persona reference MCP with explicit host-controlled states
 
 ## Product boundary
 The server draws an identity and returns metadata, trusted reference URLs and fixed common guidance. The browsing client retrieves articles and constructs a conversation. There are no model calls, generated persona definitions, stored article bodies, stored chats or arbitrary-URL public fetch tools.
+
+## 2026-11-06 responsibility split
+
+- `src/persona-state.mjs`: deterministic roleplay state machine for the **consuming agent**. The selected QID is awaiting article verification, not automatically active. No server conversation persistence.
+- `src/persona-service.mjs`: application-level acquisition and fallback policy, with untrusted live Wikidata, optional verified D1 cache and an emergency reviewed catalog.
+- `sites/worker/index.js`: HTTP+JSON-RPC boundaries, MCP discovery/initialize, tools and prompts, health, rate/size guards. The Worker cannot force a chat turn or verify Wikipedia.
+- `public/assets/preview-state.js` and `public/assets/site.js`: the optional browser metadata preview with a distinct UI FSM, actual read-only MCP request and safe source-link rendering.
+- `docs/STATE_MACHINES.md`: event tables, diagrams, data provenance, rollout states and acceptance criteria.
 
 ## Runtime
 `data/catalog.json` + independent `data/blocked-qids.json` -> immutable `createCatalogStore` snapshot -> two SDK tools -> guarded `createApp().fetch` -> optional Node adapter or actual Sites runtime.

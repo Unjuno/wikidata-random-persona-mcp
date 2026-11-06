@@ -6,6 +6,8 @@ A **read-only persona handoff MCP**: select a real person or fictional character
 
 ## Persona activation and host responsibility
 
+The conversational flow is specified by a pure reducer in `src/persona-state.mjs`. Its successful selection state is `awaiting_verification`, not `active`. Only the host that actually read and checked Wikipedia may move to `active`. An explicit switch keeps the prior verified QID until the replacement is verified; an exit clears it. Reconnect does not switch the active identity. See [STATE_MACHINES.md](docs/STATE_MACHINES.md) for transition diagrams and tests.
+
 The Sites MCP tools declare `securitySchemes: [{type:'noauth'}]`. On the **first MCP discovery/initialization request** the Worker itself performs a random selection from live Wikidata (with transparent D1/catalog fallback), and includes the selected QID, name, source URLs and `agent_handoff`/`roleplay_prompt` in the standard `server/discover.instructions` (modern protocol) or `initialize.instructions` (legacy). The client does **not** need to call `random_persona` after connecting to obtain a character. The `start_persona_mode` prompt reuses this connection-selected identity when available instead of rerolling. Each response is uncached (`ttlMs=0`, private).
 
 **Protocol boundary:** A client must read the instructions, verify the article, and actually adopt and maintain the speaking persona. The server cannot force a chat turn, override host instructions or guarantee every host reads discovery. The Worker supports anonymous POST and cross-origin preflight but a Sites-level HTTP 401 can still block public connection; universal anonymous access must not be claimed without deployment validation.
@@ -73,7 +75,7 @@ Code: MIT. See [SECURITY.md](SECURITY.md). No article bodies, images, audio, sec
 
 ## Landing page
 
-The Japanese public LP and original generated brand images live in `public/`. The Sites build embeds all assets into the Worker; no separate host is used. `/mcp` and `/healthz` retain their own routing. The five-card browser demo uses original fictional archetypes, clearly separate from the live MCP. See [art direction](docs/ART_DIRECTION.md) and [release QA](docs/LP_RELEASE.md).
+The Japanese public LP and original generated brand images live in `public/`. The Sites build embeds all assets into the Worker; no separate host is used. `/mcp` and `/healthz` retain their own routing. The former five-card fictional lottery has been replaced by an optional **real, read-only MCP reference preview** that returns a QID, source link and provenance. The browser never claims to speak as the chosen person; this remains the responsibility of the consuming agent. A Sites/platform 401 or 403 is shown as an access limitation rather than disguised by a fictional fallback. See [explicit state machines](docs/STATE_MACHINES.md), [art direction](docs/ART_DIRECTION.md) and [release QA](docs/LP_RELEASE.md).
 
 
 ## Full-dump QID reservoir mode (optional, not yet deployed)

@@ -1,37 +1,103 @@
-'use strict';
-const demoPeople = [
-  {art:'history',kind:'HISTORY · 創作デモ',name:'星を読む学者',line:'遠い昔の空にも、同じ星があった。'},
-  {art:'literature',kind:'LITERATURE · 創作デモ',name:'物語を集める旅人',line:'まだ地図にない、心の景色を探して。'},
-  {art:'anime',kind:'ANIME · 創作デモ',name:'光の扉を探す青年',line:'冒険は、最初の一歩から。'},
-  {art:'fantasy',kind:'FANTASY · 創作デモ',name:'星図の魔法使い',line:'知らないことは、新しい魔法の入口。'},
-  {art:'scifi',kind:'SCI-FI · 創作デモ',name:'未来の航海士',line:'この星の外にも、問いは続いている。'}
-];
+import {initialPreviewState,transitionPreview,readPersonaReference} from './preview-state.js';
+
+/** Browser UX is a *reference preview*. ChatGPT or another client performs roleplay. */
 const draw = document.querySelector('#draw');
-let previous = -1;
-draw.addEventListener('click', async () => {
-  if (draw.disabled) return;
-  draw.disabled = true;
-  const card = document.querySelector('#persona-card');
-  card.setAttribute('aria-busy','true');
-  document.querySelector('#draw-status').textContent='扉の向こうに、誰がいるだろう。';
-  document.querySelector('#encounter-stage').classList.add('shuffling');
-  const choices=demoPeople.map((p,i)=>i).filter(i=>i!==previous);
-  const value=new Uint32Array(1);crypto.getRandomValues(value);
-  const selected=choices[value[0]%choices.length], p=demoPeople[selected];
-  const image=new Image();image.src='/assets/'+p.art+'-600.webp';
-  try {
-    await Promise.all([image.decode(),new Promise(resolve=>setTimeout(resolve,matchMedia('(prefers-reduced-motion: reduce)').matches?0:650))]);
-    const art=document.querySelector('#demo-art');art.src=image.src;art.alt=p.name+'を描いたオリジナルのイラスト';
-    document.querySelector('#demo-kind').textContent=p.kind;
-    document.querySelector('#demo-name').textContent=p.name;
-    document.querySelector('#demo-line').textContent=p.line;
-    document.querySelector('#draw-status').textContent=p.name+'に出会いました。これは創作人物によるデモです。';
-    draw.replaceChildren(document.createTextNode('もう一度めくる ↗'));previous=selected;
-  } catch (error) {console.warn('Demo image unavailable:', error.message);document.querySelector('#draw-status').textContent='画像を読み込めませんでした。もう一度お試しください。';}
-  finally {document.querySelector('#encounter-stage').classList.remove('shuffling');card.removeAttribute('aria-busy');draw.disabled=false;}
+const stage = document.querySelector('#encounter-stage');
+const card = document.querySelector('#persona-card');
+const status = document.querySelector('#draw-status');
+const kind = document.querySelector('#demo-kind');
+const name = document.querySelector('#demo-name');
+const line = document.querySelector('#demo-line');
+const sourceLink = document.querySelector('#persona-source');
+const qidLabel = document.querySelector('#persona-qid');
+let preview = initialPreviewState();
+
+const labels = {
+  idle:'MCPを呼び出すと、Wikidata由来の人物参照がここに表示されます。',
+  loading:'Wikidataから人物参照を取得しています…',
+  reference_ready:'出典付きの人物参照を取得しました。人格への切替は接続したAI側で行います。',
+  access_denied:'この環境からMCPに接続できません。ChatGPT側のプラグイン接続をご確認ください。',
+  rate_limited:'アクセスが集中しています。しばらくしてから再試行してください。',
+  empty:'対象人物が見つかりませんでした。再試行できます。',
+  error:'人物情報を取得できませんでした。再試行できます。'
+};
+const shorten = (description,max) =>
+  description.length > max ? description.slice(0,max-1)+'…' : description;
+
+function dispatch(event) {
+  preview = transitionPreview(preview,event);
+  render();
+}
+function render() {
+  const phase=preview.phase;
+  const busy=phase==='loading';
+  draw.disabled=busy;
+  draw.textContent=busy?'参照を取得中…':'MCPで実際に人物を抽選';
+  card.setAttribute('aria-busy',String(busy));
+  stage.classList.toggle('shuffling',busy);
+  stage.dataset.previewState=phase;
+  status.textContent=labels[phase];
+  sourceLink.hidden=true;
+  qidLabel.hidden=true;
+  if(phase==='reference_ready'){
+    const p=preview.persona;
+    kind.textContent=(p.kind==='real'?'実在人物':'架空キャラクター')+
+      (p.source_mode==='wikidata_live'?' · LIVE WIKIDATA':' · 保存済み参照');
+    name.textContent=p.name;
+    line.textContent=shorten(p.description||'出典付きの人物参照を取得しました。',100);
+    sourceLink.href=p.article_url;
+    sourceLink.hidden=false;
+    qidLabel.textContent=p.qid;
+    qidLabel.hidden=false;
+  }else if(phase==='loading'){
+    kind.textContent='REFERENCE REQUEST';
+    name.textContent='人物を検索中';
+    line.textContent='実際のMCPに問い合わせています。';
+  }else{
+    kind.textContent=phase==='idle'?'WIKIDATA REFERENCES':'CONNECTION STATUS';
+    name.textContent=phase==='idle'?'まだ見ぬ、誰か。':'参照を取得できません';
+    line.textContent=phase==='idle'?'人物情報はこのボタンを押すと取得します。':preview.message;
+  }
+}
+draw.addEventListener('click',async()=>{
+  if(preview.phase==='loading')return;
+  dispatch({type:'REQUEST'});
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),12000);
+  try{
+    const response=await fetch('/mcp',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        jsonrpc:'2.0',id:1,method:'tools/call',
+        params:{name:'random_persona',arguments:{kind:'both',language:'ja'}}
+      }),
+      credentials:'omit',
+      signal:controller.signal
+    });
+    if(response.status===401||response.status===403){
+      dispatch({type:'ACCESS_DENIED'});return;
+    }
+    if(response.status===429){dispatch({type:'RATE_LIMIT'});return;}
+    if(!response.ok)throw Error('MCP HTTP '+response.status);
+    const payload=await response.json();
+    const p=readPersonaReference(payload);
+    if(!p){dispatch({type:'NO_MATCH'});return;}
+    dispatch({type:'READY',persona:p});
+  }catch(error){
+    // No fabricated characters or silent fallback to the former five-card demo.
+    console.warn('Persona preview unavailable:',error instanceof Error?error.name:'request_failed');
+    dispatch({type:'FAIL'});
+  }finally{clearTimeout(timeout);}
 });
-document.querySelector('#copy-prompt').addEventListener('click', async () => {
-  const status=document.querySelector('#copy-status');
-  try {await navigator.clipboard.writeText('ランダムな人物になりきって話して');status.textContent='コピーしました。接続済みのChatGPTで貼り付けてください。';}
-  catch {status.textContent='コピーできませんでした。「ランダムな人物になりきって話して」を選択してコピーしてください。';}
+const copyButton=document.querySelector('#copy-prompt');
+copyButton.addEventListener('click',async()=>{
+ const copyStatus=document.querySelector('#copy-status');
+ try{
+  await navigator.clipboard.writeText('ランダムな人物になりきって話して');
+  copyStatus.textContent='コピーしました。対応するChatGPTでご利用ください。';
+ }catch{
+  copyStatus.textContent='コピーできませんでした。表示された文章を選択してコピーしてください。';
+ }
 });
+render();

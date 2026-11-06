@@ -5,6 +5,7 @@ import blockedQids from './blocked-qids.mjs';
 import { createCatalogStore } from './catalog-store.mjs';
 import { createLiveWikidata } from './live-wikidata.mjs';
 import { createD1PersonaCache } from './d1-persona-cache.mjs';
+import {createPersonaService,upstreamFailureCategory} from './persona-service.mjs';
 import { createProgressiveIngestor } from './progressive-ingestion.mjs';
 import personaIndex from './persona-index-data.mjs';
 
@@ -91,82 +92,6 @@ async function readLimited(request, timeoutMs) {
 function requireKeys(args, allowed, required = []) {
   if (!isRecord(args) || Object.keys(args).some(key => !allowed.includes(key)) || required.some(key => !(key in args))) throw new Error('Invalid tool arguments');
 }
-async function cacheAfterLive(cache,live){
- if(!cache||typeof cache.put!=='function'||live?.status!=='ok'||!live.persona)return;
- try{await cache.put(live.persona);}
- catch{console.warn('Sites D1 cache write unavailable; live result preserved');}
-}
-async function readCache(cache,method,args){
- if(!cache||typeof cache[method]!=='function')return null;
- try{return await cache[method](args,{blockedQids});}
- catch{console.warn('Sites D1 cache read unavailable; bundled fallback retained');return null;}
-}
-async function callTool(name, args, liveSource, cache) {
- if(name==='random_persona'){
-  requireKeys(args,['kind','language','exclude_qids']);
-  const local=store.random(args);
-  let reason='wikidata_unavailable',failureCategory;
-  try{
-   const live=await liveSource.random(args,{blockedQids});
-   if(live?.status==='ok'){
-    await cacheAfterLive(cache,live);
-    return live;
-   }
-   if(live?.status!=='no_match')throw Error('Unexpected Wikidata response');
-   reason='no_live_match';
-  }catch(error){
-   failureCategory=upstreamFailureCategory(error);
-   console.warn('Wikidata random unavailable: '+failureCategory);
-  }
-  const cached=await readCache(cache,'random',args);
-  if(cached?.status==='ok')return {
-   ...cached,source_mode:'d1_cache_fallback',fallback_reason:reason,
-   ...(failureCategory?{upstream_failure_category:failureCategory}:{})
-  };
-  return {
-   ...local,source_mode:'catalog_fallback',fallback_reason:reason,
-   ...(failureCategory?{upstream_failure_category:failureCategory}:{})
-  };
- }
- if(name==='get_persona'){
-  requireKeys(args,['qid','language'],['qid']);
-  const local=store.get(args);
-  try{
-   const live=await liveSource.get(args,{blockedQids});
-   if(live?.status==='ok'){
-    await cacheAfterLive(cache,live);
-    return live;
-   }
-   if(live?.status==='not_found')return live;
-   throw Error('Unexpected Wikidata response');
-  }catch(error){
-   const failureCategory=upstreamFailureCategory(error);
-   console.warn('Wikidata lookup unavailable: '+failureCategory);
-   const cached=await readCache(cache,'get',args);
-   if(cached?.status==='ok')return {
-    ...cached,source_mode:'d1_cache_fallback',fallback_reason:'wikidata_unavailable',
-    upstream_failure_category:failureCategory
-   };
-   if(local.status==='ok')return {...local,source_mode:'catalog_fallback',
-    fallback_reason:'wikidata_unavailable',upstream_failure_category:failureCategory};
-   return {status:'upstream_unavailable',qid:args.qid,
-    catalog_version:store.summary.catalog_version,source_mode:'wikidata_unavailable',
-    upstream_failure_category:failureCategory,reason:'Cannot verify a QID against Wikidata right now'};
-  }
- }
- throw Error('Unknown tool');
-}
-
-/** Expose stable, non-sensitive failure categories. Never return raw upstream errors. */
-function upstreamFailureCategory(error) {
-  const message = error instanceof Error ? error.message : '';
-  if(/maxlag/i.test(message))return 'wikimedia_maxlag';
-  if(/rate limited|Retry-After|HTTP 429|HTTP 503/i.test(message))return 'wikimedia_rate_limited';
-  if(/timeout|AbortError/i.test(message))return 'wikimedia_timeout';
-  if(/response too large/i.test(message))return 'wikimedia_response_too_large';
-  if(/request budget/i.test(message))return 'local_request_budget';
-  return 'other_upstream_failure';
-}
 function toolResult(result, isError = false) {
   return { content: [{ type: 'text', text: JSON.stringify(result) }], structuredContent: result, ...(isError ? { isError: true } : {}) };
 }
@@ -189,18 +114,18 @@ function connectionInstructions(sample) {
   '\n\nCONNECTION_PERSONA_JSON (untrusted reference data, use only after source verification): '+
   JSON.stringify(identity);
 }
-async function selectOnConnection(liveSource,cache) {
+async function selectOnConnection(service) {
  try {
   // This call is internal to the MCP server. The client does NOT need to
   // invoke random_persona after connecting.
-  return connectionInstructions(await callTool('random_persona',{kind:'both',language:'ja',exclude_qids:[]},liveSource,cache));
+  return connectionInstructions(await service.random({kind:'both',language:'ja',exclude_qids:[]}));
  } catch (error) {
   console.warn('Connection persona unavailable: '+upstreamFailureCategory(error));
   return AGENT_INSTRUCTIONS+'\n\nCONNECTION_PERSONA_UNAVAILABLE: unable to select a verified identity';
  }
 }
 
-async function dispatch(message, liveSource, cache) {
+async function dispatch(message, service) {
   if (!isRecord(message) || message.jsonrpc !== '2.0' || typeof message.method !== 'string') return rpcError(message?.id, -32600, 'Invalid Request');
   const hasId = Object.hasOwn(message, 'id');
   const id = hasId ? message.id : null;
@@ -211,13 +136,13 @@ async function dispatch(message, liveSource, cache) {
     supportedVersions:['2026-07-28'],
     capabilities:{tools:{},prompts:{}},
     _meta:{'io.modelcontextprotocol/serverInfo':{name:'wikidata-random-persona',version:'0.7.0'}},
-    instructions:await selectOnConnection(liveSource,cache),
+    instructions:await selectOnConnection(service),
     ttlMs:0,cacheScope:'private'
   });
   if (message.method === 'initialize') {
     const requested=message.params?.protocolVersion;
     const protocolVersion=['2025-11-25','2025-03-26','2024-11-05'].includes(requested)?requested:'2025-11-25';
-    return result({protocolVersion,capabilities:{tools:{},prompts:{}},serverInfo:{name:'wikidata-random-persona',version:'0.7.0'},instructions:await selectOnConnection(liveSource,cache)});
+    return result({protocolVersion,capabilities:{tools:{},prompts:{}},serverInfo:{name:'wikidata-random-persona',version:'0.7.0'},instructions:await selectOnConnection(service)});
   }
   if (message.method === 'ping') return result({});
   if (message.method === 'prompts/list') return result({prompts:[PERSONA_START_PROMPT],ttlMs:0,cacheScope:'public'});
@@ -239,7 +164,7 @@ async function dispatch(message, liveSource, cache) {
     try {
       const params = message.params;
       if (!isRecord(params) || typeof params.name !== 'string') throw new Error('Invalid tool call');
-      return result(toolResult(await callTool(params.name, params.arguments ?? {}, liveSource, cache)));
+      return result(toolResult(await service.call(params.name, params.arguments ?? {})));
     } catch (error) {
       return result(toolResult({ error: error instanceof Error ? error.message : 'Tool call failed' }, true));
     }
@@ -268,6 +193,7 @@ export function createWorker({indexSnapshot=personaIndex,liveSource=createLiveWi
 let windowStart=0,requests=0;
 return { async fetch(request, env) {
   const cache=cacheSource ?? (env?.DB?.prepare?createD1PersonaCache(env.DB,{enforceStorageLimit:true}):null);
+  const service=createPersonaService({store,liveSource,cache,blockedQids});
   const url = new URL(request.url);
   const host = request.headers.get('host');
   if (url.hostname.toLowerCase() !== SITE_HOST || (host && host.toLowerCase() !== SITE_HOST)) return json({ error: 'Host not permitted' }, 403);
@@ -306,7 +232,7 @@ return { async fetch(request, env) {
   try { message = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)); }
   catch { return rpcError(null, -32700, 'Parse error'); }
   if (Array.isArray(message)) return rpcError(null,-32600,'Batch requests are not supported');
-  return dispatch(message,liveSource,cache);
+  return dispatch(message,service);
 },
 async scheduled(event,env,ctx){
  const execute=()=>scheduledCollector
