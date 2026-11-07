@@ -5,6 +5,9 @@
 export const SITE_ORIGIN='https://random-persona-mcp.unjuno.chatgpt.site';
 export const PREVIEW_MARKER='data-preview-implementation="real-mcp-v1"';
 const HASH=/^[a-f0-9]{64}$/;
+const QID=/^Q[1-9][0-9]{0,11}$/;
+const CONNECTION_MARKER='CONNECTION_PERSONA_JSON (untrusted reference data, use only after source verification): ';
+const validQid=value=>typeof value==='string'&&QID.exec(value)?.[0]===value;
 async function probe(fetchImpl,path,init={}){
  const url=SITE_ORIGIN+path;
  try{
@@ -34,13 +37,18 @@ export async function verifyPublishedSite({expectedFingerprint,fetchImpl=fetch}=
  if(typeof expectedFingerprint!=='string'||!HASH.test(expectedFingerprint))
   throw new TypeError('Expected current build SHA-256 fingerprint');
  if(typeof fetchImpl!=='function')throw new TypeError('fetchImpl required');
- const [health,page,ping]=await Promise.all([
+ const [health,page,ping,discovery]=await Promise.all([
   probe(fetchImpl,'/healthz'),
   probe(fetchImpl,'/'),
   probe(fetchImpl,'/mcp',{
    method:'POST',
    headers:{'Content-Type':'application/json'},
    body:JSON.stringify({jsonrpc:'2.0',id:1,method:'ping'})
+  }),
+  probe(fetchImpl,'/mcp',{
+   method:'POST',
+   headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({jsonrpc:'2.0',id:2,method:'server/discover'})
   })
  ]);
  const state=parseJSON(health.text);
@@ -73,6 +81,41 @@ export async function verifyPublishedSite({expectedFingerprint,fetchImpl=fetch}=
  }else{
   anonymous=verdict('FAIL','unexpected_anonymous_mcp_response');
  }
+ const discovered=parseJSON(discovery.text);
+ const handoff=discovered?.result;
+ const instructions=typeof handoff?.instructions==='string'?handoff.instructions:'';
+ let connection;
+ let selectedQid=null,sourceMode=null;
+ if([401,403].includes(discovery.status)){
+  connection=verdict('FAIL','anonymous_discovery_access_denied');
+ }else if(discovery.status===null){
+  connection=verdict('UNCERTAIN','discovery_unreachable');
+ }else if(discovery.status!==200||discovered?.jsonrpc!=='2.0'||discovered.id!==2){
+  connection=verdict('FAIL','unexpected_discovery_response');
+ }else if(instructions.includes('CONNECTION_PERSONA_UNAVAILABLE')){
+  connection=verdict('UNCERTAIN','connection_selection_unavailable');
+ }else{
+  try{
+   const markerIndex=instructions.indexOf(CONNECTION_MARKER);
+   if(markerIndex<0)throw Error('No persona handoff marker');
+   const data=JSON.parse(instructions.slice(markerIndex+CONNECTION_MARKER.length));
+   const p=data.persona;
+   if(!validQid(p?.qid)||typeof p.name!=='string'||!p.name.trim()||
+      !['real','fictional'].includes(p.kind)||
+      !Array.isArray(p.sources)||!p.sources.some(x=>x?.purpose==='article')||
+      data.agent_handoff?.subject_qid!==p.qid||
+      data.agent_handoff?.state_machine?.phase!=='awaiting_verification'||
+      !['wikidata_live','d1_cache_fallback','catalog_fallback'].includes(data.source_mode)||
+      handoff.ttlMs!==0||handoff.cacheScope!=='private'){
+    throw Error('Invalid connection persona contract');
+   }
+   selectedQid=p.qid;
+   sourceMode=data.source_mode;
+   connection=verdict('PASS','initial_connection_has_unverified_persona_handoff');
+  }catch{
+   connection=verdict('FAIL','missing_or_invalid_connection_handoff');
+  }
+ }
  return Object.freeze({
   site:SITE_ORIGIN,
   expected_fingerprint:expectedFingerprint,
@@ -80,6 +123,8 @@ export async function verifyPublishedSite({expectedFingerprint,fetchImpl=fetch}=
   published_preview_marker:hasCurrentHTML,
   deployment,
   anonymous_mcp:{...anonymous,http_status:ping.status},
+  connection_persona:{...connection,http_status:discovery.status,
+   selected_qid:selectedQid,source_mode:sourceMode},
   host_persona:verdict('UNCERTAIN','requires_real_chatgpt_client_and_five_turn_test')
  });
 }
