@@ -12,6 +12,12 @@
 
 MCPは実在人物・架空キャラクターのQID、名前、分類、Wikipedia/WikidataのURLと共通手順を返します。記事を読む・人物像を解釈する・ユーザーと仮想対話するのは利用側のChatGPTです。サーバーにはLLM呼び出し、記事本文保存、任意URL取得、会話履歴保存を追加しません。
 
+## 既存Siteへ渡す検証済みビルド
+
+GitHub Actionsの **mainブランチCI（Node.js 24）** は、テスト成功後に既存Site専用の配布ZIP `existing-site-release-<コミットSHA>` を作成します。`dist/`（非表示の `.openai/hosting.json` を含む）と、全ファイルのSHA-256・対象project_idを記録した `site-release-manifest.json` が入ります。**このZIPはビルド成果物であり、Siteの公開ではありません。** 既存SiteをWork/Sitesで更新する際に使用します。
+
+詳細手順：[既存Siteのビルド成果物と公開手順](docs/SITE_RELEASE_ARTIFACT.md)。
+
 ## 公開版が最新か確認する
 
 GitHubでテストが成功しても、既存ChatGPT Siteは自動更新されません。既存Siteを再公開した後、以下を実行します。

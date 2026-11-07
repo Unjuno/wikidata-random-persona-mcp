@@ -4,6 +4,10 @@
 
 A **read-only persona handoff MCP**: select a real person or fictional character, return Wikidata/Wikipedia references and an explicit `agent_handoff` + `roleplay_prompt`, and have the **calling AI agent speak in first person as that identity** throughout the current conversation, until the user explicitly switches or exits. The client verifies linked sources before portraying the person; the server does not call a model, mirror article text, or store conversations. The MCP itself does not have login, API keys or OAuth. The hosting platform may apply separate connection restrictions.
 
+## Build artifact for the only authorized Site
+
+After the successful **main** CI, the Node.js 24 job uploads `existing-site-release-<commit SHA>` with generated `dist/` (including hidden `.openai/hosting.json`) and `site-release-manifest.json` containing the exact project ID, SHA-256 file list and worker fingerprint. **The artifact is a handoff, not a published Site.** Import/sync and republish require owner-authorized Work/Sites access. See [existing-Site release artifact](docs/SITE_RELEASE_ARTIFACT.md).
+
 ## Verify the real published Site
 
 GitHub CI does not update an existing ChatGPT Site. After syncing and
