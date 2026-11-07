@@ -16,7 +16,7 @@ The public LP uses `public/assets/site.js` and `public/assets/preview-state.js` 
 
 ## Existing-Site release bundle (2026-11-08)
 
-The main-branch GitHub Actions Node 24 job must upload a **build-only** artifact named `existing-site-release-<commit SHA>` that includes `dist/`, hidden `dist/.openai/hosting.json`, and `site-release-manifest.json`. The manifest includes full SHA-256 checksums, the reviewed commit, and the sole authorized Site project ID. See `docs/SITE_RELEASE_ARTIFACT.md`. This is an owner Work/Sites handoff, **not** permission to invoke a Sites publication API, create a new Site, or change platform authentication. Do not mark a Site as deployed until the actual published fingerprint matches the manifest and `verify:site` passes.
+The main-branch GitHub Actions Node 24 job must upload a **build-only** artifact named `existing-site-release-<commit SHA>` that includes `dist/`, hidden `dist/.openai/hosting.json`, and `site-release-manifest.json`. CI must **re-download** that artifact and verify the extracted files and actual bundled Worker startup, publishing `existing-site-build-qa-<commit SHA>` separately. The read-only `Existing Site Production Readiness` workflow is manually triggered after owner publication; do not treat its checks as a deployment or host persona acceptance. The manifest includes full SHA-256 checksums, the reviewed commit, and the sole authorized Site project ID. See `docs/SITE_RELEASE_ARTIFACT.md`. This is an owner Work/Sites handoff, **not** permission to invoke a Sites publication API, create a new Site, or change platform authentication. Do not mark a Site as deployed until the actual published fingerprint matches the manifest and `verify:site` passes.
 
 ## Release evidence required (2026-11-07)
 

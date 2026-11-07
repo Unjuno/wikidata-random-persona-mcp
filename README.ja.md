@@ -16,6 +16,8 @@ MCPは実在人物・架空キャラクターのQID、名前、分類、Wikipedi
 
 GitHub Actionsの **mainブランチCI（Node.js 24）** は、テスト成功後に既存Site専用の配布ZIP `existing-site-release-<コミットSHA>` を作成します。`dist/`（非表示の `.openai/hosting.json` を含む）と、全ファイルのSHA-256・対象project_idを記録した `site-release-manifest.json` が入ります。**このZIPはビルド成果物であり、Siteの公開ではありません。** 既存SiteをWork/Sitesで更新する際に使用します。
 
+ZIPをCIで再ダウンロードし、全ファイルのSHA-256を検査したうえで、そのZIP内のWorkerを実際に起動する検査も追加しました。検査結果は同じCIの `existing-site-build-qa-<コミットSHA>` に保存されます。公開後の外部アクセス確認は、GitHub Actionsの手動ワークフロー `Existing Site Production Readiness` から実行できます。**どちらも既存Siteを更新・公開する操作ではありません。**
+
 詳細手順：[既存Siteのビルド成果物と公開手順](docs/SITE_RELEASE_ARTIFACT.md)。
 
 ## 公開版が最新か確認する

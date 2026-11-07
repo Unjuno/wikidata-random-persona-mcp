@@ -41,3 +41,23 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
+      - name: Download build artifact for independent verification
+        if: github.ref == 'refs/heads/main' && matrix.node == '24'
+        uses: actions/download-artifact@v4
+        with:
+          name: existing-site-release-${{ github.sha }}
+          path: .release-inspection
+      - name: Verify archive integrity and boot the extracted Site Worker
+        if: github.ref == 'refs/heads/main' && matrix.node == '24'
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/verify-extracted-site-release.mjs .release-inspection "$GITHUB_SHA" | tee site-release-qa.json
+      - name: Upload extracted-Site QA report
+        if: github.ref == 'refs/heads/main' && matrix.node == '24'
+        uses: actions/upload-artifact@v4
+        with:
+          name: existing-site-build-qa-${{ github.sha }}
+          path: site-release-qa.json
+          if-no-files-found: error
+          retention-days: 30
