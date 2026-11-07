@@ -1,7 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createPersonaService} from '../src/persona-service.mjs';
-const persona={qid:'Q42',kind:'real',name:'Douglas Adams'};
+const persona={
+ qid:'Q42',kind:'real',name:'Douglas Adams',description:'British writer',
+ sources:[
+  {url:'https://en.wikipedia.org/wiki/Douglas_Adams',language:'en',purpose:'article'},
+  {url:'https://www.wikidata.org/wiki/Q42',language:'mul',purpose:'identity'}
+ ]
+};
+const other={
+ ...persona,qid:'Q101',kind:'fictional',name:'Example fictional persona',
+ sources:[
+  {url:'https://en.wikipedia.org/wiki/Example',language:'en',purpose:'article'},
+  {url:'https://www.wikidata.org/wiki/Q101',language:'mul',purpose:'identity'}
+ ]
+};
 function fixture(overrides={}){
  const metrics={live:0,cacheReads:0,catalogReads:0,cacheWrites:0};
  const store={
@@ -88,4 +101,54 @@ test('unexpected live lookup identity is not passed to caller',async()=>{
  });
  const result=await service.get({qid:'Q42'});
  assert.equal(result.status,'upstream_unavailable');
+});
+
+test('wrong kind, excluded QIDs and blocked entries cannot escape any data layer',async()=>{
+ const calls={live:0,cache:0,store:0};
+ const {service}=fixture({
+  liveSource:{random:async()=>{calls.live++;return {status:'ok',persona,source_mode:'wikidata_live'};}},
+  cache:{random:async()=>{calls.cache++;return {status:'ok',persona};}},
+  store:{
+   summary:{catalog_version:'test'},get:()=>({status:'not_found'}),
+   random:()=>{calls.store++;return {status:'ok',persona:other};}
+  }
+ });
+ // Both live and cached responses violate the requested fictional category.
+ const first=await service.random({kind:'fictional'});
+ assert.equal(first.persona.qid,other.qid);
+ assert.equal(first.source_mode,'catalog_fallback');
+ assert.deepEqual(calls,{live:1,cache:1,store:1});
+ const {service:excluded}=fixture({
+  liveSource:{random:async()=>({status:'ok',persona,source_mode:'wikidata_live'})},
+  cache:{random:async()=>({status:'ok',persona})},
+  store:{summary:{catalog_version:'test'},get:()=>({status:'not_found'}),
+   random:()=>({status:'ok',persona:other})}
+ });
+ const second=await excluded.random({kind:'both',exclude_qids:['Q42']});
+ assert.equal(second.persona.qid,'Q101');
+ const {metrics,service:blocked}=fixture({blockedQids:['Q42']});
+ const result=await blocked.get({qid:'Q42'});
+ assert.equal(result.status,'not_found');
+ assert.equal(result.source_mode,'blocked');
+ assert.deepEqual(metrics,{live:0,cacheReads:0,catalogReads:0,cacheWrites:0});
+});
+test('untrusted cache links and mismatched identity handoff cannot become a persona',async()=>{
+ const invalid={...persona,sources:[
+  {url:'https://evil.example/steal',language:'en',purpose:'article'},
+  {url:'https://www.wikidata.org/wiki/Q42',language:'mul',purpose:'identity'}
+ ]};
+ const {service}=fixture({
+  liveSource:{random:async()=>{throw Error('unavailable');},get:async()=>{throw Error('unavailable');}},
+  cache:{random:async()=>({status:'ok',persona:invalid}),get:async()=>({status:'ok',persona:invalid})}
+ });
+ const first=await service.random();
+ assert.equal(first.source_mode,'catalog_fallback');
+ const got=await service.get({qid:'Q42'});
+ assert.equal(got.status,'upstream_unavailable');
+ const {service:handoff}=fixture({
+  liveSource:{random:async()=>({status:'ok',persona,
+   agent_handoff:{subject_qid:'Q999'},source_mode:'wikidata_live'})},
+  cache:{random:async()=>({status:'no_match'})}
+ });
+ assert.equal((await handoff.random()).source_mode,'catalog_fallback');
 });
