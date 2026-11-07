@@ -16,7 +16,7 @@ async function probe(fetchImpl,path,init={}){
    headers:{Accept:'application/json',...init.headers},
    ...(init.body===undefined?{}:{body:init.body}),
    cache:'no-store',
-   signal:AbortSignal.timeout(10000)
+   signal:AbortSignal.timeout(init.timeout_ms??10000)
   });
   const text=await response.text();
   return {status:response.status,text};
@@ -48,6 +48,8 @@ export async function verifyPublishedSite({expectedFingerprint,fetchImpl=fetch}=
   probe(fetchImpl,'/mcp',{
    method:'POST',
    headers:{'Content-Type':'application/json'},
+   // Discovery may make two bounded Wikimedia requests on a cold Site.
+   timeout_ms:30000,
    body:JSON.stringify({jsonrpc:'2.0',id:2,method:'server/discover'})
   })
  ]);
