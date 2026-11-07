@@ -10,7 +10,7 @@ GitHub CI does not update an existing ChatGPT Site. After syncing and
 republishing the **same** Site, run `npm run verify:site`. It builds the Site
 artifact, compares the published `/healthz.release_fingerprint` and HTML
 implementation marker with local output, and performs a credential-free MCP
-JSON-RPC `ping`. Stale publication and HTTP 401 are **distinct** failures.
+JSON-RPC `ping`. Stale publication, HTTP 401 and a missing/invalid `server/discover` persona handoff are **distinct** failures.
 This does not prove that a ChatGPT host adopted or maintained the persona.
 See [Sites handoff](docs/SITES_HANDOFF.md) and
 [explicit state machines](docs/STATE_MACHINES.md).
