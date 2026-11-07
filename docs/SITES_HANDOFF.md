@@ -41,9 +41,8 @@ npm run verify:site
 The verifier checks: (1) the live `/healthz.release_fingerprint` matches the
 local deterministic build; (2) the public HTML includes
 `data-preview-implementation="real-mcp-v1"`; and (3) an anonymous, credential-free
-JSON-RPC `ping` to the exact published `/mcp` URL actually works. The command
-exits nonzero when the deployed bits are stale, access is blocked, or either
-probe is unavailable. It never mutates the Site or requests credentials.
+JSON-RPC `ping` to the exact published `/mcp` URL actually works; and (4) an anonymous `server/discover` returns the expected candidate QID, article reference and `agent_handoff.state_machine.phase=awaiting_verification` without caching. Discovery has a separate bounded 30-second timeout because cold Wikidata sampling may take longer than ping. The command
+exits nonzero when the deployed bits are stale, access is blocked, the connection persona is missing, or a probe is unavailable. It never mutates the Site or requests credentials.
 
 **Separately test**: modern and legacy MCP connection-time candidate selection;
 the latest `agent_handoff.state_machine` fields; 5 chat turns with the same QID;
