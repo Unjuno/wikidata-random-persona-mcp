@@ -14,6 +14,10 @@ The source of truth for state transitions is `src/persona-state.mjs` (pure consu
 
 The public LP uses `public/assets/site.js` and `public/assets/preview-state.js` to call the actual read-only `/mcp` endpoint and show a sourced identity or a specific failure state. Never restore the five invented-person card lottery as a substitute for real results. A browser preview is not proof of ChatGPT roleplay. Preserve noauth at the application layer without bypassing Sites platform 401s. Review `test/persona-state.test.mjs`, `test/preview-state.test.mjs`, and `test/sites-preview-interaction.test.mjs` before changing these flows.
 
+## Existing-Site release bundle (2026-11-08)
+
+The main-branch GitHub Actions Node 24 job must upload a **build-only** artifact named `existing-site-release-<commit SHA>` that includes `dist/`, hidden `dist/.openai/hosting.json`, and `site-release-manifest.json`. The manifest includes full SHA-256 checksums, the reviewed commit, and the sole authorized Site project ID. See `docs/SITE_RELEASE_ARTIFACT.md`. This is an owner Work/Sites handoff, **not** permission to invoke a Sites publication API, create a new Site, or change platform authentication. Do not mark a Site as deployed until the actual published fingerprint matches the manifest and `verify:site` passes.
+
 ## Release evidence required (2026-11-07)
 
 Never equate a successful GitHub Actions run or updated `main` with a
