@@ -1,0 +1,52 @@
+name: Existing Site Production Readiness
+
+# An explicit, user-triggered read-only audit. This workflow deliberately
+# does NOT create, modify, redeploy, or authenticate to any ChatGPT Site.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install immutable dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Rebuild the expected existing-Site runtime
+        run: npm run build:sites
+      - name: Check published Site fingerprint, noauth and connection persona
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/verify-site.mjs | tee production-readiness.json
+      - name: Upload public-only production readiness evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: existing-site-production-audit-${{ github.sha }}-${{ github.run_id }}
+          path: production-readiness.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Explain release boundary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo '## Random Persona existing Site'
+            echo
+            echo 'Target: https://random-persona-mcp.unjuno.chatgpt.site'
+            echo
+            echo 'This is a read-only, public external audit. A failed run may indicate'
+            echo 'a stale Site, platform-managed HTTP 401/403, upstream unavailability,'
+            echo 'or a missing connection-time persona handoff.'
+            echo
+            echo 'It does **not** publish the Site or prove ChatGPT persona adoption.'
+            echo 'Use Work/Sites with owner permission to update the **existing** Site only.'
+          } >> "$GITHUB_STEP_SUMMARY"
