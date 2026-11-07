@@ -8,7 +8,8 @@ import {verifyPublishedSite} from '../src/site-release-check.mjs';
 
 const report=await verifyPublishedSite({expectedFingerprint:buildInfo.fingerprint});
 console.log(JSON.stringify(report,null,2));
-if(report.deployment.status!=='PASS'||report.anonymous_mcp.status!=='PASS'){
+if(report.deployment.status!=='PASS'||report.anonymous_mcp.status!=='PASS'||
+   report.connection_persona.status!=='PASS'){
  console.error('Site release is NOT fully accepted. Publish the EXISTING Site and investigate public access; never bypass platform restrictions.');
  process.exitCode=1;
 }

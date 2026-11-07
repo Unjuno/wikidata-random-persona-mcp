@@ -78,6 +78,7 @@ test('agent handoff exposes verification-pending state, not a false claim of act
  assert.equal(h.state_machine.reconnect_rule,'preserve_active_qid');
  assert.equal(h.state_machine.verification_required,true);
  assert.equal(h.requires_client_execution,true);
+ assert.equal(Object.isFrozen(h.state_machine),true);
  assert.throws(()=>createAgentHandoff('Q0','invalid'),/Valid persona identity/);
 });
 
@@ -105,4 +106,36 @@ test('deterministic transition fuzz preserves identity, verification and exit in
     assert.equal(state.active_qid,prev.active_qid);
   }
  }
+});
+
+test('impossible or forged phase combinations are rejected before any event',()=>{
+ const valid=initialPersonaState();
+ const invalid=[
+  {...valid,phase:'active'},
+  {...valid,phase:'active',active_qid:'Q0'},
+  {...valid,phase:'active',active_qid:'Q42',candidate_qid:'Q1'},
+  {...valid,phase:'switching',candidate_qid:'Q42'},
+  {...valid,phase:'switching',failure:'selection_failed'},
+  {...valid,phase:'failed'},
+  {...valid,phase:'failed',active_qid:'Q1',failure:'selection_failed'},
+  {...valid,phase:'awaiting_verification'},
+  {...valid,phase:'awaiting_verification',candidate_qid:'Q42',active_qid:'Q42'},
+  {...valid,phase:'awaiting_verification',candidate_qid:'Q42',failure:'source_unverified'},
+  {...valid,phase:'idle',active_qid:'Q42'},
+  {...valid,phase:'selecting',active_qid:'Q42'},
+  {...valid,phase:'exited',candidate_qid:'Q42'},
+  {...valid,extra:'unknown'},
+  {phase:'active',active_qid:'Q42',candidate_qid:null},
+  []
+ ];
+ for(const state of invalid){
+  for(const event of [{type:'RECONNECT'},{type:'EXIT'},{type:'MESSAGE'},{type:'CONNECT'}]){
+   assert.throws(()=>transitionPersona(state,event),/Invalid persona state or event/);
+  }
+ }
+ // Valid state is serialized and hydrated by a consuming agent, not necessarily frozen.
+ const active=transitionPersona(
+  transitionPersona(transitionPersona(valid,{type:'CONNECT'}),{type:'SELECTED',qid:'Q42'}),
+  {type:'VERIFIED',qid:'Q42'});
+ assert.equal(transitionPersona(JSON.parse(JSON.stringify(active)),{type:'MESSAGE'}).active_qid,'Q42');
 });

@@ -22,11 +22,36 @@ export function initialPersonaState() {
   });
 }
 function validState(state) {
-  return state && typeof state === 'object' &&
-    PHASES.includes(state.phase) &&
-    (state.active_qid === null || validQid(state.active_qid)) &&
-    (state.candidate_qid === null || validQid(state.candidate_qid)) &&
-    (state.failure === null || ['selection_failed','source_unverified'].includes(state.failure));
+  if (!state || typeof state !== 'object' || Array.isArray(state) ||
+      !PHASES.includes(state.phase) ||
+      !['phase','active_qid','candidate_qid','failure'].every(
+        key => Object.prototype.hasOwnProperty.call(state,key)) ||
+      Object.keys(state).length !== 4 ||
+      !(state.active_qid === null || validQid(state.active_qid)) ||
+      !(state.candidate_qid === null || validQid(state.candidate_qid)) ||
+      !(state.failure === null ||
+        ['selection_failed','source_unverified'].includes(state.failure))) return false;
+  const {phase,active_qid,candidate_qid,failure}=state;
+  // Phase invariants are stronger than individual-field validation.
+  // A client must never forge an active identity without a verified QID.
+  switch (phase) {
+    case 'idle':
+    case 'selecting':
+    case 'exited':
+      return active_qid===null && candidate_qid===null && failure===null;
+    case 'awaiting_verification':
+      return validQid(candidate_qid) && candidate_qid!==active_qid && failure===null;
+    case 'active':
+      return validQid(active_qid) && candidate_qid===null;
+    case 'switching':
+      // A switch can originate while an initial candidate is still unverified.
+      return candidate_qid===null && failure===null;
+    case 'failed':
+      return active_qid===null && candidate_qid===null &&
+        (failure==='selection_failed'||failure==='source_unverified');
+    default:
+      return false;
+  }
 }
 function emit(phase, active_qid, candidate_qid, failure = null) {
   return Object.freeze({phase, active_qid, candidate_qid, failure});
@@ -99,7 +124,7 @@ export function createAgentHandoff(qid,name) {
     first_response:'disclose_simulation_once_then_speak_in_character',
     persistence:'current_conversation_until_explicit_switch_or_exit',
     requires_client_execution:true,
-    state_machine:{
+    state_machine:Object.freeze({
       version:PERSONA_FLOW_VERSION,
       phase:pending.phase,
       verification_required:true,
@@ -108,6 +133,6 @@ export function createAgentHandoff(qid,name) {
       exit_transition:'EXIT',
       reconnect_rule:'preserve_active_qid',
       owned_by:'consuming_agent'
-    }
+    })
   });
 }

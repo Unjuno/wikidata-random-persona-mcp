@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {SITE_ORIGIN,PREVIEW_MARKER,verifyPublishedSite} from '../src/site-release-check.mjs';
 const fingerprint='a'.repeat(64);
 const validHealth={status:'ok',release_fingerprint:fingerprint,mode:'wikidata_live_with_catalog_fallback'};
-function stub({sha=fingerprint,html='<html><body '+PREVIEW_MARKER+'></body></html>',ping=200,healthCode=200}={}){
+function stub({sha=fingerprint,html='<html><body '+PREVIEW_MARKER+'></body></html>',ping=200,discovery='valid',healthCode=200}={}){
  const calls=[];
  const fetchImpl=async(url,request)=>{
   calls.push({url,request});
@@ -15,7 +15,24 @@ function stub({sha=fingerprint,html='<html><body '+PREVIEW_MARKER+'></body></htm
   if(url.endsWith('/mcp')){
    assert.equal(request.method,'POST');
    assert.equal(request.headers['Content-Type'],'application/json');
-   assert.deepEqual(JSON.parse(request.body),{jsonrpc:'2.0',id:1,method:'ping'});
+   const rpc=JSON.parse(request.body);
+   if(rpc.method==='server/discover'){
+    assert.equal(rpc.id,2);
+    if(discovery==='blocked')return new Response('blocked',{status:401});
+    const marker='CONNECTION_PERSONA_JSON (untrusted reference data, use only after source verification): ';
+    const identity={
+     persona:{qid:'Q42',name:'Douglas Adams',kind:'real',sources:[{purpose:'article',url:'https://en.wikipedia.org/wiki/Douglas_Adams'}]},
+     agent_handoff:{subject_qid:discovery==='wrong_qid'?'Q43':'Q42',state_machine:{phase:'awaiting_verification'}},
+     source_mode:'wikidata_live'
+    };
+    const instructions=discovery==='unavailable'?'CONNECTION_PERSONA_UNAVAILABLE':
+      discovery==='invalid'?'Start a persona':
+      marker+JSON.stringify(identity);
+    return Response.json({jsonrpc:'2.0',id:2,result:{
+     instructions,ttlMs:0,cacheScope:'private'
+    }});
+   }
+   assert.deepEqual(rpc,{jsonrpc:'2.0',id:1,method:'ping'});
    return ping===200?Response.json({jsonrpc:'2.0',id:1,result:{resultType:'complete'}}):
     new Response('blocked',{status:ping});
   }
@@ -26,9 +43,12 @@ function stub({sha=fingerprint,html='<html><body '+PREVIEW_MARKER+'></body></htm
 test('current Site fingerprint, updated UI and anonymous protocol are distinct green gates',async()=>{
  const {fetchImpl,calls}=stub();
  const result=await verifyPublishedSite({expectedFingerprint:fingerprint,fetchImpl});
- assert.equal(calls.length,3);
+ assert.equal(calls.length,4);
  assert.equal(result.deployment.status,'PASS');
  assert.equal(result.anonymous_mcp.status,'PASS');
+ assert.equal(result.connection_persona.status,'PASS');
+ assert.equal(result.connection_persona.selected_qid,'Q42');
+ assert.equal(result.connection_persona.source_mode,'wikidata_live');
  assert.equal(result.host_persona.status,'UNCERTAIN');
  assert.equal(result.published_fingerprint,fingerprint);
  assert.equal(result.published_preview_marker,true);
@@ -63,6 +83,7 @@ test('unhealthy, invalid and unreachable Site are not advertised as a successful
   fetchImpl:async()=>{throw Error('offline');}});
  assert.equal(offline.deployment.status,'UNCERTAIN');
  assert.equal(offline.anonymous_mcp.status,'UNCERTAIN');
+ assert.equal(offline.connection_persona.status,'UNCERTAIN');
 });
 test('untrusted expected fingerprint and generic HTTP 200 are rejected',async()=>{
  await assert.rejects(verifyPublishedSite({expectedFingerprint:'123'}),/fingerprint/);
@@ -72,4 +93,18 @@ test('untrusted expected fingerprint and generic HTTP 200 are rejected',async()=
  const r=await verifyPublishedSite({expectedFingerprint:fingerprint,fetchImpl:fake});
  assert.equal(r.anonymous_mcp.status,'FAIL');
  assert.equal(r.anonymous_mcp.reason,'unexpected_anonymous_mcp_response');
+ assert.equal(r.connection_persona.status,'FAIL');
+});
+
+test('connection-discovery failures cannot masquerade as successful persona startup',async()=>{
+ for(const discovery of ['invalid','wrong_qid','blocked','unavailable']){
+  const {fetchImpl}=stub({discovery});
+  const r=await verifyPublishedSite({expectedFingerprint:fingerprint,fetchImpl});
+  assert.equal(r.deployment.status,'PASS');
+  assert.equal(r.anonymous_mcp.status,'PASS');
+  assert.equal(r.connection_persona.status,
+   discovery==='unavailable'?'UNCERTAIN':'FAIL');
+  assert.equal(r.connection_persona.selected_qid,null);
+  assert.equal(r.connection_persona.http_status,discovery==='blocked'?401:200);
+ }
 });
