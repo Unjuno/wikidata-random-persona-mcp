@@ -73,6 +73,14 @@ Verify `site-release-manifest.json` records exactly:
   `dist/server/build-info.mjs` fingerprint
 - each file's recorded size and SHA-256 matching the extracted ZIP bytes
 
+The Node.js 24 main-branch CI now **downloads its own uploaded artifact again** and independently verifies the extracted `dist/` files. It uses `scripts/verify-extracted-site-release.mjs` to reject missing/unlisted/tampered files, symlinks, source SHA mismatches, wrong Site IDs and unexpected worker entrypoints. It then starts the **extracted** Worker with an offline Wikidata fixture and checks `/healthz`, the real MCP preview, connection-time QID handoff, private discovery, tool list and no unrequested redraw. The separate Actions artifact `existing-site-build-qa-<commit SHA>` records the evidence; its `isolated_worker` result does **not** prove actual ChatGPT host roleplay.
+
+To independently check an extracted ZIP in a Node.js 22+ environment after downloading it, run:
+
+```sh
+node scripts/verify-extracted-site-release.mjs /path/to/extracted-zip FULL_40_CHARACTER_COMMIT_SHA
+```
+
 If any identity, path, digest or commit fails to match, **do not deploy**.
 The bundle generator fails closed on altered existing Site targets, missing
 essential modules, symlinks or source/compiled-hosting mismatch.
