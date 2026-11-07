@@ -22,7 +22,7 @@ npm test
 npm run verify:site
 ```
 
-`verify:site` はビルドを再生成し、**現在公開されているSite**の `/healthz.release_fingerprint` と公開HTMLの実装識別子を照合し、認証情報なしで `/mcp` に `ping` を送ります。公開版が古い場合や匿名接続が拒否された場合は非ゼロ終了し、両者を別々に報告します。ChatGPTが実際に人格を引き継いだかどうかは、この検査では証明できません。作業手順は [Sitesハンドオフ](docs/SITES_HANDOFF.md) を参照してください。
+`verify:site` はビルドを再生成し、**現在公開されているSite**の `/healthz.release_fingerprint` と公開HTMLの実装識別子を照合し、認証情報なしで `/mcp` に `ping` を送ります。公開版が古い場合、匿名接続が拒否された場合、または `server/discover` が検証待ち状態の人物情報を返さない場合は非ゼロ終了し、それぞれを分けて報告します。ChatGPTが実際に人格を引き継いだかどうかは、この検査では証明できません。作業手順は [Sitesハンドオフ](docs/SITES_HANDOFF.md) を参照してください。
 
 ## 認証なしのMCPと人格起動
 
