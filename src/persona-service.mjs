@@ -2,7 +2,7 @@
  * Separates transport JSON-RPC, Wikidata selection and optional D1 storage.
  * No conversation state, external writes, secrets or arbitrary URL fetch.
  */
-import {isQid} from './core.mjs';
+import {isQid,validateCatalog} from './core.mjs';
 const isObject=x=>x!==null&&typeof x==='object'&&!Array.isArray(x);
 const allowed=(args,keys)=>{
  if(!isObject(args)||Object.keys(args).some(key=>!keys.includes(key)))
@@ -34,6 +34,25 @@ export function createPersonaService({store,liveSource,cache=null,blockedQids=[]
     !liveSource||typeof liveSource!=='object'||
     !Array.isArray(blockedQids)||blockedQids.some(x=>!isQid(x)))
   throw TypeError('Invalid persona service dependencies');
+ const blocked=new Set(blockedQids);
+ // Every upstream/cache result crosses a trust boundary. Validate identity,
+ // article/identity URLs, class, exclusions and the requested QID before use.
+ function eligible(result,{kind='both',qid=null,exclude_qids=[]}={}){
+  const p=result?.persona;
+  if(result?.status!=='ok'||!isObject(p)||!isQid(p.qid)||
+     blocked.has(p.qid)||exclude_qids.includes(p.qid)||
+     (qid!==null&&p.qid!==qid)||
+     (kind!=='both'&&p.kind!==kind)||
+     (result.agent_handoff&&result.agent_handoff.subject_qid!==p.qid))
+    return false;
+  try{
+   validateCatalog({version:'service-validation',entries:[{
+    qid:p.qid,kind:p.kind,name:p.name,
+    description:p.description??'',sources:p.sources
+   }]});
+   return true;
+  }catch{return false;}
+ }
  async function cacheLive(live){
   if(!cache||typeof cache.put!=='function'||live?.status!=='ok'||!live.persona)return;
   try{await cache.put(live.persona);}
@@ -46,12 +65,12 @@ export function createPersonaService({store,liveSource,cache=null,blockedQids=[]
  }
  async function random(args={}){
   validateRandom(args);
+  const criteria={kind:args.kind??'both',exclude_qids:args.exclude_qids??[]};
   let reason='wikidata_unavailable',failureCategory;
   try{
    const live=await liveSource.random(args,{blockedQids});
    if(live?.status==='ok'){
-    if(!live.persona||!isQid(live.persona.qid)||
-      !['real','fictional'].includes(live.persona.kind))
+    if(!eligible(live,criteria))
       throw Error('Unexpected Wikidata identity');
     await cacheLive(live);
     return live;
@@ -63,13 +82,15 @@ export function createPersonaService({store,liveSource,cache=null,blockedQids=[]
    console.warn('Wikidata random unavailable: '+failureCategory);
   }
   const cached=await readCache('random',args);
-  if(cached?.status==='ok')return {
+  if(eligible(cached,criteria))return {
    ...cached,source_mode:'d1_cache_fallback',fallback_reason:reason,
    ...(failureCategory?{upstream_failure_category:failureCategory}:{})
   };
   // Do not choose, validate or scan the full emergency catalog on successful
   // live requests; it is a last-resort fallback only.
   const local=store.random(args);
+  if(local.status==='ok'&&!eligible(local,criteria))
+   throw Error('Reviewed fallback returned an ineligible identity');
   return {
    ...local,source_mode:'catalog_fallback',fallback_reason:reason,
    ...(failureCategory?{upstream_failure_category:failureCategory}:{})
@@ -77,11 +98,13 @@ export function createPersonaService({store,liveSource,cache=null,blockedQids=[]
  }
  async function get(args={}){
   validateGet(args);
+  if(blocked.has(args.qid))return {status:'not_found',qid:args.qid,source_mode:'blocked'};
+  const criteria={qid:args.qid};
   const local=()=>store.get(args);
   try{
    const live=await liveSource.get(args,{blockedQids});
    if(live?.status==='ok'){
-    if(!live.persona||live.persona.qid!==args.qid)
+    if(!eligible(live,criteria))
       throw Error('Unexpected Wikidata identity mismatch');
     await cacheLive(live);
     return live;
@@ -92,11 +115,13 @@ export function createPersonaService({store,liveSource,cache=null,blockedQids=[]
    const failureCategory=upstreamFailureCategory(error);
    console.warn('Wikidata lookup unavailable: '+failureCategory);
    const cached=await readCache('get',args);
-   if(cached?.status==='ok'&&cached.persona?.qid===args.qid)return {
+   if(eligible(cached,criteria))return {
     ...cached,source_mode:'d1_cache_fallback',fallback_reason:'wikidata_unavailable',
     upstream_failure_category:failureCategory
    };
    const fallback=local();
+   if(fallback.status==='ok'&&!eligible(fallback,criteria))
+    throw Error('Reviewed fallback returned an ineligible identity');
    if(fallback.status==='ok')return {
     ...fallback,source_mode:'catalog_fallback',fallback_reason:'wikidata_unavailable',
     upstream_failure_category:failureCategory
