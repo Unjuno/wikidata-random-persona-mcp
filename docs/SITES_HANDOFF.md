@@ -4,6 +4,10 @@
 
 > https://github.com/Unjuno/wikidata-random-persona-mcp を開き、AGENTS.md、README.ja.md、docs/ARCHITECTURE.md、docs/CLIENT_WORKFLOW.md、docs/READINESS.mdを読んでください。既存Site https://random-persona-mcp.unjuno.chatgpt.site を更新し、sites/worker/index.js をSitesのWorker環境へビルドしてください。別Siteを新規作成しないでください。公開するツールはrandom_personaとget_personaだけです。data/catalog.jsonとdata/blocked-qids.jsonを同時に読み、実際のSiteホスト名をallowedHostsへ設定してください。Node常駐サーバー、任意URL取得、LLM呼び出し、Wikipedia本文保存は追加しません。docs/CLIENT_WORKFLOW.mdを利用側の共通ワークフローとして組み込みます。まず非公開でnpm ci、npm run check、npm run catalog:validate、npm testを実行し、Sites上のMCP接続と資料取得から仮想対話開始までを確認してください。所有者の公開・プラグイン接続・第三者利用は別々に検証し、未確認の段階を完了扱いにしないでください。
 
+## Reproducible, downloadable current build (2026-11-08)
+
+Each successful main-branch CI creates an Actions artifact `existing-site-release-<commit SHA>` with generated `dist/` and a SHA-256 `site-release-manifest.json`. The artifact preserves hidden `.openai/hosting.json` and the exact authorized project ID. Download and verify this artifact **before** using Work/Sites to update the existing project; do not infer that uploading or merging GitHub code automatically publishes it. See [SITE_RELEASE_ARTIFACT.md](SITE_RELEASE_ARTIFACT.md) for exact validation and publication steps.
+
 ## Explicit production synchronization check (2026-11-07)
 
 The Site is **not automatically updated by GitHub merges**. An independent
