@@ -27,3 +27,17 @@ jobs:
       - run: npm run check
       - run: npm run catalog:validate
       - run: npm test
+      - name: Build existing-Site release handoff (never deploy)
+        if: github.ref == 'refs/heads/main' && matrix.node == '24'
+        run: npm run bundle:sites
+      - name: Upload verified existing-Site handoff
+        if: github.ref == 'refs/heads/main' && matrix.node == '24'
+        uses: actions/upload-artifact@v4
+        with:
+          name: existing-site-release-${{ github.sha }}
+          path: |
+            dist/
+            site-release-manifest.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
