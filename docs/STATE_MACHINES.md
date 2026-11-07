@@ -185,3 +185,27 @@ provisioned and tested on the *existing* Site. The Worker intentionally does
 not store private conversations or identity verification results. Only the
 owner of the existing Site can complete the final publish and third-party
 access gates if this environment does not expose Sites management actions.
+
+## 8. November 8, 2026 — stronger invariant and release gates
+
+The conversation reducer now rejects **impossible phase/field combinations** at
+its input boundary, including `phase=active` with no verified active QID,
+a pending QID identical to the already active one, a failed state with no
+failure cause, and an exited state that still references a person. A client may
+hydrate a valid state from JSON; it may not manufacture success by setting
+only the phase label. The `agent_handoff.state_machine` descriptor is frozen.
+
+The service validates every live or D1 candidate *before* returning it:
+QID, classification, excluded/blocked sets, requested QID, safe Wikipedia
+and Wikidata links, and matching handoff identity. A mismatched live result
+is rejected and the explicitly labeled D1/catalog fallback sequence applies.
+A blocked QID is rejected without consulting Wikidata or D1. This makes
+the source preference contract testable without trusting upstream fixtures.
+
+The release verifier `npm run verify:site` now checks a fourth boundary:
+an anonymous modern `server/discover` must yield a syntactically valid
+`CONNECTION_PERSONA_JSON` with `awaiting_verification` and
+`cacheScope=private`, `ttlMs=0`. A successful `ping` is insufficient.
+Missing handoff, stale Source/Worker fingerprint, Sites 401, live upstream
+selection unavailable, and actual ChatGPT adoption are classified as distinct
+conditions. Site publication and a five-turn host trial remain separate gates.
