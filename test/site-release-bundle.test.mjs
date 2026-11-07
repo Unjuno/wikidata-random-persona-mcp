@@ -46,6 +46,11 @@ test('bundle guard rejects unknown commit and mismatched Site project',async()=>
   await writeFile(join(root,'.openai','hosting.json'),JSON.stringify({
    project_id:'a-different-site',capabilities:['mcp']
   }));
+  await assert.rejects(generateSiteReleaseManifest({root}),/Built manifest differs/);
+  // Also reject a ZIP whose own hosting.json points to a different project.
+  await writeFile(join(root,'dist','.openai','hosting.json'),JSON.stringify({
+   project_id:'a-different-site',capabilities:['mcp']
+  }));
   await assert.rejects(generateSiteReleaseManifest({root}),/target differs/);
  }finally{await rm(root,{recursive:true,force:true});}
 });
