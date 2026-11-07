@@ -117,7 +117,11 @@ export async function verifyExtractedSiteRelease(folder,{expectedCommit=null,smo
  assert(Array.isArray(manifest.files)&&manifest.files.length>0&&
   manifest.file_count===manifest.files.length,
   'Invalid file manifest');
- const actual=[];await walk(join(base,'dist'),base,actual);
+ const distRoot=join(base,'dist');
+ const distStat=await lstat(distRoot);
+ assert(distStat.isDirectory()&&!distStat.isSymbolicLink(),
+  'Extracted dist root must be an actual directory');
+ const actual=[];await walk(distRoot,base,actual);
  const seen=new Set();
  let total=0;
  for(const row of manifest.files){
